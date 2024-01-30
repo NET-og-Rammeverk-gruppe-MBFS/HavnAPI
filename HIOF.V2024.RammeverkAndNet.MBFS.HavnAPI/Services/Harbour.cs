@@ -1,8 +1,8 @@
 using System;
 
-public class Configurationservice
+public class Harbour
 {
-    public Configurationservice()
+    public Harbour()
     {
     }
 }
