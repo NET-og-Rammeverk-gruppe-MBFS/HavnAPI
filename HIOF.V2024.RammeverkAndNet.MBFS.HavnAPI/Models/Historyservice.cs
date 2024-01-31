@@ -1,8 +1,13 @@
 using System;
 
-public class Historyservice
+public class HistoryService
 {
-	public Historyservice()
-	{
-	}
+    public string NameToShipPlace { get; private set; }
+    public DateTime Time { get; private set; }
+
+    public HistoryService(string placeName, DateTime entryTime)
+    {
+        NameToShipPlace = placeName;
+        Time = entryTime;
+    }
 }
