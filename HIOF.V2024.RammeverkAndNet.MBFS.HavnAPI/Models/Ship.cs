@@ -3,35 +3,37 @@ using System;
 
 public class Ship
 {
-    public int ShipId { get; set; }
-    public ShipType Type { get; set; }
+    public int Id { get; set; }
+    public string ShipName { get; set; }
+    public string PlaceDestination { get; set; }
+    public DateTime ArrivalTime { get; set; }
+    public bool Repeat { get; set; }
 
-    public int Cargospace { get; set; }
-    public int Passangerspace { get; set; }
-    public float Tankcapacity { get; set; }
+    private List<Container> containers;
+    private List<History> histories;
 
-    public Ship(int shipId, ShipType type, int cargospace, int passangerspace, float tankcapacity)
+
+    public Ship(int id, string shipname, string placedestination, dateTime arrivalTime, bool repeat)
     {
-        ShipId = shipId;
-        Type = type;
-        Cargospace = cargospace;
-        Passangerspace = passangerspace;
-        Tankcapacity = tankcapacity;
+        Id = id;
+        ShipName = shipname;
+        PlaceDestination = placedestination;
+        ArrivalTime = arrivalTime;
+        Repeat = repeat;
+        containers = new List<Container>();
+        histories = new List<History>();
+        
     }
 
-    public void simulationInformation()
+    /// <summary>
+    public void AddContainer (Container container)
     {
-        switch (Type)
-        {
-            case ShipType.Cargo:
-                Console.Writeline($"Ship {ShipId} is a {Type} with a cargocapacity of {Cargospace}");
-                break;
-            case ShipType.Passenger:
-                Console.Writeline($"Ship {ShipId} is a {Type} with a passangercapacity of {Passangerspace}");
-                break;
-            case ShipType.Tank:
-                Console.Writeline($"Ship {ShipId} is a {Type} with a tankcapacity of {Tankcapacity}");
-                break;
-        }
+        containers.Add(container);
     }
+    /// <summary>
+    public void AddHistory(History history)
+    {
+        histories.Add(history);
+    }
+
 }
