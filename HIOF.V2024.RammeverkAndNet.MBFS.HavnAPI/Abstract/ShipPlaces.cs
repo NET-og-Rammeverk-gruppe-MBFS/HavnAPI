@@ -12,6 +12,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		{
 			Name = ShipName;
 			Spaces = ShipSpaces;
+			Ships = new List<Ship>();
 		}
 
         /// <summary>
