@@ -26,11 +26,17 @@ public class Ship
     }
 
     /// <summary>
+    /// Legger til en container til skipet
+    /// </summary>
+    /// <param name="container"></param>
     public void AddContainer (Container container)
     {
         containers.Add(container);
     }
     /// <summary>
+    /// legger til en historie til skipet
+    /// </summary>
+    /// <param name="history"></param>
     public void AddHistory(History history)
     {
         histories.Add(history);
