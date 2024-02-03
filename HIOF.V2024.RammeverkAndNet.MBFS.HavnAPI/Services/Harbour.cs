@@ -1,22 +1,24 @@
-using System;
-using System.Collections.Generic;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
-public class Harbour
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
+public class Harbour : IHarbour
 {
-    private List<HistoryService> shipHistory;
-    private List<HistoryService> containerHistory;
-    private List<ShipPlaces> shipPlacesList;
-    private List<Ship> ships;
+    private List<HistoryService> ShipHistory;
+    private List<HistoryService> ContainerHistory;
+    private List<ShipPlaces> ShipPlacesList;
+    private List<Ship> ShipsList;
 
-    public Harbour()
+    public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces)
     {
+        ShipsList = new List<Ship>(ships);
+        ShipPlacesList = new List<ShipPlaces>(shipPlaces);
+        ShipHistory = new List<HistoryService>();
+        ContainerHistory = new List<HistoryService>();
     }
     /// <summary>
     /// kj�rer simuleringen til havnen
     /// <summary>
-    public void run()
+    public void Run()
     {
-
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
+﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
 {
 	public class Container
 	{

@@ -24,7 +24,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		{
 		}
 
-
         /// <summary>
         /// En metode som flytter ship fra og til en annen plass under simuleringen.
         /// </summary>
