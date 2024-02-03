@@ -1,8 +1,27 @@
 using System;
 
-public class Historyservice
+/// <summary>
+/// representerer en historikken til skips plass
+/// </summary>
+public class HistoryService
 {
-	public Historyservice()
-	{
-	}
+
+    /// <summary>
+    /// Får navnet på stedet hvor skipet ligger.
+    /// </summary>
+    public string Name { get; private set; }
+    
+    public DateTime Time { get; private set; }
+
+    /// <summary>
+    /// Oppretter en ny instans av <see cref="HistoryService"/>-klassen for å holde styr på historiske hendelser.
+    /// Dette lar deg lagre et stedsnavn sammen med et tidspunkt for en hendelse, noe som er nyttig for å organisere og hente historisk informasjon.
+    /// </summary>
+    /// <param name="placeName">Navnet på stedet hvor hendelsen skjedde.</param>
+    /// <param name="entryTime">Tidspunktet for hendelsen.</param>
+    public HistoryService(string placeName, DateTime entryTime)
+    {
+        Name = placeName;
+        Time = entryTime;
+    }
 }
