@@ -14,15 +14,30 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 			Spaces = ShipSpaces;
 		}
 
-		public void AddShip(Ship ship)
+        /// <summary>
+        /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
+        /// </summary>
+        /// <param name="ship"></param>
+        public void AddShip(Ship ship)
 		{
 		}
 
-		public Ship MoveShip(int id)
+
+        /// <summary>
+        /// En metode som flytter ship fra og til en annen plass under simuleringen.
+        /// </summary>
+        /// <param name="id"></param>
+		/// <returns></returns>
+        public Ship MoveShip(int id)
 		{
 			return null;
 		}
 
+
+		/// <summary>
+		/// Denen metoden er for å se om det er ledig plasser
+		/// </summary>
+		/// <returns></returns>
 		public bool AvailableSpace()
 		{
 			return false;
