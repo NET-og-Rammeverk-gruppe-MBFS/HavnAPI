@@ -1,16 +1,17 @@
 ﻿using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Enums;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 using System;
+using System.Runtime.CompilerServices;
 
 public class Ship
 {
-    private int Id { get; set; }
+    public int Id {get; private set; }
     private string ShipName { get; set; }
     private string PlaceDestination { get; set; }
     private DateTime ArrivalTime { get; set; }
     private bool Repeat { get; set; }
 
-    private List<Container> containers;
+    private Queue<Container> containers;
     private List<HistoryService> histories;
 
 
@@ -29,7 +30,7 @@ public class Ship
         PlaceDestination = placedestination;
         ArrivalTime = arrivalTime;
         Repeat = repeat;
-        containers = new List<Container>();
+        containers = new Queue<Container>();
         histories = new List<HistoryService>();
         
     }
@@ -40,15 +41,13 @@ public class Ship
     /// <param name="container"></param>
     public void AddContainer (Container container)
     {
-        containers.Add(container);
+        containers.Enqueue(container);
 
     }
 
-    public Container MoveContainer(Container container)
+    public Container MoveContainer()
     {
-        Container TheContainer = container;
-        containers.Remove(container);
-        return TheContainer;
+        return containers.Dequeue();
     }
     
     /// <summary>
@@ -62,21 +61,17 @@ public class Ship
     }
 
     /// <summary>
-    /// Fjerner en container fra skipet
-    /// </summary>
-    /// <param name="container"></param>
-    public void RemoveContainer(Container container)
-    {
-        containers.Remove(container);
-    }
-
-    /// <summary>
     /// Fjerner en historie fra skipet
     /// </summary>
     /// <param name="history"></param>
     public void RemoveHistory(HistoryService history)
     {
         histories.Remove(history);
+    }
+
+    public List<Container> GetContainers()
+    {
+        return new List<Container>(containers);
     }
 
 }

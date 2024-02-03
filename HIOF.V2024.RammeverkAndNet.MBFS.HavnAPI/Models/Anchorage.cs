@@ -11,19 +11,20 @@ public class Anchorage : ShipPlaces
     }
 
     /// <summary>
-    /// Flytter skipet fra plass til en annen plass
+    /// Flytter skipet fra ventelisten til ankerplassen
     /// <summary>
     /// <param name="id">Id til skipet som flyttes</param>
-    public override Ship MoveShip(int id)
+    public Ship MoveShipFromQueue(int id)
     {
-        return null;
+        return ShipQueue.Dequeue();
     }
 
     /// <summary>
     /// Legger til et  skip til ankerplassen
     /// <summary>
     /// <param name="ship">Skipet som skal legges til</param>
-    public override void AddShip(Ship ship)
+    public void AddShipToQueue(Ship ship)
     {
+        ShipQueue.Enqueue(ship);
     }
 }
