@@ -12,7 +12,9 @@ public class Harbour
     public Harbour()
     {
     }
-
+    /// <summary>
+    /// kjører simuleringen til havnen
+    /// <summary>
     public void run()
     {
 
