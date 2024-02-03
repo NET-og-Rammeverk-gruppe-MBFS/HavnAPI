@@ -2,13 +2,15 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 
 
 public class Anchorage : ShipPlaces
 {
-    public Anchorage(string Name, int Spaces) : base(name, spaces)
+    private Queue<Ship> ShipQueue { get; }
+    public Anchorage(string Name, int Spaces) : base(Name, Spaces)
     {
+        ShipQueue = new Queue<Ship>();
     }
 
     /// <summary>
@@ -17,6 +19,7 @@ public class Anchorage : ShipPlaces
     /// <param name="id">Id til skipet som flyttes</param>
     public override Ship MoveShip(int id)
     {
+        return null;
     }
 
     /// <summary>

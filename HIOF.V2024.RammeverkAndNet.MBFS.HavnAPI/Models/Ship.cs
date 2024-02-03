@@ -1,4 +1,5 @@
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Enums;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 using System;
 
 public class Ship
@@ -10,10 +11,10 @@ public class Ship
     public bool Repeat { get; set; }
 
     private List<Container> containers;
-    private List<History> histories;
+    private List<HistoryService> histories;
 
 
-    public Ship(int id, string shipname, string placedestination, dateTime arrivalTime, bool repeat)
+    public Ship(int id, string shipname, string placedestination, DateTime arrivalTime, bool repeat)
     {
         Id = id;
         ShipName = shipname;
@@ -21,7 +22,7 @@ public class Ship
         ArrivalTime = arrivalTime;
         Repeat = repeat;
         containers = new List<Container>();
-        histories = new List<History>();
+        histories = new List<HistoryService>();
         
     }
 
@@ -31,15 +32,13 @@ public class Ship
     /// <param name="container"></param>
     public void AddContainer (Container container)
     {
-        containers.Add(container);
     }
     /// <summary>
     /// legger til en historie til skipet
     /// </summary>
     /// <param name="history"></param>
-    public void AddHistory(History history)
+    public void AddHistory(HistoryService history)
     {
-        histories.Add(history);
     }
 
 }

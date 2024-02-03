@@ -1,4 +1,5 @@
 ﻿using System;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 {
 	public abstract class ShipPlaces
@@ -19,7 +20,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
         /// </summary>
         /// <param name="ship"></param>
-        public void AddShip(Ship ship)
+        public virtual void AddShip(Ship ship)
 		{
 		}
 
@@ -29,7 +30,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// </summary>
         /// <param name="id"></param>
 		/// <returns></returns>
-        public Ship MoveShip(int id)
+        public virtual Ship MoveShip(int id)
 		{
 			return null;
 		}
