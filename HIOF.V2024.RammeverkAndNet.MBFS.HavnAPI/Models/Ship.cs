@@ -68,10 +68,4 @@ public class Ship
     {
         histories.Remove(history);
     }
-
-    public List<Container> GetContainers()
-    {
-        return new List<Container>(containers);
-    }
-
 }
