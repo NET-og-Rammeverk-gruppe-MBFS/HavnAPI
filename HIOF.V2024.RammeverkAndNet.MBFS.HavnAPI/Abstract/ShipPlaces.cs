@@ -22,6 +22,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// <param name="ship"></param>
         public virtual void AddShip(Ship ship)
 		{
+			Ships.Add(ship);
 		}
 
         /// <summary>
@@ -31,6 +32,16 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		/// <returns></returns>
         public virtual Ship MoveShip(int id)
 		{
+			Ship TheShip;
+			foreach (var SpesificShip in Ships)
+			{
+				if(SpesificShip.Id == id)
+				{
+					TheShip = SpesificShip;
+					Ships.Remove(SpesificShip);
+					return TheShip;
+				}
+			}
 			return null;
 		}
 
@@ -41,7 +52,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		/// <returns></returns>
 		public bool AvailableSpace()
 		{
-			return false;
+			return Spaces != 0;
 		}
 
 

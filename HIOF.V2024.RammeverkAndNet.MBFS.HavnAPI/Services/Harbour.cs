@@ -15,6 +15,18 @@ public class Harbour : IHarbour
         ShipHistory = new List<HistoryService>();
         ContainerHistory = new List<HistoryService>();
     }
+
+
+    /// <summary>
+    /// fjerner skipet fra listen
+    /// </summary>
+    /// <param name="ship"></param>
+    public void RemoveShip(Ship ship)
+    {
+        ShipsList.Remove(ship);
+    }
+
+
     /// <summary>
     /// kj�rer simuleringen til havnen
     /// <summary>
