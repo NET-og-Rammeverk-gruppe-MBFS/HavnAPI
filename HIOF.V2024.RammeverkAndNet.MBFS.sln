@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI", "HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI\HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.csproj", "{A9E4EAE0-57E9-4657-A2CF-5534A694EFB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIOF.V2024.RammeverkAndNet.MBFS.TestClient", "HIOF.V2024.RammeverkAndNet.MBFS.TestClient\HIOF.V2024.RammeverkAndNet.MBFS.TestClient.csproj", "{98020B54-BF90-4A47-ADAE-8F78BF6B650E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A9E4EAE0-57E9-4657-A2CF-5534A694EFB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9E4EAE0-57E9-4657-A2CF-5534A694EFB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9E4EAE0-57E9-4657-A2CF-5534A694EFB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98020B54-BF90-4A47-ADAE-8F78BF6B650E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98020B54-BF90-4A47-ADAE-8F78BF6B650E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98020B54-BF90-4A47-ADAE-8F78BF6B650E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98020B54-BF90-4A47-ADAE-8F78BF6B650E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
