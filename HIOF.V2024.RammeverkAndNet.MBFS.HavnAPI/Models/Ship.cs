@@ -4,11 +4,11 @@ using System;
 
 public class Ship
 {
-    public int Id { get; set; }
-    public string ShipName { get; set; }
-    public string PlaceDestination { get; set; }
-    public DateTime ArrivalTime { get; set; }
-    public bool Repeat { get; set; }
+    private int Id { get; set; }
+    private string ShipName { get; set; }
+    private string PlaceDestination { get; set; }
+    private DateTime ArrivalTime { get; set; }
+    private bool Repeat { get; set; }
 
     private List<Container> containers;
     private List<HistoryService> histories;
@@ -42,6 +42,13 @@ public class Ship
     {
         containers.Add(container);
 
+    }
+
+    public Container MoveContainer(Container container)
+    {
+        Container TheContainer = container;
+        containers.Remove(container);
+        return TheContainer;
     }
     
     /// <summary>
