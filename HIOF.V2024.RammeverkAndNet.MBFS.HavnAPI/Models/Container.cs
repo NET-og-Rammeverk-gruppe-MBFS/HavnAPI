@@ -10,7 +10,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
 		public Container(int id)
 		{
             ID = id;
-            Histories = new List<History>();
+            Histories = new List<HistoryService>();
         }
 	}
 }
