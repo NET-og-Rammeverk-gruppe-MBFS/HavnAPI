@@ -2,12 +2,13 @@
 {
 	public class Container
 	{
-		public int ID { get; private set; }
+		private static int Next = 0;
+		public int ID { get; }
 		public List<HistoryService> Histories { get; private set; }
 
-		public Container(int id)
+		public Container()
 		{
-            ID = id;
+			ID = Interlocked.Increment(ref Next);
             Histories = new List<HistoryService>();
         }
 	}

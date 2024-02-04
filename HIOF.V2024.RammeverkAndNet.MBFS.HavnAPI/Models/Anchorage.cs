@@ -4,7 +4,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 
 public class Anchorage : ShipPlaces
 {
-    private Queue<Ship> ShipQueue { get; }
+    internal Queue<Ship> ShipQueue { get; }
     public Anchorage(string Name, int Spaces) : base(Name, Spaces)
     {
         ShipQueue = new Queue<Ship>();
@@ -14,7 +14,7 @@ public class Anchorage : ShipPlaces
     /// Flytter skipet fra ventelisten til ankerplassen
     /// <summary>
     /// <param name="id">Id til skipet som flyttes</param>
-    public Ship MoveShipFromQueue(int id)
+    public Ship MoveShipFromQueue()
     {
         return ShipQueue.Dequeue();
     }
@@ -26,5 +26,13 @@ public class Anchorage : ShipPlaces
     public void AddShipToQueue(Ship ship)
     {
         ShipQueue.Enqueue(ship);
+    }
+
+    public override bool AvailableSpace
+    {
+        get
+        {
+            return Spaces < Ships.Count+ShipQueue.Count;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Enums;
+﻿using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 using System;
 using System.Runtime.CompilerServices;
@@ -7,11 +7,12 @@ public class Ship
 {
     public int Id {get; private set; }
     private string ShipName { get; set; }
-    private string PlaceDestination { get; set; }
+    public ShipPlaces PlaceDestination { get; }
     private DateTime ArrivalTime { get; set; }
     private bool Repeat { get; set; }
+    public int AmountContainers { get; private set; }
 
-    private Queue<Container> containers;
+    public Queue<Container> containers { get; private set; }
     private List<HistoryService> histories;
 
 
@@ -23,7 +24,7 @@ public class Ship
     /// <param name="placedestination">destiniasjonen til shipet</param>
     /// <param name="arrivalTime">ankomst tid for shipet</param>
     /// <param name="repeat"> verdi som vi setter inn om turen skal gjenta seg</param>
-    public Ship(int id, string shipname, string placedestination, DateTime arrivalTime, bool repeat)
+    public Ship(int id, string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
     {
         Id = id;
         ShipName = shipname;
@@ -32,6 +33,8 @@ public class Ship
         Repeat = repeat;
         containers = new Queue<Container>();
         histories = new List<HistoryService>();
+        AmountContainers = ammountOfContainers;
+
         
     }
 
@@ -39,9 +42,12 @@ public class Ship
     /// Legger til en container til skipet
     /// </summary>
     /// <param name="container"></param>
-    public void AddContainer (Container container)
+    internal void MakeContainers ()
     {
-        containers.Enqueue(container);
+        for (int i = 0; i < AmountContainers; i++)
+        {
+            containers.Enqueue(new Container());
+        }
 
     }
 
