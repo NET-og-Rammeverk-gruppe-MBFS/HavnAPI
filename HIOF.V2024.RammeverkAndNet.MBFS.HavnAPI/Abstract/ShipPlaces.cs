@@ -4,9 +4,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 {
 	public abstract class ShipPlaces
 	{
-		private string Name { get; set; }
+        private static int Next = 0;
+        public int Id { get; }
+        public string Name { get; private set; }
 		protected int Spaces { get; set; }
-		protected List<Ship> Ships { get; }
+		internal List<Ship> Ships { get; }
 		
 
 		public ShipPlaces(string ShipName, int ShipSpaces)
@@ -14,6 +16,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 			Name = ShipName;
 			Spaces = ShipSpaces;
 			Ships = new List<Ship>();
+			Id = Interlocked.Increment(ref Next);
 		}
 
         /// <summary>
@@ -46,18 +49,21 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		}
 
 
-		/// <summary>
-		/// Denen metoden er for å se om det er ledig plasser
-		/// </summary>
-		/// <returns></returns>
-		public bool AvailableSpace()
-		{
-			return Spaces != 0;
-		}
+        /// <summary>
+        /// Denen metoden er for å se om det er ledig plasser
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool AvailableSpace
+        {
+            get
+            {
+                return Spaces < Ships.Count;
+            }
+        }
 
 
 
 
-	}
+    }
 }
 
