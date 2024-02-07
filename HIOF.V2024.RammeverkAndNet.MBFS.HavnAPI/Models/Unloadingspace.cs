@@ -35,7 +35,7 @@ public class Unloadingspace : ShipPlaces
                 {
                     timer += 5;
                     timerRemoval += 5;
-                    start.AddMinutes(5);
+                    start = start.AddMinutes(5);
                     Container container = ship.MoveContainer();
                     container.Histories.Add(new HistoryService(Name, start));
                     TempContainers.Enqueue(container);
