@@ -22,4 +22,9 @@ public class HistoryService
         Name = placeName;
         Time = entryTime;
     }
+
+    public override string ToString()
+    {
+        return $"{Name} - {Time}";
+    }
 }
