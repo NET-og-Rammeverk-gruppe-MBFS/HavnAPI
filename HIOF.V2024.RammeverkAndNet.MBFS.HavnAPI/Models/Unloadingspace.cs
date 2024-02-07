@@ -6,11 +6,13 @@ public class Unloadingspace : ShipPlaces
 {
     private int containerSpace { get; set; }
     private int RemoveFrequency { get; set; }
-    private List<Container> containers { get; }
+    private Queue<Container> TempContainers { get; }
+    internal List<Container> containerSaved { get; }
 
     public Unloadingspace(string Name, int Spaces, int containerSpaces, int emptyFrequency) : base(Name, Spaces)
     {
-        containers = new List<Container>();
+        containerSaved = new List<Container>();
+        TempContainers = new Queue<Container>();
         containerSpace = containerSpaces;
         RemoveFrequency = emptyFrequency;
 
@@ -36,13 +38,13 @@ public class Unloadingspace : ShipPlaces
                     start.AddMinutes(5);
                     Container container = ship.MoveContainer();
                     container.Histories.Add(new HistoryService(Name, start));
-                    containers.Add(container);
+                    TempContainers.Enqueue(container);
                     containerSpace--;
-                    if (containers.Count > 0 && RemoveFrequency <= timerRemoval)
+                    if (TempContainers.Count > 0 && RemoveFrequency <= timerRemoval)
                     {
                         for (int i = 0; i < timerRemoval / RemoveFrequency; i++)
                         {
-                            containers.RemoveAt(-1);
+                            containerSaved.Add((Container)TempContainers.Enqueue);
                         }
                         timerRemoval = 0;
                     }

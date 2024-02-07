@@ -42,7 +42,7 @@ public class Harbour : IHarbour
             //Begge for-loops under går gjennom alle ship og plassene
             foreach (ShipPlaces ShipPlace in ShipPlacesList)
             {
-                foreach (Ship ship in ShipsList)
+                foreach (Ship ship in new List<Ship>(ShipsList))
                 {
                     //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
                     ship.MakeContainers();
@@ -78,7 +78,8 @@ public class Harbour : IHarbour
 
                 //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
                 //har nådd destinasjonen
-                currentTime.AddMinutes(60);
+                currentTime = currentTime.AddMinutes(60);
+                Console.WriteLine(currentTime);
 
                 //Her så starter vi losse-prossessen
                 //If testen sjekker om losseplassen er full og at det er en losseplass før man starter prossessen
@@ -92,7 +93,7 @@ public class Harbour : IHarbour
                     AddAllShips(((Unloadingspace)ShipPlace).ReturnShips());
 
                     //Vi antar at når skipene har blir returnert til havn klassen, så seiler de til Start-of-sea passage som tar 60 min
-                    currentTime.AddMinutes(60);
+                    currentTime = currentTime.AddMinutes(60);
 
                 }
             }
