@@ -9,7 +9,7 @@ public class Ship
     private string ShipName { get; set; }
     public ShipPlaces PlaceDestination { get; }
     private DateTime ArrivalTime { get; set; }
-    private bool Repeat { get; set; }
+    internal bool Repeat { get; set; }
     public int AmountContainers { get; private set; }
 
     public Queue<Container> containers { get; private set; }
