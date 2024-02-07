@@ -32,7 +32,7 @@ public class Anchorage : ShipPlaces
     {
         get
         {
-            return Spaces < Ships.Count+ShipQueue.Count;
+            return Spaces > Ships.Count+ShipQueue.Count;
         }
     }
 }
