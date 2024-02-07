@@ -57,7 +57,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         {
             get
             {
-                return Spaces < Ships.Count;
+                return Spaces > Ships.Count;
             }
         }
 

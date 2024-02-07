@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 public class Ship
 {
-    public int Id {get; private set; }
+    private static int Next = 0;
+    public int Id { get; }
     private string ShipName { get; set; }
     public ShipPlaces PlaceDestination { get; }
     private DateTime ArrivalTime { get; set; }
@@ -24,9 +25,9 @@ public class Ship
     /// <param name="placedestination">destiniasjonen til shipet</param>
     /// <param name="arrivalTime">ankomst tid for shipet</param>
     /// <param name="repeat"> verdi som vi setter inn om turen skal gjenta seg</param>
-    public Ship(int id, string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
+    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
     {
-        Id = id;
+        Id = Interlocked.Increment(ref Next);
         ShipName = shipname;
         PlaceDestination = placedestination;
         ArrivalTime = arrivalTime;

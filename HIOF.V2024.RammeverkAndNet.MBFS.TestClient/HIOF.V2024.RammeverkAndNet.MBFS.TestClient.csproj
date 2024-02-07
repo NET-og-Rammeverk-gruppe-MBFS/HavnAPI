@@ -7,4 +7,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI\HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.csproj" />
+  </ItemGroup>
 </Project>

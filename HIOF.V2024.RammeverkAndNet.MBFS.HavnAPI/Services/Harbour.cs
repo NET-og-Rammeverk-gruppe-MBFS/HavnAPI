@@ -3,8 +3,8 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
 public class Harbour : IHarbour
 {
-    private List<HistoryService> ShipHistory;
-    private List<HistoryService> ContainerHistory;
+    public List<HistoryService> ShipHistory { get; private set; }
+    public List<HistoryService> ContainerHistory { get; private set; }
     private List<ShipPlaces> ShipPlacesList;
     private List<Ship> ShipsList;
     private int Timer;
@@ -108,7 +108,7 @@ public class Harbour : IHarbour
     private Anchorage GetNextAnchorage() {
         foreach (ShipPlaces Shipplace in ShipPlacesList)
         {
-            if(Shipplace is Anchorage && !Shipplace.AvailableSpace)
+            if(Shipplace is Anchorage && Shipplace.AvailableSpace)
             {
                 return (Anchorage)Shipplace;
             }
