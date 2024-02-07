@@ -83,7 +83,7 @@ public class Harbour : IHarbour
 
                 //Her så starter vi losse-prossessen
                 //If testen sjekker om losseplassen er full og at det er en losseplass før man starter prossessen
-                if (!ShipPlace.AvailableSpace && ShipPlace is Unloadingspace)
+                if (ShipPlace is Unloadingspace)
                 {
                     //Her så legger vi til miutter basert på hvor mange Container objekter det er i en skip, hvor mange
                     //skip det er i losseplassen, og hvor fort losse-prossessen er basert på bruker av API-et
@@ -95,6 +95,21 @@ public class Harbour : IHarbour
                     //Vi antar at når skipene har blir returnert til havn klassen, så seiler de til Start-of-sea passage som tar 60 min
                     currentTime = currentTime.AddMinutes(60);
 
+                }
+            }
+        }
+
+        foreach (Ship ship1 in ShipsList)
+        {
+            ShipHistory.AddRange(ship1.histories);
+        }
+        foreach (ShipPlaces shipPlaces in ShipPlacesList)
+        {
+            if(shipPlaces is Unloadingspace)
+            {
+                foreach (Container container in ((Unloadingspace)shipPlaces).containerSaved)
+                {
+                    ContainerHistory.AddRange(container.Histories);
                 }
             }
         }

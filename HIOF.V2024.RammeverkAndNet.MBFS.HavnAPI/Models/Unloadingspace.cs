@@ -29,7 +29,7 @@ public class Unloadingspace : ShipPlaces
         var timerRemoval = 0;
         foreach (var ship in Ships)
         {
-            foreach (var Thecontainer in ship.containers)
+            foreach (var Thecontainer in new Queue<Container>(ship.containers))
             {
                 if (containerSpace != 0)
                 {
@@ -39,19 +39,21 @@ public class Unloadingspace : ShipPlaces
                     Container container = ship.MoveContainer();
                     container.Histories.Add(new HistoryService(Name, start));
                     TempContainers.Enqueue(container);
-                    containerSpace--;
                     if (TempContainers.Count > 0 && RemoveFrequency <= timerRemoval)
                     {
                         for (int i = 0; i < timerRemoval / RemoveFrequency; i++)
                         {
-                            containerSaved.Add((Container)TempContainers.Enqueue);
+                            if(TempContainers.Count != 0)
+                            {
+                                containerSaved.Add(TempContainers.Dequeue());
+                            }
                         }
                         timerRemoval = 0;
                     }
                 }
                 else
                 {
-                    throw new Exception("No space for container");
+                    throw new Exception("EmptyFreq is slow");
                 }
             }
 

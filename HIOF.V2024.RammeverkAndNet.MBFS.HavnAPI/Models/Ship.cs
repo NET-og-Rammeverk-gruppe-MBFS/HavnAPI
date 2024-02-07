@@ -14,7 +14,7 @@ public class Ship
     public int AmountContainers { get; private set; }
 
     public Queue<Container> containers { get; private set; }
-    private List<HistoryService> histories;
+    internal List<HistoryService> histories { get; }
 
 
     /// <summary>
