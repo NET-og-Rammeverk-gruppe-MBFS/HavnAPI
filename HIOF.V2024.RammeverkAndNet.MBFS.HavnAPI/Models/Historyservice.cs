@@ -1,7 +1,7 @@
 /// <summary>
 /// representerer en historikken til skips plass
 /// </summary>
-public class HistoryService
+internal class HistoryService
 {
 
     /// <summary>
@@ -17,7 +17,7 @@ public class HistoryService
     /// </summary>
     /// <param name="placeName">Navnet p� stedet hvor hendelsen skjedde.</param>
     /// <param name="entryTime">Tidspunktet for hendelsen.</param>
-    public HistoryService(string placeName, DateTime entryTime)
+    internal HistoryService(string placeName, DateTime entryTime)
     {
         Name = placeName;
         Time = entryTime;

@@ -7,7 +7,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         private static int Next = 0;
         public int Id { get; }
         public string Name { get; private set; }
-		protected int Spaces { get; set; }
+		public int Spaces { get; set; }
 		internal List<Ship> Ships { get; }
 		
 
@@ -23,7 +23,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
         /// </summary>
         /// <param name="ship"></param>
-        public virtual void AddShip(Ship ship)
+        internal virtual void AddShip(Ship ship)
 		{
 			Ships.Add(ship);
 		}
@@ -33,7 +33,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// </summary>
         /// <param name="id"></param>
 		/// <returns></returns>
-        public virtual Ship MoveShip(int id)
+        internal virtual Ship MoveShip(int id)
 		{
 			Ship TheShip;
 			foreach (var SpesificShip in Ships)
@@ -53,7 +53,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// Denen metoden er for å se om det er ledig plasser
         /// </summary>
         /// <returns></returns>
-        public virtual bool AvailableSpace
+        internal virtual bool AvailableSpace
         {
             get
             {

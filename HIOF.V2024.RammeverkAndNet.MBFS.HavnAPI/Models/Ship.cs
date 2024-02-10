@@ -7,14 +7,14 @@ public class Ship
 {
     private static int Next = 0;
     public int Id { get; }
-    private string ShipName { get; set; }
+    public string ShipName { get; private set; }
     public ShipPlaces PlaceDestination { get; }
-    private DateTime ArrivalTime { get; set; }
+    public DateTime ArrivalTime { get; set; }
     internal bool Repeat { get; set; }
     public int AmountContainers { get; private set; }
 
     public Queue<Container> containers { get; private set; }
-    internal List<HistoryService> histories { get; }
+    public List<HistoryService> histories { get; private set; }
 
 
     /// <summary>
@@ -52,7 +52,7 @@ public class Ship
 
     }
 
-    public Container MoveContainer()
+    internal Container MoveContainer()
     {
         return containers.Dequeue();
     }
@@ -61,7 +61,7 @@ public class Ship
     /// legger til en historie til skipet
     /// </summary>
     /// <param name="history"></param>
-    public void AddHistory(HistoryService history)
+    internal void AddHistory(HistoryService history)
     {
         histories.Add(history);
         
@@ -71,7 +71,7 @@ public class Ship
     /// Fjerner en historie fra skipet
     /// </summary>
     /// <param name="history"></param>
-    public void RemoveHistory(HistoryService history)
+    internal void RemoveHistory(HistoryService history)
     {
         histories.Remove(history);
     }

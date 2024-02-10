@@ -14,7 +14,7 @@ public class Anchorage : ShipPlaces
     /// Flytter skipet fra ventelisten til ankerplassen
     /// <summary>
     /// <param name="id">Id til skipet som flyttes</param>
-    public Ship MoveShipFromQueue()
+    internal Ship MoveShipFromQueue()
     {
         return ShipQueue.Dequeue();
     }
@@ -23,12 +23,12 @@ public class Anchorage : ShipPlaces
     /// Legger til et  skip til ankerplassen
     /// <summary>
     /// <param name="ship">Skipet som skal legges til</param>
-    public void AddShipToQueue(Ship ship)
+    internal void AddShipToQueue(Ship ship)
     {
         ShipQueue.Enqueue(ship);
     }
 
-    public override bool AvailableSpace
+    internal override bool AvailableSpace
     {
         get
         {

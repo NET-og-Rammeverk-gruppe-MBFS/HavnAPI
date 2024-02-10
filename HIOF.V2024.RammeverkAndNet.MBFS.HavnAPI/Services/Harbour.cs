@@ -6,8 +6,7 @@ public class Harbour : IHarbour
     public List<HistoryService> ShipHistory { get; private set; }
     public List<HistoryService> ContainerHistory { get; private set; }
     private List<ShipPlaces> ShipPlacesList;
-    private List<Ship> ShipsList;
-    private int Timer;
+    public List<Ship> ShipsList { get; private set; }
 
     public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces)
     {
@@ -154,24 +153,24 @@ public class Harbour : IHarbour
         ShipsList.AddRange(Allships);
     }
 
-    public void AddShipToAnchorage(Ship ship, DateTime current)
+    private void AddShipToAnchorage(Ship ship, DateTime current)
     {
         DateTime CurrentDateTime = current;
         if (ship.PlaceDestination is Unloadingspace)
         {
-            CurrentDateTime.AddMinutes(30);
+            CurrentDateTime = CurrentDateTime.AddMinutes(30);
             ship.AddHistory(new HistoryService(ship.PlaceDestination.Name, CurrentDateTime));
             GetNextAnchorage().AddShipToQueue(ship);
         }
         else if (ship.PlaceDestination is Dockspace)
         {
-            CurrentDateTime.AddMinutes(30);
+            CurrentDateTime = CurrentDateTime.AddMinutes(30);
             ship.AddHistory(new HistoryService(ship.PlaceDestination.Name, CurrentDateTime));
             GetNextAnchorage().AddShip(ship);
         }
     }
 
-    public void MoveShipFromAnchorage(ShipPlaces shipPlaces, Ship ship, DateTime current)
+    private void MoveShipFromAnchorage(ShipPlaces shipPlaces, Ship ship, DateTime current)
     {
         DateTime currentDateTime = current;
         if(GetNextAnchorage() is not null)

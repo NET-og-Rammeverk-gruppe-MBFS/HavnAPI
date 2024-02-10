@@ -22,7 +22,7 @@ public class Unloadingspace : ShipPlaces
     /// Metode for � legge til en container i losseplassen
     /// <summary>
     /// <param name="container">Containeren som skal legges til</param>
-    public int UnloadContainer(DateTime currentDateTime)
+    internal int UnloadContainer(DateTime currentDateTime)
     {
         DateTime start = currentDateTime;
         var timer = 0;
@@ -61,7 +61,7 @@ public class Unloadingspace : ShipPlaces
         return timer;
     }
 
-    public List<Ship> ReturnShips()
+    internal List<Ship> ReturnShips()
     {
         List < Ship > OldShips = new List<Ship>(Ships);
         Ships.Clear();
