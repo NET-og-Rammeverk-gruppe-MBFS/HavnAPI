@@ -26,6 +26,31 @@ public class Harbour : IHarbour
         ShipsList.Remove(ship);
     }
 
+    public void RemoveAllShip()
+    {
+        ShipsList.Clear();
+    }
+
+    public void AddShipPlace(ShipPlaces shipPlace)
+    {
+        ShipPlacesList.Add(shipPlace);
+    }
+
+    public void AddAllShipPlaces(List<ShipPlaces> shipPlaces)
+    {
+        ShipPlacesList.AddRange(shipPlaces);
+    }
+
+    public void AddShip(Ship ship)
+    {
+        ShipsList.Add(ship);
+    }
+
+    public void AddAllShips(List<Ship> Allships)
+    {
+        ShipsList.AddRange(Allships);
+    }
+
 
     /// <summary>
     /// kj�rer simuleringen til havnen
@@ -143,15 +168,7 @@ public class Harbour : IHarbour
         }
     }
 
-    public void AddShip(Ship ship)
-    {
-        ShipsList.Add(ship);
-    }
-
-    public void AddAllShips(List<Ship> Allships)
-    {
-        ShipsList.AddRange(Allships);
-    }
+    
 
     private void AddShipToAnchorage(Ship ship, DateTime current)
     {

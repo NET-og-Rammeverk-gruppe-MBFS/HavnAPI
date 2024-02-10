@@ -23,7 +23,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
         /// </summary>
         /// <param name="ship"></param>
-        internal virtual void AddShip(Ship ship)
+        public virtual void AddShip(Ship ship)
 		{
 			Ships.Add(ship);
 		}

@@ -1,7 +1,7 @@
 /// <summary>
 /// representerer en historikken til skips plass
 /// </summary>
-internal class HistoryService
+public class HistoryService
 {
 
     /// <summary>
