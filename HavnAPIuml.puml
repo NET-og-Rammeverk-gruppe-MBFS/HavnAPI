@@ -1,0 +1,97 @@
+@startuml
+
+abstract class ShipPlaces {
+    -Id: int
+    +Name: string
+    +Spaces: int
+    +Ships: List<Ship>
+    +AddShip(ship: Ship): void
+    -MoveShip(id: int): Ship
+    -AvailableSpace(): bool
+}
+
+class Ship {
+    -Id: int
+    -ShipName: string
+    -PlaceDestination: ShipPlaces
+    -ArrivalTime: DateTime
+    -Repeat: bool
+    -AmountContainers: int
+    -containers: Queue<Container>
+    -histories: List<HistoryService>
+    +MakeContainers(): void
+    +MoveContainer(): Container
+    +AddHistory(history: HistoryService): void
+    +RemoveHistory(history: HistoryService): void
+}
+
+class Container {
+    -ID: int
+    -Histories: List<HistoryService>
+}
+
+class HistoryService {
+    -Name: string
+    -Time: DateTime
+}
+
+enum ShipStatus {
+    Available
+    Busy
+    Finished
+}
+
+enum ShipType {
+}
+
+class Anchorage extends ShipPlaces {
+    -ShipQueue: Queue<Ship>
+    -MoveShipFromQueue(): Ship
+    -AddShipToQueue(ship: Ship): void
+}
+
+class Dockspace extends ShipPlaces {
+}
+
+class Unloadingspace extends ShipPlaces {
+    -containerSpace: int
+    -RemoveFrequency: int
+    -TempContainers: Queue<Container>
+    -containerSaved: List<Container>
+    -UnloadContainer(currentDateTime: DateTime): int
+    -ReturnShips(): List<Ship>
+}
+
+interface IHarbour {
+    +Run(Start: DateTime, end: DateTime): void
+    +RemoveShip(Ship ship): void
+    +RemoveAllShip(): void
+    +AddShipPlace(ShipPlaces shipPlace): void
+    +AddAllShipPlaces(List<ShipPlaces> shipPlaces): void
+    +AddShip(Ship ship): void
+    +AddAllShips(List<Ship> Allships): void
+}
+
+class Harbour implements IHarbour {
+    -ShipHistory: List<HistoryService>
+    -ContainerHistory: List<HistoryService>
+    -ShipPlacesList: List<ShipPlaces>
+    -ShipsList: List<Ship>
+    +RemoveShip(ship: Ship): void
+    +Run(Start: DateTime, end: DateTime): void
+    +AddShip(ship: Ship): void
+    +AddAllShips(Allships: List<Ship>): void
+    +AddShipToAnchorage(ship: Ship, current: DateTime): void
+    +MoveShipFromAnchorage(shipPlaces: ShipPlaces, ship: Ship, current: DateTime): void
+}
+
+ShipStatus --> Ship
+ShipType --> Ship
+Harbour "1" *-- ShipPlaces
+Harbour "1" *-- Ship
+ShipPlaces "1" *-- Ship
+Ship "1" *-- Container
+Ship "1" *-- "many" HistoryService
+Container "1" *-- HistoryService
+
+@enduml
