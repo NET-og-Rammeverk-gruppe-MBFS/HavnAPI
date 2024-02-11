@@ -16,7 +16,7 @@ public class Anchorage : ShipPlaces
     /// <param name="id">Id til skipet som flyttes</param>
     internal Ship MoveShipFromQueue()
     {
-        return ShipQueue.Dequeue();
+        return null;
     }
 
     /// <summary>
@@ -25,14 +25,25 @@ public class Anchorage : ShipPlaces
     /// <param name="ship">Skipet som skal legges til</param>
     internal void AddShipToQueue(Ship ship)
     {
-        ShipQueue.Enqueue(ship);
     }
 
+    internal override List<Ship> ReturnShips()
+    {
+        List<Ship> OldShips = new List<Ship>(Ships);
+        OldShips.AddRange(ShipQueue);
+        Ships.Clear();
+        ShipQueue.Clear();
+        return OldShips;
+    }
+
+    /// <summary>
+    /// AvailableSpace må override siden Losseplass har med Kø liste
+    /// </summary>
     internal override bool AvailableSpace
     {
         get
         {
-            return Spaces > Ships.Count+ShipQueue.Count;
+            return true;
         }
     }
 }

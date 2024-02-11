@@ -52,6 +52,10 @@ public class Ship
 
     }
 
+    /// <summary>
+    /// Fjerner container objekt fra kø
+    /// </summary>
+    /// <returns container etter å ha blitt fjernet></returns>
     internal Container MoveContainer()
     {
         return containers.Dequeue();

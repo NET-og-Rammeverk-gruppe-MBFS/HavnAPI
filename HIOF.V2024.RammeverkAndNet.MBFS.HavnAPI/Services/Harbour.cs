@@ -17,10 +17,7 @@ public class Harbour : IHarbour
     }
 
 
-    /// <summary>
-    /// fjerner skipet fra listen
-    /// </summary>
-    /// <param name="ship"></param>
+ 
     public void RemoveShip(Ship ship)
     {
         ShipsList.Remove(ship);
@@ -52,9 +49,11 @@ public class Harbour : IHarbour
     }
 
 
-    /// <summary>
-    /// kj�rer simuleringen til havnen
-    /// <summary>
+   /// <summary>
+   /// Metoden starter simulasjonen
+   /// </summary>
+   /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
+   /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
     public void Run(DateTime Start, DateTime end)
     {
         //Vi starter med å lage en timer
@@ -123,12 +122,9 @@ public class Harbour : IHarbour
             }
         }
 
-        foreach (Ship ship1 in ShipsList)
-        {
-            ShipHistory.AddRange(ship1.histories);
-        }
         foreach (ShipPlaces shipPlaces in ShipPlacesList)
         {
+            ShipsList.AddRange(shipPlaces.ReturnShips());
             if(shipPlaces is Unloadingspace)
             {
                 foreach (Container container in ((Unloadingspace)shipPlaces).containerSaved)
@@ -137,7 +133,17 @@ public class Harbour : IHarbour
                 }
             }
         }
+        foreach (Ship ship1 in ShipsList)
+        {
+            ShipHistory.AddRange(ship1.histories);
+        }
     }
+
+    /// <summary>
+    /// Flytter ship, ved å fjerne og returnere shipet
+    /// </summary>
+    /// <param name="TheShip"></param>
+    /// <returns></returns>
     private Ship MoveShip(Ship TheShip)
     {
         Ship Ship = TheShip;
@@ -145,6 +151,11 @@ public class Harbour : IHarbour
         return Ship;
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     private Anchorage GetNextAnchorage() {
         foreach (ShipPlaces Shipplace in ShipPlacesList)
         {
@@ -157,6 +168,12 @@ public class Harbour : IHarbour
         return null;
     }
 
+
+    /// <summary>
+    /// Det blir brukt i simulasjonen for å legge et skip til et spesifikk plass
+    /// </summary>
+    /// <param name="ShipPlaceId"></param>
+    /// <param name="ship"></param>
     private void AddToSpesificPlace(int ShipPlaceId, Ship ship)
     {
         foreach (ShipPlaces Shipplace in ShipPlacesList)
@@ -169,7 +186,11 @@ public class Harbour : IHarbour
     }
 
     
-
+    /// <summary>
+    /// Det blir brukt i run metoden som legger et ship i ankerplass hvis destinasjonsplassen er full
+    /// </summary>
+    /// <param name="ship"></param>
+    /// <param name="current"> det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
     private void AddShipToAnchorage(Ship ship, DateTime current)
     {
         DateTime CurrentDateTime = current;
@@ -187,6 +208,13 @@ public class Harbour : IHarbour
         }
     }
 
+
+    /// <summary>
+    /// Metoden henter ut et ship fra en ankerplassen og legger det til destinasjonen. Hvis det ikke er i ankerplassen, så legger det direkte til destinasjonen
+    /// </summary>
+    /// <param name="shipPlaces"></param>
+    /// <param name="ship"></param>
+    /// <param name="current">Det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
     private void MoveShipFromAnchorage(ShipPlaces shipPlaces, Ship ship, DateTime current)
     {
         DateTime currentDateTime = current;

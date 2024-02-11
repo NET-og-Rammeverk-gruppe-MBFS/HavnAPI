@@ -19,9 +19,9 @@ public class Unloadingspace : ShipPlaces
     }
 
     /// <summary>
-    /// Metode for � legge til en container i losseplassen
+    /// Metoden legger til en container i losseplassen fra shipene som er i Ship listen, og fjerne containers fra plassene basert på emptyFrequency
     /// <summary>
-    /// <param name="container">Containeren som skal legges til</param>
+    /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
     internal int UnloadContainer(DateTime currentDateTime)
     {
         DateTime start = currentDateTime;
@@ -59,12 +59,5 @@ public class Unloadingspace : ShipPlaces
 
         }
         return timer;
-    }
-
-    internal List<Ship> ReturnShips()
-    {
-        List < Ship > OldShips = new List<Ship>(Ships);
-        Ships.Clear();
-        return OldShips;
     }
 }

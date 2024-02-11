@@ -48,6 +48,17 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 			return null;
 		}
 
+        /// <summary>
+        /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
+        /// </summary>
+        /// <returns></returns>
+        internal virtual List<Ship> ReturnShips()
+        {
+            List<Ship> OldShips = new List<Ship>(Ships);
+            Ships.Clear();
+            return OldShips;
+        }
+
 
         /// <summary>
         /// Denen metoden er for å se om det er ledig plasser
