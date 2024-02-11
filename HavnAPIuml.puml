@@ -7,6 +7,7 @@ abstract class ShipPlaces {
     +Ships: List<Ship>
     +AddShip(ship: Ship): void
     -MoveShip(id: int): Ship
+    -ReturnShips(): List<Ship>
     -AvailableSpace(): bool
 }
 
@@ -59,7 +60,6 @@ class Unloadingspace extends ShipPlaces {
     -TempContainers: Queue<Container>
     -containerSaved: List<Container>
     -UnloadContainer(currentDateTime: DateTime): int
-    -ReturnShips(): List<Ship>
 }
 
 interface IHarbour {
