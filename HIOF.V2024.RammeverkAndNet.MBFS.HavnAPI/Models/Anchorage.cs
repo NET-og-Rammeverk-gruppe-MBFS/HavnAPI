@@ -16,7 +16,7 @@ public class Anchorage : ShipPlaces
     /// <param name="id">Id til skipet som flyttes</param>
     internal Ship MoveShipFromQueue()
     {
-        return null;
+        return ShipQueue.Dequeue();
     }
 
     /// <summary>
@@ -25,6 +25,7 @@ public class Anchorage : ShipPlaces
     /// <param name="ship">Skipet som skal legges til</param>
     internal void AddShipToQueue(Ship ship)
     {
+        ShipQueue.Enqueue(ship);
     }
 
     internal override List<Ship> ReturnShips()
@@ -43,7 +44,7 @@ public class Anchorage : ShipPlaces
     {
         get
         {
-            return true;
+            return Spaces > Ships.Count + ShipQueue.Count;
         }
     }
 }
