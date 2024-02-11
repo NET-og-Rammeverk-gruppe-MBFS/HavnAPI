@@ -13,8 +13,8 @@ public class Ship
     internal bool Repeat { get; set; }
     public int AmountContainers { get; private set; }
 
-    public Queue<Container> containers { get; private set; }
-    public List<HistoryService> histories { get; private set; }
+    internal Queue<Container> containers { get; private set; }
+    internal List<HistoryService> histories { get; private set; }
 
 
     /// <summary>

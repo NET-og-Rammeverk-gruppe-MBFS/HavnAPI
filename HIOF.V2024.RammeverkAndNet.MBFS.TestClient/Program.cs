@@ -33,6 +33,7 @@ class Program
         havn1.Run(DateTime.Now, DateTime.Now.AddHours(1));
 
         Console.WriteLine("Results:");
+        Console.WriteLine("Ship:");
         foreach (HistoryService ShipHistory in havn1.ShipHistory)
         {
             Console.WriteLine(ShipHistory.ToString());
@@ -42,16 +43,6 @@ class Program
         {
             Console.WriteLine(ContainerHistory.ToString());
         }
-        Console.WriteLine("Ship:");
-        foreach (Ship ship in havn1.ShipsList)
-        {
-            foreach (HistoryService ShipHistory in ship.histories)
-            {
-                Console.WriteLine(ship.ShipName);
-                Console.WriteLine(ShipHistory.ToString());
-            }
-        }
-
     }
 }
 
