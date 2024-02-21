@@ -8,7 +8,8 @@ class Program
     {
         Anchorage venteplass1 = new Anchorage("Ahmed", 5);
         Anchorage venteplass2 = new Anchorage("Ahmed", 5);
-        Unloadingspace losseplass1 = new Unloadingspace("Arne", 3, 10,1);
+        Unloadingspace losseplass1 = new Unloadingspace("Arne", 10, 10,5);
+        Unloadingspace losseplass2 = new Unloadingspace("Gunnar", 10, 10, 5);
         Dockspace kaiplass1 = new Dockspace("Bardh", 20);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();

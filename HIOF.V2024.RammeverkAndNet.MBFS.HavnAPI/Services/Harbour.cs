@@ -102,7 +102,6 @@ public class Harbour : IHarbour
                 //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
                 //har nådd destinasjonen
                 currentTime = currentTime.AddMinutes(60);
-                Console.WriteLine(currentTime);
 
                 //Her så starter vi losse-prossessen
                 //If testen sjekker om losseplassen er full og at det er en losseplass før man starter prossessen
@@ -159,7 +158,7 @@ public class Harbour : IHarbour
     private Anchorage GetNextAnchorage() {
         foreach (ShipPlaces Shipplace in ShipPlacesList)
         {
-            if (Shipplace is Anchorage && Shipplace.AvailableSpace && ((Anchorage)Shipplace).ShipQueue.Count != 0 && ((Anchorage)Shipplace).Ships.Count != 0)
+            if (Shipplace is Anchorage && Shipplace.AvailableSpace)
             {
                 return (Anchorage)Shipplace;
             }
@@ -217,27 +216,31 @@ public class Harbour : IHarbour
     /// <param name="current">Det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
     private void MoveShipFromAnchorage(ShipPlaces shipPlaces, Ship ship, DateTime current)
     {
+        Anchorage anchorageNext = GetNextAnchorage();
         DateTime currentDateTime = current;
-        if(GetNextAnchorage() is not null)
+        if (anchorageNext is not null)
         {
-            if (GetNextAnchorage().ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id)
+            if (anchorageNext.ShipQueue.Count != 0 && anchorageNext.ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id)
             {
                 //Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShipFromQueue metoden og
                 //plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
                 currentDateTime.AddMinutes(30);
-                ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
-                AddToSpesificPlace(shipPlaces.Id, ((Anchorage)shipPlaces).MoveShipFromQueue());
+                ship.AddHistory(new HistoryService(anchorageNext.Name, currentDateTime));
+                AddToSpesificPlace(anchorageNext.Id, anchorageNext.MoveShipFromQueue());
             }
 
             //Og hvis skipet ikke skal til losseplass, så skal den til en kaiplass
-            else if (GetNextAnchorage().Ships.First().PlaceDestination.Id == shipPlaces.Id)
+            else if (anchorageNext.Ships.Count != 0 && anchorageNext.Ships.First().PlaceDestination.Id == shipPlaces.Id)
             {
                 //Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShip metoden og
                 //plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
                 currentDateTime.AddMinutes(30);
-                ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
-                AddToSpesificPlace(shipPlaces.Id, ((Anchorage)shipPlaces).MoveShip(GetNextAnchorage().Ships.First().Id));
+                ship.AddHistory(new HistoryService(anchorageNext.Name, currentDateTime));
+                AddToSpesificPlace(anchorageNext.Id, anchorageNext.Ships.First());
             }
+            currentDateTime.AddMinutes(60);
+            ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
+            shipPlaces.AddShip(MoveShip(ship));
         }
         //Hvis ingen av if testene er akseptert, så frakter vi skipet direkte til destinasjonen
         else
