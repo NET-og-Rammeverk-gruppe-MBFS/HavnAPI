@@ -45,6 +45,7 @@ public class Ship
     /// <param name="container"></param>
     internal void MakeContainers ()
     {
+        containers.Clear();
         for (int i = 0; i < AmountContainers; i++)
         {
             containers.Enqueue(new Container());
