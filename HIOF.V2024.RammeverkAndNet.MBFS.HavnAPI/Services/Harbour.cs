@@ -98,7 +98,6 @@ public class Harbour : IHarbour
                         }
                     }
                 }
-
                 //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
                 //har nådd destinasjonen
                 currentTime = currentTime.AddMinutes(60);
@@ -192,12 +191,13 @@ public class Harbour : IHarbour
     /// <param name="current"> det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
     private void AddShipToAnchorage(Ship ship, DateTime current)
     {
+        Anchorage anchorageNext = GetNextAnchorage();
         DateTime CurrentDateTime = current;
         if (ship.PlaceDestination is Unloadingspace)
         {
             CurrentDateTime = CurrentDateTime.AddMinutes(30);
-            ship.AddHistory(new HistoryService(ship.PlaceDestination.Name, CurrentDateTime));
-            GetNextAnchorage().AddShipToQueue(ship);
+            ship.AddHistory(new HistoryService(anchorageNext.Name, CurrentDateTime));
+            anchorageNext.AddShipToQueue(ship);
         }
         else if (ship.PlaceDestination is Dockspace)
         {
