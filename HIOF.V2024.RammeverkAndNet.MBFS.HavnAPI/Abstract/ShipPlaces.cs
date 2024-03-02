@@ -10,7 +10,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 		public int Spaces { get; set; }
 		internal List<Ship> Ships { get; }
 		
-
+        /// <summary>
+        /// Konstruktøren for ShipPlaces
+        /// </summary>
+        /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
+        /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
+        /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
 		public ShipPlaces(string ShipName, int ShipSpaces)
 		{
             if (string.IsNullOrWhiteSpace(ShipName))

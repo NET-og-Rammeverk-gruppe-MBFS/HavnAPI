@@ -10,8 +10,27 @@ public class Harbour : IHarbour
 	public List<Ship> ShipsList { get; private set; }
 	private Anchorage AnchorageHarbour;
 
+	/// <summary>
+	/// Konstruktøren for Harbour klassen
+	/// </summary>
+	/// <param name="ships"></param>
+	/// <param name="shipPlaces"></param>
+	/// <param name="name"></param>
+	/// <param name="SpacesInAnchorage"></param>
+	/// <exception cref="ArgumentException">Navnet på havnet kan ikke være tomt</exception>
+	/// <exception cref="ArgumentOutOfRangeException">Antall plasser må være større enn 0.</exception>
 	public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces, String name, int SpacesInAnchorage)
 	{
+		if (string.IsNullOrEmpty(name))
+		{
+            throw new ArgumentException("Name can't be null or empty", nameof(name));
+        }
+
+		if (SpacesInAnchorage <= 0)
+		{
+            throw new ArgumentOutOfRangeException(nameof(SpacesInAnchorage), "SpacesInAnchorage must be greater than 0");
+        }
+
 		ShipsList = new List<Ship>(ships);
 		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
 		ShipHistory = new List<HistoryService>();
@@ -51,8 +70,18 @@ public class Harbour : IHarbour
 		ShipPlacesList.AddRange(shipPlaces);
 	}
 
+	/// <summary>
+	/// Metoden legger til et skip til listen
+	/// </summary>
+	/// <param name="ship"></param>
+	/// <exception cref="ArgumentNullException"></exception>
 	public void AddShip(Ship ship)
 	{
+		if(ship == null)
+		{
+            throw new ArgumentNullException(nameof(ship), "Ship cannot be null");
+        }
+
 		ShipsList.Add(ship);
 	}
 
@@ -67,8 +96,14 @@ public class Harbour : IHarbour
    /// </summary>
    /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
    /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
+   /// <exception cref="ArgumentException">End date må være større enn start date</exception>
 	public void Run(DateTime Start, DateTime end)
 	{
+		if (end <= Start)
+		{
+            throw new ArgumentException("End date must be greater than start date", nameof(end));
+        }
+
 		//Vi starter med å lage en timer
 		DateTime currentTime = Start;
 

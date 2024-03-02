@@ -25,8 +25,26 @@ public class Ship
     /// <param name="placedestination">destiniasjonen til shipet</param>
     /// <param name="arrivalTime">ankomst tid for shipet</param>
     /// <param name="repeat"> verdi som vi setter inn om turen skal gjenta seg</param>
+    /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
+    /// <exception cref="ArgumentNullException">Kastes hvis PlaceDestination er tom.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Kastes hvis AmountContainers er mindre enn 0.</exception>"
     public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
     {
+        if (string.IsNullOrEmpty(shipname))
+        {
+            throw new ArgumentException("ShipName cannot be empty", nameof(shipname));
+        }
+
+        if (placedestination == null)
+        {
+            throw new ArgumentNullException(nameof(placedestination), "PlaceDestination cannot be null");
+        }
+
+        if (ammountOfContainers < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(ammountOfContainers), "AmountContainers must be greater than or equal to 0");
+        }
+
         Id = Interlocked.Increment(ref Next);
         ShipName = shipname;
         PlaceDestination = placedestination;
