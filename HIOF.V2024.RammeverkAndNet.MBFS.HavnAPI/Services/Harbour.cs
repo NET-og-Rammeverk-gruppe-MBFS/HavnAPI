@@ -7,6 +7,7 @@ public class Harbour : IHarbour
 	public List<HistoryService> ShipHistory { get; private set; }
 	public List<HistoryService> ContainerHistory { get; private set; }
 	private List<ShipPlaces> ShipPlacesList;
+	private List<Ship> FinishedShips = new List<Ship>();
 	public List<Ship> ShipsList { get; private set; }
 	private Anchorage AnchorageHarbour;
 
@@ -73,7 +74,7 @@ public class Harbour : IHarbour
 		DateTime currentTime = Start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-		while (currentTime < end)
+		while (currentTime < end || ShipsList.Count != 0)
 		{
 			//Begge for-loops under går gjennom alle ship og plassene
 			foreach (ShipPlaces ShipPlace in ShipPlacesList)
@@ -92,12 +93,15 @@ public class Harbour : IHarbour
 						{
 							if (ship.Repeat == true)
 							{
-								MoveShipFromAnchorage(ShipPlace, ship, currentTime);
-							}
+								MoveShipFromAnchorage(ShipPlace, currentTime);
+								ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
+                                ShipPlace.AddShip(MoveShip(ship));
+                            }
 							else
 							{
-								MoveShipFromAnchorage(ShipPlace, ship, currentTime);
-								ShipsList.Remove(ship);
+								MoveShipFromAnchorage(ShipPlace, currentTime);
+                                ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
+								ShipPlace.AddShip(MoveShip(ship));
 							}
 						}
 
@@ -124,18 +128,23 @@ public class Harbour : IHarbour
 					currentTime.AddMinutes(((Unloadingspace)ShipPlace).UnloadContainer(currentTime, end));
 
 					//Etter at alle skipene i losseplassen er ferdig, så returnerer vi listen tilbake til havn klassen
-					AddAllShips(((Unloadingspace)ShipPlace).ReturnShips());
+					AddAllShips(((Unloadingspace)ShipPlace).ReturnRepeatingShips());
 
 					//Vi antar at når skipene har blir returnert til havn klassen, så seiler de til Start-of-sea passage som tar 60 min
 					currentTime = currentTime.AddMinutes(60);
 
 				}
+				if (ShipPlace is Dockspace)
+				{
+					((Dockspace)ShipPlace).ReturnRepeatingShips();
+                    currentTime = currentTime.AddMinutes(60);
+                }
 			}
 		}
 
 		foreach (ShipPlaces shipPlaces in ShipPlacesList)
 		{
-			ShipsList.AddRange(shipPlaces.ReturnShips());
+			ShipsList.AddRange(shipPlaces.ReturnAllShips());
 			if(shipPlaces is Unloadingspace)
 			{
 				foreach (Container container in ((Unloadingspace)shipPlaces).containerSaved)
@@ -147,6 +156,10 @@ public class Harbour : IHarbour
 		foreach (Ship ship1 in ShipsList)
 		{
 			ShipHistory.AddRange(ship1.histories);
+		}
+		foreach (Ship ship2 in FinishedShips)
+		{
+			ShipHistory.AddRange(ship2.histories);
 		}
 	}
 
@@ -223,9 +236,8 @@ public class Harbour : IHarbour
 	/// Metoden henter ut et ship fra en ankerplassen og legger det til destinasjonen. Hvis det ikke er i ankerplassen, så legger det direkte til destinasjonen
 	/// </summary>
 	/// <param name="shipPlaces"></param>
-	/// <param name="ship"></param>
 	/// <param name="current">Det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
-	private void MoveShipFromAnchorage(ShipPlaces shipPlaces, Ship ship, DateTime current)
+	private void MoveShipFromAnchorage(ShipPlaces shipPlaces, DateTime current)
 	{
 		DateTime currentDateTime = current;
 		if (AnchorageHarbour.ShipQueue.Count != 0 && AnchorageHarbour.ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id)
@@ -233,7 +245,7 @@ public class Harbour : IHarbour
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShipFromQueue metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
+            AnchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
 			AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShipFromQueue());
 		}
 
@@ -243,11 +255,8 @@ public class Harbour : IHarbour
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShip metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
+            AnchorageHarbour.Ships.First().AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
 			AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.Ships.First());
 		}
-		currentDateTime.AddMinutes(60);
-		ship.AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
-		shipPlaces.AddShip(MoveShip(ship));
 		}
 }

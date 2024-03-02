@@ -54,7 +54,6 @@ class Historikk_test
         {
             Console.WriteLine(ContainerHistory.ToString());
         }
-        Console.BufferHeight = 300;
 
 
     }
