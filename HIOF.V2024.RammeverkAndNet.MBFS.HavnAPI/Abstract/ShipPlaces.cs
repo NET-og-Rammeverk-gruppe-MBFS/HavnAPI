@@ -13,6 +13,16 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 
 		public ShipPlaces(string ShipName, int ShipSpaces)
 		{
+            if (string.IsNullOrWhiteSpace(ShipName))
+            {
+                throw new ArgumentException("ShipName cannot be empty", nameof(ShipName));
+            }
+
+            if (ShipSpaces <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ShipSpaces), "ShipSpaces must be greater than 0");
+            }
+
 			Name = ShipName;
 			Spaces = ShipSpaces;
 			Ships = new List<Ship>();
