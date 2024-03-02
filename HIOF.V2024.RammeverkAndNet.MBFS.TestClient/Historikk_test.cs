@@ -11,9 +11,6 @@ class Historikk_test
         Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4);
         Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6);
 
-        Anchorage venteplass1 = new Anchorage("Liten_venteplass", 1);
-        Anchorage venteplass2 = new Anchorage("Middels_venteplass", 3);
-
         Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 10, 5);
         Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, 80, 10);
 
@@ -21,8 +18,6 @@ class Historikk_test
         shipPlaces.Add(kaiplass1);
         shipPlaces.Add(kaiplass2);
         shipPlaces.Add(kaiplass3);
-        shipPlaces.Add(venteplass1);
-        shipPlaces.Add(venteplass2);
         shipPlaces.Add(losseplass1);
         shipPlaces.Add(losseplass2);
 
@@ -41,9 +36,9 @@ class Historikk_test
         ships.Add(ship5);
 
         // Lag en havn og legg til skipene og plassene du lagde tidligere.
-        Harbour havn1 = new Harbour(ships, shipPlaces);
+        Harbour havn1 = new Harbour(ships, shipPlaces, "havn1", 50);
 
-        havn1.Run(DateTime.Now, DateTime.Now.AddHours(1));
+        havn1.Run(DateTime.Now, DateTime.Now.AddDays(3));
 
         // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
         Console.WriteLine("Results:");
@@ -59,6 +54,9 @@ class Historikk_test
         {
             Console.WriteLine(ContainerHistory.ToString());
         }
+        Console.BufferHeight = 300;
+
+
     }
 }
 

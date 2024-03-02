@@ -2,7 +2,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 
 
-public class Anchorage : ShipPlaces
+internal class Anchorage : ShipPlaces
 {
     internal Queue<Ship> ShipQueue { get; }
     public Anchorage(string Name, int Spaces) : base(Name, Spaces)

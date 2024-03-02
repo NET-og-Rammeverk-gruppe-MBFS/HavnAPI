@@ -22,7 +22,7 @@ public class Unloadingspace : ShipPlaces
     /// Metoden legger til en container i losseplassen fra shipene som er i Ship listen, og fjerne containers fra plassene basert på emptyFrequency
     /// <summary>
     /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
-    internal int UnloadContainer(DateTime currentDateTime)
+    internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
         DateTime start = currentDateTime;
         var timer = 0;
@@ -50,6 +50,8 @@ public class Unloadingspace : ShipPlaces
                         }
                         timerRemoval = 0;
                     }
+                    if (start >= end)
+                        break;
                 }
                 else
                 {
