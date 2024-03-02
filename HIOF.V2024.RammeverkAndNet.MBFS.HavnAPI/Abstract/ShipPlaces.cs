@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 {
@@ -32,7 +32,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 			Name = ShipName;
 			Spaces = ShipSpaces;
 			Ships = new List<Ship>();
-			Id = Interlocked.Increment(ref Next);
+            Id = Interlocked.Increment(ref Next);
 		}
 
         /// <summary>
@@ -68,13 +68,26 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
         /// </summary>
         /// <returns></returns>
-        internal virtual List<Ship> ReturnShips()
+        internal List<Ship> ReturnRepeatingShips()
+        {
+            List<Ship> OldShips = new List<Ship>();
+            foreach (Ship ship in Ships)
+            {
+                if (ship.Repeat is true)
+                {
+                    OldShips.Add(ship);
+                    Ships.Remove(ship);
+                }
+            }
+            return OldShips;
+        }
+
+        internal virtual List<Ship> ReturnAllShips()
         {
             List<Ship> OldShips = new List<Ship>(Ships);
             Ships.Clear();
             return OldShips;
         }
-
 
         /// <summary>
         /// Denen metoden er for å se om det er ledig plasser

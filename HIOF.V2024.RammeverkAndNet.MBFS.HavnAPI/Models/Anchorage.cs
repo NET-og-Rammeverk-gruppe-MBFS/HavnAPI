@@ -28,7 +28,7 @@ internal class Anchorage : ShipPlaces
         ShipQueue.Enqueue(ship);
     }
 
-    internal override List<Ship> ReturnShips()
+    internal override List<Ship> ReturnAllShips()
     {
         List<Ship> OldShips = new List<Ship>(Ships);
         OldShips.AddRange(ShipQueue);
