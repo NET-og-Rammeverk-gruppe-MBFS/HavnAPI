@@ -39,9 +39,9 @@ public class Unloadingspace : ShipPlaces
                     Container container = ship.MoveContainer();
                     container.Histories.Add(new HistoryService(Name, start));
                     TempContainers.Enqueue(container);
-                    if (TempContainers.Count > 0 && RemoveFrequency <= timerRemoval)
+                    if (TempContainers.Count > 0 && RemoveFrequency >= timerRemoval)
                     {
-                        for (int i = 0; i < timerRemoval / RemoveFrequency; i++)
+                        for (int i = 0; i < RemoveFrequency / timerRemoval; i++)
                         {
                             if(TempContainers.Count != 0)
                             {
@@ -50,13 +50,16 @@ public class Unloadingspace : ShipPlaces
                         }
                         timerRemoval = 0;
                     }
+                    else
+                    {
+                        throw new Exception("EmptyFreq is slow");
+                    }
+
                     if (start >= end)
                         break;
+                        
                 }
-                else
-                {
-                    throw new Exception("EmptyFreq is slow");
-                }
+                
             }
 
         }
