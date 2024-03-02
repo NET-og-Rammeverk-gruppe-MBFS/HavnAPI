@@ -177,22 +177,6 @@ public class Harbour : IHarbour
 
 
 	/// <summary>
-	/// 
-	/// </summary>
-	/// <returns></returns>
-	private Anchorage GetNextAnchorage() {
-		foreach (ShipPlaces Shipplace in ShipPlacesList)
-		{
-			if (Shipplace is Anchorage && Shipplace.AvailableSpace)
-			{
-				return (Anchorage)Shipplace;
-			}
-		}
-		return null;
-	}
-
-
-	/// <summary>
 	/// Det blir brukt i simulasjonen for å legge et skip til et spesifikk plass
 	/// </summary>
 	/// <param name="ShipPlaceId"></param>
@@ -227,7 +211,7 @@ public class Harbour : IHarbour
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
 			ship.AddHistory(new HistoryService(ship.PlaceDestination.Name, CurrentDateTime));
-			GetNextAnchorage().AddShip(ship);
+            AnchorageHarbour.AddShip(ship);
 		}
 	}
 
