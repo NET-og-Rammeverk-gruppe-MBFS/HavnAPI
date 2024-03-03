@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
 {
@@ -9,10 +9,26 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         public string Name { get; private set; }
 		public int Spaces { get; set; }
 		internal List<Ship> Ships { get; }
-
-
-        public ShipPlaces(string ShipName, int ShipSpaces)
+		
+        /// <summary>
+        /// Konstruktøren for ShipPlaces
+        /// </summary>
+        /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
+        /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
+        /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
+		public ShipPlaces(string ShipName, int ShipSpaces)
 		{
+            if (string.IsNullOrWhiteSpace(ShipName))
+            {
+                throw new ArgumentException("ShipName cannot be empty", nameof(ShipName));
+            }
+
+            if (ShipSpaces <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(ShipSpaces), "ShipSpaces must be greater than 0");
+            }
+
 			Name = ShipName;
 			Spaces = ShipSpaces;
 			Ships = new List<Ship>();
