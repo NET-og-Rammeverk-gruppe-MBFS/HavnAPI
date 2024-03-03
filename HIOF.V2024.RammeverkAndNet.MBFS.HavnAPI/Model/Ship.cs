@@ -1,7 +1,7 @@
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 using System;
 using System.Runtime.CompilerServices;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Model;
 
 public class Ship
 {

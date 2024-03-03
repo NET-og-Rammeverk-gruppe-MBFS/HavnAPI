@@ -1,15 +1,15 @@
 using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Model
 {
-	public abstract class ShipPlaces
-	{
+    public abstract class ShipPlaces
+    {
         private static int Next = 0;
         public int Id { get; }
         public string Name { get; private set; }
-		public int Spaces { get; set; }
-		internal List<Ship> Ships { get; }
-		
+        public int Spaces { get; set; }
+        internal List<Ship> Ships { get; }
+
         /// <summary>
         /// Konstruktøren for ShipPlaces
         /// </summary>
@@ -17,8 +17,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
         /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
-		public ShipPlaces(string ShipName, int ShipSpaces)
-		{
+        public ShipPlaces(string ShipName, int ShipSpaces)
+        {
             if (string.IsNullOrWhiteSpace(ShipName))
             {
                 throw new ArgumentException("ShipName cannot be empty", nameof(ShipName));
@@ -29,20 +29,20 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
                 throw new ArgumentOutOfRangeException(nameof(ShipSpaces), "ShipSpaces must be greater than 0");
             }
 
-			Name = ShipName;
-			Spaces = ShipSpaces;
-			Ships = new List<Ship>();
+            Name = ShipName;
+            Spaces = ShipSpaces;
+            Ships = new List<Ship>();
             Id = Interlocked.Increment(ref Next);
-		}
+        }
 
         /// <summary>
         /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
         /// </summary>
         /// <param name="ship"></param>
         internal virtual void AddShip(Ship ship)
-		{
-			Ships.Add(ship);
-		}
+        {
+            Ships.Add(ship);
+        }
 
         /// <summary>
         /// En metode som flytter ship fra og til en annen plass under simuleringen.
@@ -50,19 +50,19 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract
         /// <param name="id"></param>
 		/// <returns></returns>
         internal virtual Ship MoveShip(int id)
-		{
-			Ship TheShip;
-			foreach (var SpesificShip in Ships)
-			{
-				if(SpesificShip.Id == id)
-				{
-					TheShip = SpesificShip;
-					Ships.Remove(SpesificShip);
-					return TheShip;
-				}
-			}
-			return null;
-		}
+        {
+            Ship TheShip;
+            foreach (var SpesificShip in Ships)
+            {
+                if (SpesificShip.Id == id)
+                {
+                    TheShip = SpesificShip;
+                    Ships.Remove(SpesificShip);
+                    return TheShip;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.

@@ -11,8 +11,4 @@
     <None Remove="Enums\" />
     <None Remove="Abstract\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="Abstract\" />
-  </ItemGroup>
 </Project>

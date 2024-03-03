@@ -1,5 +1,5 @@
 using System.Runtime.ExceptionServices;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Model;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 
 public class Unloadingspace : ShipPlaces
