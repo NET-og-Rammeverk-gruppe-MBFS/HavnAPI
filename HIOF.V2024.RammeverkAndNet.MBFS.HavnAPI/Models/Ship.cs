@@ -1,6 +1,6 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 using System;
-using System.Runtime.CompilerServices;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 
 public class Ship
 {

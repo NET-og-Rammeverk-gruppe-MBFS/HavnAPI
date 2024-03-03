@@ -1,4 +1,5 @@
 using System;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
 {
     public abstract class ShipPlaces
