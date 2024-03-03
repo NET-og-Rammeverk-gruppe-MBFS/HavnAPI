@@ -1,4 +1,3 @@
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Abstract;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
 public class Harbour : IHarbour
