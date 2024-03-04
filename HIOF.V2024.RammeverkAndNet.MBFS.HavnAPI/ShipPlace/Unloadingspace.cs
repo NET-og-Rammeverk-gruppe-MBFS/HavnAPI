@@ -27,7 +27,7 @@ public class Unloadingspace : ShipPlaces
         DateTime start = currentDateTime;
         var timer = 0;
         var timerRemoval = 0;
-        foreach (var ship in Ships)
+        foreach (var ship in new List<Ship>(Ships))
         {
             foreach (var Thecontainer in new Queue<Container>(ship.containers))
             {
@@ -56,13 +56,21 @@ public class Unloadingspace : ShipPlaces
                     }
 
                     if (start >= end)
-                        break;
-                        
+                        break; 
                 }
-                
+            }
+            if(ship.Repeat == false)
+            {
+                Finished.Add(ship);
+                Ships.Remove(ship);
             }
 
         }
         return timer;
+    }
+
+    internal override void AddShip(Ship ship)
+    {
+        Ships.Add(ship);
     }
 }

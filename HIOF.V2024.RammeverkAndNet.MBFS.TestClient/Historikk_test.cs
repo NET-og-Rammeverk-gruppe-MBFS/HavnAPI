@@ -11,7 +11,7 @@ class Historikk_test
         Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4);
         Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 10, 5);
+        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 50, 5);
         Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, 80, 10);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
@@ -26,7 +26,7 @@ class Historikk_test
         Ship ship2 = new Ship("kaiplass2", kaiplass2, DateTime.Now, false, 0);
         Ship ship3 = new Ship("kaiplass3", kaiplass3, DateTime.Now, false, 0);
         Ship ship4 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 10);
-        Ship ship5 = new Ship("losseplass2", losseplass2, DateTime.Now, false, 40);
+        Ship ship5 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 40);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);

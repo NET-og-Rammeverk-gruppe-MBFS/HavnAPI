@@ -9,15 +9,16 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         public string Name { get; private set; }
         public int Spaces { get; set; }
         internal List<Ship> Ships { get; }
+        internal List<Ship> Finished { get; }
 
-        /// <summary>
-        /// Konstruktøren for ShipPlaces
-        /// </summary>
-        /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
-        /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
-        /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
-        /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
-        public ShipPlaces(string ShipName, int ShipSpaces)
+    /// <summary>
+    /// Konstruktøren for ShipPlaces
+    /// </summary>
+    /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
+    /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
+    /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
+    /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
+    public ShipPlaces(string ShipName, int ShipSpaces)
         {
             if (string.IsNullOrWhiteSpace(ShipName))
             {
@@ -32,7 +33,8 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
             Name = ShipName;
             Spaces = ShipSpaces;
             Ships = new List<Ship>();
-            Id = Interlocked.Increment(ref Next);
+            Finished = new List<Ship>();
+        Id = Interlocked.Increment(ref Next);
         }
 
         /// <summary>
@@ -41,7 +43,10 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         /// <param name="ship"></param>
         internal virtual void AddShip(Ship ship)
         {
+        if (ship.Repeat == true)
             Ships.Add(ship);
+        else
+            Finished.Add(ship);
         }
 
         /// <summary>
@@ -90,7 +95,9 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         internal virtual List<Ship> ReturnAllShips()
         {
             List<Ship> OldShips = new List<Ship>(Ships);
+            OldShips.AddRange(Finished);
             Ships.Clear();
+            Finished.Clear();
             return OldShips;
         }
 
