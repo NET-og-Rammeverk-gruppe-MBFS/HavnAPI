@@ -1,3 +1,4 @@
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
 public class Harbour : IHarbour
@@ -17,18 +18,18 @@ public class Harbour : IHarbour
 	/// <param name="shipPlaces"></param>
 	/// <param name="name"></param>
 	/// <param name="SpacesInAnchorage"></param>
-	/// <exception cref="ArgumentException">Navnet på havnet kan ikke være tomt</exception>
-	/// <exception cref="ArgumentOutOfRangeException">Antall plasser må være større enn 0.</exception>
+	/// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
+	/// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
 	public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces, String name, int SpacesInAnchorage)
 	{
 		if (string.IsNullOrEmpty(name))
 		{
-            throw new ArgumentException("Name can't be null or empty", nameof(name));
+            throw new InvalidNameException("Name can't be null or empty");
         }
 
 		if (SpacesInAnchorage <= 0)
 		{
-            throw new ArgumentOutOfRangeException(nameof(SpacesInAnchorage), "SpacesInAnchorage must be greater than 0");
+            throw new InvalidSpacesException("SpacesInAnchorage must be greater than 0");
         }
 
 		ShipsList = new List<Ship>(ships);
@@ -74,14 +75,8 @@ public class Harbour : IHarbour
 	/// Metoden legger til et skip til listen
 	/// </summary>
 	/// <param name="ship"></param>
-	/// <exception cref="ArgumentNullException"></exception>
 	public void AddShip(Ship ship)
 	{
-		if(ship == null)
-		{
-            throw new ArgumentNullException(nameof(ship), "Ship cannot be null");
-        }
-
 		ShipsList.Add(ship);
 	}
 
@@ -96,12 +91,12 @@ public class Harbour : IHarbour
    /// </summary>
    /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
    /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
-   /// <exception cref="ArgumentException">End date må være større enn start date</exception>
+   /// <exception cref="InvalidDateTimeRangeException">Kastes hvis start date er større en End Date</exception>
 	public void Run(DateTime Start, DateTime end)
 	{
 		if (end <= Start)
 		{
-            throw new ArgumentException("End date must be greater than start date", nameof(end));
+            throw new InvalidDateTimeRangeException("End date must be greater than start date", nameof(end));
         }
 
 		//Vi starter med å lage en timer
