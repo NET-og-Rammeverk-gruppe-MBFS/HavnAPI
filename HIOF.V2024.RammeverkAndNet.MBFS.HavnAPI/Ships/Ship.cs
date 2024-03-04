@@ -1,7 +1,6 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 using System;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 
 public class Ship
 {
@@ -37,7 +36,7 @@ public class Ship
 
         if (placedestination == null)
         {
-            throw new InvalidPlaceDestinationException("PlaceDestination cannot be null");
+            throw new InvalidDestinationException("ShipDestination cannot be null");
         }
 
         if (ammountOfContainers < 0)

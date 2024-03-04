@@ -15,6 +15,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ShipPlace\" />
-    <Folder Include="Ships\" />
   </ItemGroup>
 </Project>
