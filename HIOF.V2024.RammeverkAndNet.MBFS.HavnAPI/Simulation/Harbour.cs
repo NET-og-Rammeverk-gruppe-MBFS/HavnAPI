@@ -35,7 +35,7 @@ public class Harbour : IHarbour
 		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name, SpacesInAnchorage);
+		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage);
 	}
 
 	public Harbour(String name, int SpacesInAnchorage)
