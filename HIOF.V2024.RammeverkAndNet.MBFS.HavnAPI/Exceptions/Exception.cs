@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions
 {
-    public class InvalidShipNameException : ArgumentException
+    public class InvalidNameException : ArgumentException
     {
-        public InvalidShipNameException(string message) : base(message)
+        public InvalidNameException(string message) : base(message)
         {
         }
     }
@@ -30,6 +30,20 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions
     public class  InvalidDateTimeRangeException : ArgumentException
     {
         public InvalidDateTimeRangeException(string message, string paramName) : base(message, paramName)
+        {
+        }
+    }
+
+    public class InvalidAmountOfContainersException : ArgumentOutOfRangeException
+    {
+        public InvalidAmountOfContainersException(string message) : base(message)
+        {
+        }
+    }
+
+    public class InvalidPlaceDestinationException : ArgumentNullException
+    {
+        public InvalidPlaceDestinationException(string message) : base(message)
         {
         }
     }

@@ -15,18 +15,18 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
         /// </summary>
         /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
         /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
-        /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
+        /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
+        /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
         public ShipPlaces(string ShipName, int ShipSpaces)
         {
             if (string.IsNullOrWhiteSpace(ShipName))
             {
-                throw new ArgumentException("ShipName cannot be empty", nameof(ShipName));
+                throw new InvalidNameException("ShipName cannot be empty");
             }
 
             if (ShipSpaces <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(ShipSpaces), "ShipSpaces must be greater than 0");
+                throw new InvalidSpacesException("ShipSpaces must be greater than 0");
             }
 
             Name = ShipName;
