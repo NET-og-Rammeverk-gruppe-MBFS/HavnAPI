@@ -33,7 +33,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
             Spaces = ShipSpaces;
             Ships = new List<Ship>();
             Finished = new List<Ship>();
-        Id = Interlocked.Increment(ref Next);
+            Id = Interlocked.Increment(ref Next);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         internal List<Ship> ReturnRepeatingShips()
         {
             List<Ship> OldShips = new List<Ship>();
-            foreach (Ship ship in Ships)
+            foreach (Ship ship in new List<Ship>(Ships))
             {
                 if (ship.Repeat is true)
                 {

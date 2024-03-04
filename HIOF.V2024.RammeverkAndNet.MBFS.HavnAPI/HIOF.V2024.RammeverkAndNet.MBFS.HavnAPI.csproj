@@ -13,7 +13,4 @@
     <None Remove="ShipPlace\" />
     <None Remove="Ships\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ShipPlace\" />
-  </ItemGroup>
 </Project>

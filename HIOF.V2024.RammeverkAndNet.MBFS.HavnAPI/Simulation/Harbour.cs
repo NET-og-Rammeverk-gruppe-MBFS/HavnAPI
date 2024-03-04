@@ -1,4 +1,3 @@
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
@@ -103,7 +102,7 @@ public class Harbour : IHarbour
 		DateTime currentTime = start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-		while (currentTime < end || ShipsList.Count != 0)
+		while (currentTime < end && ShipsList.Count != 0)
 		{
 			//Begge for-loops under går gjennom alle ship og plassene
 			foreach (ShipPlaces ShipPlace in ShipPlacesList)
@@ -117,7 +116,6 @@ public class Harbour : IHarbour
 					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)
 					{
-
 						//Det skjekker om det er ledig plass i plasssen fra for loop-en
 						if (ShipPlace.AvailableSpace)
 						{
