@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions
 {
+    public class NotImplementedException : Exception
+    {
+        public NotImplementedException(string message) : base(message)
+        {
+        }
+    }
     public class InvalidNameException : ArgumentException
     {
         public InvalidNameException(string message) : base(message)
