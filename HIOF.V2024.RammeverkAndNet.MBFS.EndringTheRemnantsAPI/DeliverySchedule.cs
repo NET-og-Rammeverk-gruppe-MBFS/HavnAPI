@@ -12,6 +12,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.EndringTheRemnantsAPI
 
         public void addDelivery(Delivery delivery) { }
         public void addWeeklyDelivery(Delivery delivery, int dayOfWeek) { }
-        public List<Delivery> Deliveries() { }
+        public List<Delivery> Deliveries() { return null; }
     }
 }
