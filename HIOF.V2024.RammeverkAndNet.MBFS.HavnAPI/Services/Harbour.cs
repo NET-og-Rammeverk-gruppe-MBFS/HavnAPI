@@ -3,12 +3,11 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
 public class Harbour : IHarbour
 {
-	public string name;
+	private string name { get; }
 	public List<HistoryService> ShipHistory { get; private set; }
 	public List<HistoryService> ContainerHistory { get; private set; }
 	private List<ShipPlaces> ShipPlacesList;
-	private List<Ship> FinishedShips = new List<Ship>();
-	public List<Ship> ShipsList { get; private set; }
+	private List<Ship> ShipsList { get; }
 	private Anchorage AnchorageHarbour;
 
 	/// <summary>
@@ -120,18 +119,9 @@ public class Harbour : IHarbour
 						//Det skjekker om det er ledig plass i plasssen fra for loop-en
 						if (ShipPlace.AvailableSpace)
 						{
-							if (ship.Repeat == true)
-							{
-								MoveShipFromAnchorage(ShipPlace, currentTime);
-								ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
-                                ShipPlace.AddShip(MoveShip(ship));
-                            }
-							else
-							{
-								MoveShipFromAnchorage(ShipPlace, currentTime);
-                                ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
-								ShipPlace.AddShip(MoveShip(ship));
-							}
+							MoveShipFromAnchorage(ShipPlace, currentTime);
+							ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
+							ShipPlace.AddShip(MoveShip(ship));
 						}
 
 						//Og hvis det ikke er noen ledig plasser for skipets destinasjon, så flytter vi skipet til en ankerplass
@@ -185,10 +175,6 @@ public class Harbour : IHarbour
 		foreach (Ship ship1 in ShipsList)
 		{
 			ShipHistory.AddRange(ship1.histories);
-		}
-		foreach (Ship ship2 in FinishedShips)
-		{
-			ShipHistory.AddRange(ship2.histories);
 		}
 	}
 
