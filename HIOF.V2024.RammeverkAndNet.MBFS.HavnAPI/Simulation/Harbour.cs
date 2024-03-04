@@ -1,4 +1,3 @@
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;

@@ -52,7 +52,7 @@ public class Unloadingspace : ShipPlaces
                     }
                     else
                     {
-                        throw new Exception("EmptyFreq is slow");
+                        throw new InvalidFrequencyException("EmptyFrequency is slow");
                     }
 
                     if (start >= end)
