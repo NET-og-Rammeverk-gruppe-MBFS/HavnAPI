@@ -91,15 +91,15 @@ public class Harbour : IHarbour
    /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
    /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
    /// <exception cref="InvalidDateTimeRangeException">Kastes hvis start date er større en End Date</exception>
-	public void Run(DateTime Start, DateTime end)
+	public void Run(DateTime start, DateTime end)
 	{
-		if (end <= Start)
+		if (end <= start)
 		{
             throw new InvalidDateTimeRangeException("End date must be greater than start date", nameof(end));
         }
 
 		//Vi starter med å lage en timer
-		DateTime currentTime = Start;
+		DateTime currentTime = start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
 		while (currentTime < end || ShipsList.Count != 0)
