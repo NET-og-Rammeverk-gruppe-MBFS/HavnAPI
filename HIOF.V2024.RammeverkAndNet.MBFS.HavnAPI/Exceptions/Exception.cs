@@ -26,13 +26,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions
         }
     }
 
-    public class InvalidHarbourNameException : ArgumentException
-    {
-        public InvalidHarbourNameException(string message) : base(message)
-        {
-        }
-    }
-
     public class  InvalidDateTimeRangeException : ArgumentException
     {
         public InvalidDateTimeRangeException(string message, string paramName) : base(message, paramName)
