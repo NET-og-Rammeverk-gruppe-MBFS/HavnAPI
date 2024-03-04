@@ -102,7 +102,7 @@ public class Harbour : IHarbour
 		DateTime currentTime = start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-		while (currentTime < end || ShipsList.Count != 0)
+		while (currentTime < end && ShipsList.Count != 0)
 		{
 			//Begge for-loops under går gjennom alle ship og plassene
 			foreach (ShipPlaces ShipPlace in ShipPlacesList)
