@@ -25,7 +25,7 @@ class Historikk_test
         Ship ship2 = new Ship("kaiplass2", kaiplass2, DateTime.Now, false, 0);
         Ship ship3 = new Ship("kaiplass3", kaiplass3, DateTime.Now, false, 0);
         Ship ship4 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 10);
-        Ship ship5 = new Ship("losseplass2", losseplass2, DateTime.Now, false, 40);
+        Ship ship5 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 40);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);

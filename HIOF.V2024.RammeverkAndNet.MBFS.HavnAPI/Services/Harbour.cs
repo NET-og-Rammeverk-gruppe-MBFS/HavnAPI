@@ -3,12 +3,11 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
 public class Harbour : IHarbour
 {
-	public string name;
+	private string name { get; }
 	public List<HistoryService> ShipHistory { get; private set; }
 	public List<HistoryService> ContainerHistory { get; private set; }
 	private List<ShipPlaces> ShipPlacesList;
-	private List<Ship> FinishedShips = new List<Ship>();
-	public List<Ship> ShipsList { get; private set; }
+	private List<Ship> ShipsList { get; }
 	private Anchorage AnchorageHarbour;
 
 	/// <summary>
@@ -92,15 +91,15 @@ public class Harbour : IHarbour
    /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
    /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
    /// <exception cref="InvalidDateTimeRangeException">Kastes hvis start date er større en End Date</exception>
-	public void Run(DateTime Start, DateTime end)
+	public void Run(DateTime start, DateTime end)
 	{
-		if (end <= Start)
+		if (end <= start)
 		{
             throw new InvalidDateTimeRangeException("End date must be greater than start date", nameof(end));
         }
 
 		//Vi starter med å lage en timer
-		DateTime currentTime = Start;
+		DateTime currentTime = start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
 		while (currentTime < end || ShipsList.Count != 0)
@@ -120,18 +119,9 @@ public class Harbour : IHarbour
 						//Det skjekker om det er ledig plass i plasssen fra for loop-en
 						if (ShipPlace.AvailableSpace)
 						{
-							if (ship.Repeat == true)
-							{
-								MoveShipFromAnchorage(ShipPlace, currentTime);
-								ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
-                                ShipPlace.AddShip(MoveShip(ship));
-                            }
-							else
-							{
-								MoveShipFromAnchorage(ShipPlace, currentTime);
-                                ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
-								ShipPlace.AddShip(MoveShip(ship));
-							}
+							MoveShipFromAnchorage(ShipPlace, currentTime);
+							ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
+							ShipPlace.AddShip(MoveShip(ship));
 						}
 
 						//Og hvis det ikke er noen ledig plasser for skipets destinasjon, så flytter vi skipet til en ankerplass
@@ -185,10 +175,6 @@ public class Harbour : IHarbour
 		foreach (Ship ship1 in ShipsList)
 		{
 			ShipHistory.AddRange(ship1.histories);
-		}
-		foreach (Ship ship2 in FinishedShips)
-		{
-			ShipHistory.AddRange(ship2.histories);
 		}
 	}
 

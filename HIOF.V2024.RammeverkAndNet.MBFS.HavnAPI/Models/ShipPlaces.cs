@@ -65,7 +65,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
         }
 
         /// <summary>
-        /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
+        /// Det fjerner alle shipene som har repeterende seilinger fra lista. Det blir brukt i simulasjonen.
         /// </summary>
         /// <returns></returns>
         internal List<Ship> ReturnRepeatingShips()
@@ -82,6 +82,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
             return OldShips;
         }
 
+
+        /// <summary>
+        /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
+        /// </summary>
+        /// <returns></returns>
         internal virtual List<Ship> ReturnAllShips()
         {
             List<Ship> OldShips = new List<Ship>(Ships);
