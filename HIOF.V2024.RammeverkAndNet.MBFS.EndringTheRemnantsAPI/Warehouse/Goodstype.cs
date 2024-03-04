@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.EndringTheRemnantsAPI
 {
-    internal class Goodstype
+    public enum GoodsType
     {
+        DryGoods,
+        Refrigerated,
+        Hazardous
     }
 }
