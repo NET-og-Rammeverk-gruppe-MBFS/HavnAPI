@@ -1,4 +1,5 @@
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 
 internal class Anchorage : ShipPlaces

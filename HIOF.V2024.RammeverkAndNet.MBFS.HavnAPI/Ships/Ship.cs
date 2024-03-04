@@ -1,4 +1,5 @@
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
 

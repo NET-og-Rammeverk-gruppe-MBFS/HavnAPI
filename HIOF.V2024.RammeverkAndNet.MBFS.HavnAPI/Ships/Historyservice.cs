@@ -1,3 +1,4 @@
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 /// <summary>
 /// representerer en historikken til skips plass
 /// </summary>

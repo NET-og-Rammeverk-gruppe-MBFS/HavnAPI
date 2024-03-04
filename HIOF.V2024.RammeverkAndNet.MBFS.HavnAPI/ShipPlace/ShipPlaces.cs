@@ -1,7 +1,7 @@
 using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
-{
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
     public abstract class ShipPlaces
     {
         private static int Next = 0;
@@ -105,10 +105,5 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
                 return Spaces > Ships.Count;
             }
         }
-
-
-
-
     }
-}
 

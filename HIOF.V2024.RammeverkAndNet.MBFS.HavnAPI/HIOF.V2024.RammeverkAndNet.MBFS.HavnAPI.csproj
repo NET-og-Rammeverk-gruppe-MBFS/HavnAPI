@@ -10,9 +10,11 @@
   <ItemGroup>
     <None Remove="Enums\" />
     <None Remove="Abstract\" />
-    <None Remove="Events\" />
+    <None Remove="ShipPlace\" />
+    <None Remove="Ships\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
+    <Folder Include="ShipPlace\" />
+    <Folder Include="Ships\" />
   </ItemGroup>
 </Project>

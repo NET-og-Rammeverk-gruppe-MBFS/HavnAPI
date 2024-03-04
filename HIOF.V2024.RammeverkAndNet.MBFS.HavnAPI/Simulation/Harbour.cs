@@ -1,6 +1,7 @@
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Exceptions;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
 public class Harbour : IHarbour
 {
 	private string name { get; }
