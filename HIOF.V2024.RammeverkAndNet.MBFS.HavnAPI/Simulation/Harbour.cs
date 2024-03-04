@@ -116,7 +116,6 @@ public class Harbour : IHarbour
 					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)
 					{
-
 						//Det skjekker om det er ledig plass i plasssen fra for loop-en
 						if (ShipPlace.AvailableSpace)
 						{

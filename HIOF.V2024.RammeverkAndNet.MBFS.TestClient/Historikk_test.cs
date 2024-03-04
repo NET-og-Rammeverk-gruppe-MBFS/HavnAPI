@@ -24,8 +24,8 @@ class Historikk_test
         // Lag bestemt antall skip objekter og knytt de til kaiplasser og losseplasser du lagde tidligere.
         Ship ship1 = new Ship("kaiplass1", kaiplass1, DateTime.Now, false, 0);
         Ship ship2 = new Ship("kaiplass2", kaiplass2, DateTime.Now, false, 0);
-        Ship ship3 = new Ship("kaiplass3", kaiplass3, DateTime.Now, false, 0);
-        Ship ship4 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 10);
+        Ship ship3 = new Ship("kaiplass3", losseplass2, DateTime.Now, true, 15);
+        Ship ship4 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 20);
         Ship ship5 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 40);
 
         List<Ship> ships = new List<Ship>();
