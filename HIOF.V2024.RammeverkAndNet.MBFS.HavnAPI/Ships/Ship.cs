@@ -15,6 +15,8 @@ public class Ship
     internal Queue<Container> containers { get; private set; }
     internal List<HistoryService> histories { get; private set; }
 
+    public ShipStatus Status { get; set; }
+    public ShipType Type { get; set; }
 
     /// <summary>
     /// initlisere en ny instans av <see cref="Ship"/>- classe for � holde styr p� skipets informasjon.

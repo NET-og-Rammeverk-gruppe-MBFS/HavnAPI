@@ -10,6 +10,9 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         internal List<Ship> Ships { get; }
         internal List<Ship> Finished { get; }
 
+        public ShipStatus Status { get; set; }
+        public ShipType Type { get; set; }
+
     /// <summary>
     /// Konstruktøren for ShipPlaces
     /// </summary>
