@@ -1,7 +1,8 @@
 ﻿using System;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Services
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation
 {
 	public interface IHarbour
 	{

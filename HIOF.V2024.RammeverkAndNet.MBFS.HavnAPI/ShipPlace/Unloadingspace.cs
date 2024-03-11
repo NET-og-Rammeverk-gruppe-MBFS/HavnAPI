@@ -1,6 +1,6 @@
 using System.Runtime.ExceptionServices;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Model;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
 {
@@ -27,7 +27,7 @@ public class Unloadingspace : ShipPlaces
         DateTime start = currentDateTime;
         var timer = 0;
         var timerRemoval = 0;
-        foreach (var ship in Ships)
+        foreach (var ship in new List<Ship>(Ships))
         {
             foreach (var Thecontainer in new Queue<Container>(ship.containers))
             {
@@ -52,17 +52,25 @@ public class Unloadingspace : ShipPlaces
                     }
                     else
                     {
-                        throw new Exception("EmptyFreq is slow");
+                        throw new InvalidFrequencyException("EmptyFrequency is slow");
                     }
 
                     if (start >= end)
-                        break;
-                        
+                        break; 
                 }
-                
+            }
+            if(ship.Repeat == false)
+            {
+                Finished.Add(ship);
+                Ships.Remove(ship);
             }
 
         }
         return timer;
+    }
+
+    internal override void AddShip(Ship ship)
+    {
+        Ships.Add(ship);
     }
 }

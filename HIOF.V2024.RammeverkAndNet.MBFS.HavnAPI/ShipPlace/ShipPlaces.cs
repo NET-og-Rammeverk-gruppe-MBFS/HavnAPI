@@ -1,6 +1,6 @@
 using System;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
-{
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
     public abstract class ShipPlaces
     {
         private static int Next = 0;
@@ -8,29 +8,31 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
         public string Name { get; private set; }
         public int Spaces { get; set; }
         internal List<Ship> Ships { get; }
+        internal List<Ship> Finished { get; }
 
-        /// <summary>
-        /// Konstruktøren for ShipPlaces
-        /// </summary>
-        /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
-        /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
-        /// <exception cref="ArgumentException">Kastes hvis ShipName er tom.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
-        public ShipPlaces(string ShipName, int ShipSpaces)
+    /// <summary>
+    /// Konstruktøren for ShipPlaces
+    /// </summary>
+    /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
+    /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
+    /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
+    /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
+    public ShipPlaces(string ShipName, int ShipSpaces)
         {
             if (string.IsNullOrWhiteSpace(ShipName))
             {
-                throw new ArgumentException("ShipName cannot be empty", nameof(ShipName));
+                throw new InvalidNameException("ShipName cannot be empty");
             }
 
             if (ShipSpaces <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(ShipSpaces), "ShipSpaces must be greater than 0");
+                throw new InvalidSpacesException("ShipSpaces must be greater than 0");
             }
 
             Name = ShipName;
             Spaces = ShipSpaces;
             Ships = new List<Ship>();
+            Finished = new List<Ship>();
             Id = Interlocked.Increment(ref Next);
         }
 
@@ -40,7 +42,10 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
         /// <param name="ship"></param>
         internal virtual void AddShip(Ship ship)
         {
+        if (ship.Repeat == true)
             Ships.Add(ship);
+        else
+            Finished.Add(ship);
         }
 
         /// <summary>
@@ -64,13 +69,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
         }
 
         /// <summary>
-        /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
+        /// Det fjerner alle shipene som har repeterende seilinger fra lista. Det blir brukt i simulasjonen.
         /// </summary>
         /// <returns></returns>
         internal List<Ship> ReturnRepeatingShips()
         {
             List<Ship> OldShips = new List<Ship>();
-            foreach (Ship ship in Ships)
+            foreach (Ship ship in new List<Ship>(Ships))
             {
                 if (ship.Repeat is true)
                 {
@@ -81,10 +86,17 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
             return OldShips;
         }
 
+
+        /// <summary>
+        /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
+        /// </summary>
+        /// <returns></returns>
         internal virtual List<Ship> ReturnAllShips()
         {
             List<Ship> OldShips = new List<Ship>(Ships);
+            OldShips.AddRange(Finished);
             Ships.Clear();
+            Finished.Clear();
             return OldShips;
         }
 
@@ -99,10 +111,5 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Models
                 return Spaces > Ships.Count;
             }
         }
-
-
-
-
     }
-}
 
