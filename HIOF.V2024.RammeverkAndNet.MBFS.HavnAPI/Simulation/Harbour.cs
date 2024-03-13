@@ -148,9 +148,6 @@ public class Harbour : IHarbour
 					}
                         
                 }
-				//Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
-				//har nådd destinasjonen
-				currentTime = currentTime.AddMinutes(60);
 				//Her så starter vi losse-prossessen
 				//If testen sjekker om losseplassen er full og at det er en losseplass før man starter prossessen
 				if (ShipPlace is Unloadingspace)
@@ -172,7 +169,10 @@ public class Harbour : IHarbour
                     currentTime = currentTime.AddMinutes(60);
                 }
 			}
-		}
+            //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
+            //har nådd destinasjonen
+            currentTime = currentTime.AddMinutes(60);
+        }
 
 		foreach (ShipPlaces shipPlaces in ShipPlacesList)
 		{
