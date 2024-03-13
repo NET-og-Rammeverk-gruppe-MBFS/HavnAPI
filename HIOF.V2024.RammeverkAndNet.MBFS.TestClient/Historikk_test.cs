@@ -38,13 +38,21 @@ class Historikk_test
         // Lag en havn og legg til skipene og plassene du lagde tidligere.
         Harbour havn1 = new Harbour(ships, shipPlaces, "havn1", 50);
 
+
+        havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;
+        havn1.DepartingAnchorage += havn1_DepartingAnchorage;
+        havn1.MidnightStatusUpdate += havn1_MidnightStatusUpdate;
+        havn1.MovingToAnchorage += havn1_MovingToAnchorage;
+        havn1.ReachedDestination += havn1_ReachedDestination;
+        havn1.ShipSailing += havn1_ShipSailing;
+
         havn1.Run(DateTime.Now, DateTime.Now.AddDays(3));
 
-        // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
+      /*  // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
         Console.WriteLine("Results:");
         Console.WriteLine(" ");
         Console.WriteLine("Ship:");
-        foreach (HistoryService ShipHistory in havn1.ShipHistory)
+       foreach (HistoryService ShipHistory in havn1.ShipHistory)
         {
             Console.WriteLine(ShipHistory.ToString());
         }
@@ -53,9 +61,40 @@ class Historikk_test
         foreach (HistoryService ContainerHistory in havn1.ContainerHistory)
         {
             Console.WriteLine(ContainerHistory.ToString());
-        }
+        }*/
+    }
 
+    private static void havn1_ArrivedToHarbour(object? sender, ArrivedToHarbourArgs e)
+    {
+        Console.WriteLine(e.ship.ShipName+" har nådd havnen med "+e.ship.AmountContainers+" containere");
+    }
 
+    private static void havn1_DepartingAnchorage(object? sender, DepartingAnchorageArgs e)
+    {
+        Console.WriteLine(e.ship.PlaceDestination.Name+" er ledig, "+e.ship.ShipName+" blir flyttet fra ankerplassen");
+    }
+
+    private static void havn1_MidnightStatusUpdate(object? sender, MidnightStatusUpdateArgs e)
+    {
+        Console.WriteLine("\n-----------------------------");
+        Console.WriteLine("Midnatt status");
+        Console.WriteLine(e.ship.ShipName);
+        Console.WriteLine("-----------------------------");
+    }
+
+    private static void havn1_MovingToAnchorage(object? sender, MovingToAnchorageArgs e)
+    {
+        Console.WriteLine(e.ship.PlaceDestination.Name+" er full, flytter "+e.ship.ShipName+" til ankerplassen");
+    }
+
+    private static void havn1_ReachedDestination(object? sender, ReachedDestinationArgs e)
+    {
+        Console.WriteLine(e.ship.ShipName+" har nådd "+e.ship.PlaceDestination.Name);
+    }
+
+    private static void havn1_ShipSailing(object? sender, ShipSailingArgs e)
+    {
+        Console.WriteLine(e.ship.ShipName+ " seiler...");
     }
 }
 

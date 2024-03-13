@@ -4,21 +4,16 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation
 {
 	public class MidnightStatusUpdateArgs : EventArgs
 	{
-		public Ship ship { get; set; }
-		public Container container { get; set; }
+		public Ship ship { get; private set; }
 
 
 		/// <summary>
 		/// Status for hver skip når det er midnatt
 		/// </summary>
-		public MidnightStatusUpdateArgs(Ship ship)
+		public MidnightStatusUpdateArgs(Ship theship)
 		{
-			this.ship = ship;
+			ship = theship;
 		}
-		public MidnightStatusUpdateArgs(Container container)
-		{
-            this.container = container;
-        }
 	}
 }
 
