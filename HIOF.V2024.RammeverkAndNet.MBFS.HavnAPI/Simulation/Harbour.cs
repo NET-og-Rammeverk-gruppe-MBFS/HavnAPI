@@ -118,15 +118,15 @@ public class Harbour : IHarbour
                 foreach (Ship ship in new List<Ship>(ShipsList))
 				{
 					RaiseArrivedToHarbour(ship);
-                    RaiseShipSailing(ship);
                     //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
                     ship.MakeContainers();
 
 					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)
 					{
-						//Det skjekker om det er ledig plass i plasssen fra for loop-en
-						if (ShipPlace.AvailableSpace)
+                        RaiseShipSailing(ship);
+                        //Det skjekker om det er ledig plass i plasssen fra for loop-en
+                        if (ShipPlace.AvailableSpace)
 						{
 							ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
 							RaiseReachedDestination(ship);
