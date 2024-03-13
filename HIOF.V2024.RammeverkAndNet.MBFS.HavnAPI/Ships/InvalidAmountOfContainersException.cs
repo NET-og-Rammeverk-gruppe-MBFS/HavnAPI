@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
 {
     /// <summary>
-    /// Kaster et unntak når antall containere er ugyldig
+    /// Kaster et unntak når antall containere er 0 eller mindre
     /// </summary>
     public class InvalidAmountOfContainersException : ArgumentOutOfRangeException
     {

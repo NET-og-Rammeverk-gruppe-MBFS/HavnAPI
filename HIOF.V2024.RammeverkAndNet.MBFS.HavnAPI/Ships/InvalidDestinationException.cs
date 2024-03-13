@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
 {
     /// <summary>
-    /// Kaster et unntak når destinasjonen er ugyldig
+    /// Kaster et unntak når destinasjonen er null
     /// </summary>
     public class InvalidDestinationException : ArgumentNullException
     {
