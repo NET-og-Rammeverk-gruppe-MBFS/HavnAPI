@@ -4,7 +4,6 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
-    private Queue<Container> TempContainers { get; }
     internal List<Container> containerSaved { get; }
     public double TruckPickupPercentage { get; set; }
 
@@ -16,7 +15,6 @@ public class Unloadingspace : ShipPlaces
         }
 
         containerSaved = new List<Container>();
-        TempContainers = new Queue<Container>();
         Cranes = cranes;
         TruckPickupPercentage = truckPickupPercentage;
     }
