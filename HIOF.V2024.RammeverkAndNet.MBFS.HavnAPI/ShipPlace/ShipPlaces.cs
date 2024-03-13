@@ -20,7 +20,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
     /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
     /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
     /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
-    public ShipPlaces(string ShipName, int ShipSpaces)
+    public ShipPlaces(string ShipName, int ShipSpaces,ShipStatus status, ShipType type)
         {
             if (string.IsNullOrWhiteSpace(ShipName))
             {
@@ -37,7 +37,9 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
             Ships = new List<Ship>();
             Finished = new List<Ship>();
             Id = Interlocked.Increment(ref Next);
-        }
+            Status = status;
+            Type = type;
+    }
 
         /// <summary>
         /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen

@@ -29,7 +29,7 @@ public class Ship
     /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
     /// <exception cref="InvalidPlaceDestinationException">Kastes hvis PlaceDestination er tom.</exception>
     /// <exception cref="InvalidAmountOfContainersException">Kastes hvis AmountContainers er mindre enn 0.</exception>"
-    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
+    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers, ShipStatus status, ShipType type)
     {
         if (string.IsNullOrEmpty(shipname))
         {
@@ -54,8 +54,8 @@ public class Ship
         containers = new Queue<Container>();
         histories = new List<HistoryService>();
         AmountContainers = ammountOfContainers;
-
-        
+        Status = status;
+        Type = type;
     }
 
     /// <summary>
