@@ -1,15 +1,15 @@
 ﻿using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation
 {
-	public class ShipUnloadedArgs : EventArgs
+	public class DepartingHarbourArgs : EventArgs
 	{
         public Ship ship { get; private set; }
         /// <summary>
-        /// Event når skipen blir tømt
+        /// Event der skipen forlater havnen
         /// </summary>
-        public ShipUnloadedArgs(Ship theship)
+        public DepartingHarbourArgs(Ship theship)
 		{
             ship = theship;
 		}
