@@ -48,7 +48,7 @@ class Historikk_test
 
         havn1.Run(DateTime.Now, DateTime.Now.AddDays(3));
 
-      /*  // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
+        // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
         Console.WriteLine("Results:");
         Console.WriteLine(" ");
         Console.WriteLine("Ship:");
@@ -61,7 +61,7 @@ class Historikk_test
         foreach (HistoryService ContainerHistory in havn1.ContainerHistory)
         {
             Console.WriteLine(ContainerHistory.ToString());
-        }*/
+        }
     }
 
     private static void havn1_ArrivedToHarbour(object? sender, ArrivedToHarbourArgs e)
