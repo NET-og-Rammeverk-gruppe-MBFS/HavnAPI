@@ -11,8 +11,8 @@ class Historikk_test
         Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4);
         Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 50, 5);
-        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, 80, 10);
+        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 1, 50);
+        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, 5, 50);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
         shipPlaces.Add(kaiplass1);
