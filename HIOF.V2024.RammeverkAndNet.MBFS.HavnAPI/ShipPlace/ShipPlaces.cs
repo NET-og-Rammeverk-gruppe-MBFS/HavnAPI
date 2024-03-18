@@ -1,5 +1,7 @@
 using System;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+
+using System.Collections.ObjectModel;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
     public abstract class ShipPlaces
     {
@@ -7,8 +9,8 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         public int Id { get; }
         public string Name { get; private set; }
         public int Spaces { get; set; }
-        internal List<Ship> Ships { get; }
-        internal List<Ship> Finished { get; }
+        internal Collection<Ship> Ships { get; }
+        internal Collection<Ship> Finished { get; }
 
     /// <summary>
     /// Konstruktøren for ShipPlaces
@@ -31,8 +33,8 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
             Name = ShipName;
             Spaces = ShipSpaces;
-            Ships = new List<Ship>();
-            Finished = new List<Ship>();
+            Ships = new Collection<Ship>();
+            Finished = new Collection<Ship>();
             Id = Interlocked.Increment(ref Next);
         }
 
@@ -72,10 +74,10 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         /// Det fjerner alle shipene som har repeterende seilinger fra lista. Det blir brukt i simulasjonen.
         /// </summary>
         /// <returns></returns>
-        internal List<Ship> ReturnRepeatingShips()
+        internal Collection<Ship> ReturnRepeatingShips()
         {
-            List<Ship> OldShips = new List<Ship>();
-            foreach (Ship ship in new List<Ship>(Ships))
+            Collection<Ship> OldShips = new Collection<Ship>();
+            foreach (Ship ship in new Collection<Ship>(Ships))
             {
                 if (ship.Repeat is true)
                 {
@@ -91,10 +93,17 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
         /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
         /// </summary>
         /// <returns></returns>
-        internal virtual List<Ship> ReturnAllShips()
+        internal virtual Collection<Ship> ReturnAllShips()
         {
-            List<Ship> OldShips = new List<Ship>(Ships);
-            OldShips.AddRange(Finished);
+            Collection<Ship> OldShips = new Collection<Ship>(Ships);
+            foreach (var ship in Ships)
+            {
+                OldShips.Add(ship);
+            }
+            foreach (var finishedShip in Finished)
+            {
+                OldShips.Add(finishedShip);
+            }
             Ships.Clear();
             Finished.Clear();
             return OldShips;

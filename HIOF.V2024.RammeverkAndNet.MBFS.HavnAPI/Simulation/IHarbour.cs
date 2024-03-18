@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
@@ -14,11 +15,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation
 
         public void AddShipPlace(ShipPlaces shipPlace);
 
-        public void AddAllShipPlaces(List<ShipPlaces> shipPlaces);
+        public void AddAllShipPlaces(Collection<ShipPlaces> shipPlaces);
 
         public void AddShip(Ship ship);
 
-        public void AddAllShips(List<Ship> Allships);
+        public void AddAllShips(Collection<Ship> Allships);
     }
 }
 

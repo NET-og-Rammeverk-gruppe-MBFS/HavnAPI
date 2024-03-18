@@ -1,6 +1,7 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 using System;
+using System.Collections.ObjectModel;
 
 public class Ship
 {
@@ -13,7 +14,7 @@ public class Ship
     public int AmountContainers { get; private set; }
 
     internal Queue<Container> containers { get; private set; }
-    internal List<HistoryService> histories { get; private set; }
+    internal Collection<HistoryService> histories { get; private set; }
 
 
     /// <summary>
@@ -50,7 +51,7 @@ public class Ship
         ArrivalTime = arrivalTime;
         Repeat = repeat;
         containers = new Queue<Container>();
-        histories = new List<HistoryService>();
+        histories = new Collection<HistoryService>();
         AmountContainers = ammountOfContainers;
 
         

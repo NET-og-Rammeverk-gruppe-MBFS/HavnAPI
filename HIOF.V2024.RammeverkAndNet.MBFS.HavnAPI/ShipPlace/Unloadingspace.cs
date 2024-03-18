@@ -1,4 +1,6 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+
+using System.Collections.ObjectModel;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
@@ -28,7 +30,7 @@ public class Unloadingspace : ShipPlaces
         DateTime start = currentDateTime;
         var totalUnloadTime = 0;
         int TrucksDispatched = 0;
-        foreach (var ship in new List<Ship>(Ships))
+        foreach (var ship in new Collection<Ship>(Ships))
         {
             int ContainersToUnload = ship.containers.Count;
             int truckContainers = (int)(ContainersToUnload * TruckPickupPercentage / 100);

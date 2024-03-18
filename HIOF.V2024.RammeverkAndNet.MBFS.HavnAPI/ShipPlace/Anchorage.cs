@@ -1,4 +1,6 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+
+using System.Collections.ObjectModel;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 
@@ -28,10 +30,17 @@ internal class Anchorage : ShipPlaces
         ShipQueue.Enqueue(ship);
     }
 
-    internal override List<Ship> ReturnAllShips()
+    internal override Collection<Ship> ReturnAllShips()
     {
-        List<Ship> OldShips = new List<Ship>(Ships);
-        OldShips.AddRange(ShipQueue);
+        Collection<Ship> OldShips = new Collection<Ship>(Ships);
+        foreach (var ship in Ships)
+        {
+            OldShips.Add(ship);
+        }
+        foreach (var shipInQueue in ShipQueue)
+        {
+            OldShips.Add(shipInQueue);
+        }
         Ships.Clear();
         ShipQueue.Clear();
         return OldShips;
