@@ -10,6 +10,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 {
     internal class ContainerSpace
     {
-        
+        internal Collection<StorageColumn> StorageColumns;
     }
 }
