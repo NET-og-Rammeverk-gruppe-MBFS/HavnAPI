@@ -1,5 +1,6 @@
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using System.Collections.ObjectModel;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
 public class Harbour : IHarbour
 {
@@ -257,4 +258,14 @@ public class Harbour : IHarbour
 			AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.Ships.First());
 		}
 		}
+
+    public void AddAllShipPlaces(Collection<ShipPlaces> shipPlaces)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void AddAllShips(Collection<Ship> Allships)
+    {
+        throw new System.NotImplementedException();
+    }
 }

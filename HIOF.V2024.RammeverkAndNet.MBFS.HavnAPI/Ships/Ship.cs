@@ -12,7 +12,7 @@ public class Ship
     public DateTime ArrivalTime { get; set; }
     internal bool Repeat { get; set; }
     public int AmountContainers { get; private set; }
-    private Status status {get; private set; }
+    public Status status {get; private set; }
 
     internal Queue<Container> containers { get; private set; }
     internal Collection<HistoryService> histories { get; private set; }
