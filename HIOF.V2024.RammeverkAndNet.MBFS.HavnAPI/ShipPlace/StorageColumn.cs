@@ -12,9 +12,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
     public class StorageColumn
     {
         internal Collection<Column> Columns { get; private set; }
+        public int NumberOfCranes { get; private set; }
 
-        public StorageColumn(int numberOfColumns, int width, int height)
+        public StorageColumn(int numberOfCranes,int numberOfColumns, int width, int height)
         {
+            NumberOfCranes = numberOfCranes;
             Columns = new Collection<Column>();
             for (int i = 0; i < numberOfColumns; i++) 
             {
