@@ -2,6 +2,7 @@ using System;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 
 using System.Collections.ObjectModel;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
 
@@ -22,9 +23,10 @@ public abstract class ShipPlaces
     /// </summary>
     /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
     /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
+	/// <param name="type">Type av skipet</param>
     /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
     /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
-    public ShipPlaces(string ShipName, int ShipSpaces)
+    public ShipPlaces(string ShipName, int ShipSpaces, ShipType type)
 	{
 		if (string.IsNullOrWhiteSpace(ShipName))
 		{
@@ -38,6 +40,7 @@ public abstract class ShipPlaces
 
 		Name = ShipName;
 		Spaces = ShipSpaces;
+		Type = type;
 		Ships = new List<Ship>();
 		Finished = new List<Ship>();
 		Id = Interlocked.Increment(ref Next);

@@ -1,4 +1,6 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
+
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 using System;
 using System.Collections.ObjectModel;
@@ -28,9 +30,13 @@ public class Ship
     /// <param name="placedestination">destiniasjonen til shipet</param>
     /// <param name="arrivalTime">ankomst tid for shipet</param>
     /// <param name="repeat"> verdi som vi setter inn om turen skal gjenta seg</param>
+    /// <param name="amountOfLongContainers">antall lange containere</param>
+    /// <param name="amountOfShortContainers">antall korte containere</param>
+    /// <param name="type">type skip</param>
     /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
     /// <exception cref="InvalidPlaceDestinationException">Kastes hvis PlaceDestination er tom.</exception>
     /// <exception cref="InvalidAmountOfContainersException">Kastes hvis AmountContainers er mindre enn 0.</exception>"
+    /// <exception cref="InvalidShipTypeDestinationException">Kastes hvis ShipType er forskjellig fra PlaceDestination.Type.</exception>""
     public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType type)
     {
         if (string.IsNullOrEmpty(shipname))
@@ -46,6 +52,11 @@ public class Ship
         if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+        }
+
+        if (placedestination.Type != ShipType.all && type != placedestination.Type)
+        {
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
 
         Id = Interlocked.Increment(ref Next);
@@ -64,7 +75,7 @@ public class Ship
     /// <summary>
     /// Legger til containere i skipet basert på antall lange og korte containers
     /// </summary>
-    internal void MakeContainers (ContainerType containerType)
+    internal void MakeContainers ()
     {
         containers.Clear();
         for (int i = 0; i < AmountLongContainers; i++)

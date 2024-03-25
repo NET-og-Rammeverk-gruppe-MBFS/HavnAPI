@@ -1,13 +1,14 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 
 using System.Collections.ObjectModel;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 
 internal class Anchorage : ShipPlaces
 {
     internal Queue<Ship> ShipQueue { get; }
-    public Anchorage(string Name, int Spaces, ShipType Type) : base(Name, Spaces)
+    public Anchorage(string Name, int Spaces, ShipType Type) : base(Name, Spaces, Type)
     {
         ShipQueue = new Queue<Ship>();
     }

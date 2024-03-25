@@ -2,6 +2,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 
 using System;
 using System.Collections.ObjectModel;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
@@ -11,7 +12,7 @@ public class Unloadingspace : ShipPlaces
 
     internal ContainerSpace TargetContainerSpace { get; set; }
 
-    public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces)
+    public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces, Type)
     {
         if (cranes < Spaces)
         {
@@ -24,9 +25,10 @@ public class Unloadingspace : ShipPlaces
     }
 
     /// <summary>
-    /// Metoden legger til en container i losseplassen fra shipene som er i Ship listen, og fjerne containers fra plassene basert på emptyFrequency
+    /// Metoden laster av containere fra skipene som er i havnen til lastebiler og AGVer
     /// <summary>
     /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
+    /// <param name="end"> Tiden som simulasjonen skal stoppe</param>
     internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
         Random random = new Random();
@@ -83,6 +85,7 @@ public class Unloadingspace : ShipPlaces
             }
         }
         return totalUnloadTime;
+
     }
 
     internal override void AddShip(Ship ship)
