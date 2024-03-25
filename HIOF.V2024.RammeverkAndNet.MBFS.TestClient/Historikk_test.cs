@@ -6,13 +6,16 @@ class Historikk_test
 {
     static void Main(string[] args)
     {
-        // Lag 3 kaiplasser (dockspace), 2 ankerplasser (anchorage), og 2 losseplasser (unloadingspace).
-        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2);
-        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4);
-        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6);
+        ContainerSpace ContainerZone1 = new ContainerSpace(20, 4, 0.10);
+        ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
+        ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
+        
+        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, HavnAPI.ShipType.passenger);
+        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, HavnAPI.ShipType.passenger);
+        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, HavnAPI.ShipType.passenger);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, 50, 5);
-        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, 80, 10);
+        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, HavnAPI.ShipType.cargo,1, 0.5, ContainerZone1);
+        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5,HavnAPI.ShipType.cargo, 5, 0.5, ContainerZone1);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
         shipPlaces.Add(kaiplass1);
@@ -21,12 +24,12 @@ class Historikk_test
         shipPlaces.Add(losseplass1);
         shipPlaces.Add(losseplass2);
 
-        // Lag bestemt antall skip objekter og knytt de til kaiplasser og losseplasser du lagde tidligere.
-        Ship ship1 = new Ship("kaiplass1", kaiplass1, DateTime.Now, false, 0);
-        Ship ship2 = new Ship("kaiplass2", kaiplass2, DateTime.Now, false, 0);
-        Ship ship3 = new Ship("kaiplass3", losseplass2, DateTime.Now, true, 15);
-        Ship ship4 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 20);
-        Ship ship5 = new Ship("losseplass1", losseplass1, DateTime.Now, false, 40);
+        
+        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, false, 0, 0, HavnAPI.ShipType.passenger);
+        Ship ship2 = new Ship("Fred", kaiplass2, DateTime.Now, false, 0, 0, HavnAPI.ShipType.passenger);
+        Ship ship3 = new Ship("Ibrahim", losseplass2, DateTime.Now, false, 10, 10, HavnAPI.ShipType.cargo);
+        Ship ship4 = new Ship("Magnus", losseplass1, DateTime.Now, false, 20, 0, HavnAPI.ShipType.cargo);
+        Ship ship5 = new Ship("Colorline", losseplass1, DateTime.Now, false, 30, 10, HavnAPI.ShipType.cargo);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);
@@ -35,7 +38,7 @@ class Historikk_test
         ships.Add(ship4);
         ships.Add(ship5);
 
-        // Lag en havn og legg til skipene og plassene du lagde tidligere.
+       
         Harbour havn1 = new Harbour(ships, shipPlaces, "havn1", 50);
 
 
@@ -46,9 +49,9 @@ class Historikk_test
         havn1.ReachedDestination += havn1_ReachedDestination;
         havn1.ShipSailing += havn1_ShipSailing;
 
-        havn1.Run(DateTime.Now, DateTime.Now.AddDays(3));
+        havn1.Run(DateTime.Now, DateTime.Now.AddDays(5));
 
-        // Kjør run metoden til havn objektet, og hent ut all historikk etter slutten av simulasjonen.
+       
         Console.WriteLine("Results:");
         Console.WriteLine(" ");
         Console.WriteLine("Ship:");
@@ -66,7 +69,7 @@ class Historikk_test
 
     private static void havn1_ArrivedToHarbour(object? sender, ArrivedToHarbourArgs e)
     {
-        Console.WriteLine(e.ship.ShipName+" har nådd havnen med "+e.ship.AmountContainers+" containere");
+        Console.WriteLine(e.ship.ShipName+" har nådd havnen med "+e.ship.TotalContainers+" containere");
     }
 
     private static void havn1_DepartingAnchorage(object? sender, DepartingAnchorageArgs e)

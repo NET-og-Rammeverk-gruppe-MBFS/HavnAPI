@@ -1,15 +1,19 @@
-﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
+﻿using System.Collections.ObjectModel;
+
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Container
 {
 	private static int Next = 0;
 	public int ID { get; }
-	public List<HistoryService> Histories { get; private set; }
+	public Collection<HistoryService> Histories { get; private set; }
+	public ContainerType Type { get; private set; }
 
-	public Container()
+	public Container(ContainerType type)
 	{
 		ID = Interlocked.Increment(ref Next);
-            Histories = new List<HistoryService>();
-        }
+		Histories = new Collection<HistoryService>();
+		Type = type;
+		}
 }
 

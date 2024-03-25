@@ -1,72 +1,93 @@
-using System.Runtime.ExceptionServices;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+
+using System;
+using System.Collections.ObjectModel;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
 {
-    private int containerSpace { get; set; }
-    private int RemoveFrequency { get; set; }
-    private Queue<Container> TempContainers { get; }
-    internal List<Container> containerSaved { get; }
+    private int Cranes { get; set; }
+    public double TruckPickupPercentage { get; set; }
+    internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
+    internal ContainerSpace TargetContainerSpace { get; set; }
 
-    public Unloadingspace(string Name, int Spaces, int containerSpaces, int emptyFrequency) : base(Name, Spaces)
+    public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces, Type)
     {
-        containerSaved = new List<Container>();
-        TempContainers = new Queue<Container>();
-        containerSpace = containerSpaces;
-        RemoveFrequency = emptyFrequency;
+        if (cranes < Spaces)
+        {
+            throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
+        }
 
+        Cranes = cranes;
+        TruckPickupPercentage = truckPickupPercentage;
+        TargetContainerSpace = targetContainerSpace;
     }
 
     /// <summary>
-    /// Metoden legger til en container i losseplassen fra shipene som er i Ship listen, og fjerne containers fra plassene basert på emptyFrequency
+    /// Metoden laster av containere fra skipene som er i havnen til lastebiler og AGVer
     /// <summary>
     /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
+    /// <param name="end"> Tiden som simulasjonen skal stoppe</param>
     internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
+        Random random = new Random();
         DateTime start = currentDateTime;
-        var timer = 0;
-        var timerRemoval = 0;
+        var totalUnloadTime = 0;
+        int TrucksDispatched = 0;
         foreach (var ship in new List<Ship>(Ships))
         {
-            foreach (var Thecontainer in new Queue<Container>(ship.containers))
-            {
-                if (containerSpace != 0)
-                {
-                    timer += 5;
-                    timerRemoval += 5;
-                    start = start.AddMinutes(5);
-                    Container container = ship.MoveContainer();
-                    container.Histories.Add(new HistoryService(Name, start));
-                    TempContainers.Enqueue(container);
-                    if (TempContainers.Count > 0 && RemoveFrequency >= timerRemoval)
-                    {
-                        for (int i = 0; i < RemoveFrequency / timerRemoval; i++)
-                        {
-                            if(TempContainers.Count != 0)
-                            {
-                                containerSaved.Add(TempContainers.Dequeue());
-                            }
-                        }
-                        timerRemoval = 0;
-                    }
-                    else
-                    {
-                        throw new InvalidFrequencyException("EmptyFrequency is slow");
-                    }
+            int ContainersToUnload = ship.containers.Count;
+            int truckContainers = (int)(ContainersToUnload * TruckPickupPercentage / 100);
+            int agvContainers = ContainersToUnload - truckContainers;
 
-                    if (start >= end)
-                        break; 
+            while (ship.containers.Count > 0 && start < end)
+            {
+                int TimePerContainer = Math.Max(1, 5 / Cranes);
+                totalUnloadTime += TimePerContainer;
+                start = start.AddMinutes(TimePerContainer);
+
+                Container container = ship.MoveContainer();
+                container.Histories.Add(new HistoryService("Container " + container.ID, start, Name));
+                ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name));
+
+                if (truckContainers > 0)
+                {
+                    TrucksDispatched++;
+                    truckContainers--;
                 }
+                else if (agvContainers > 0)
+                {
+                    AGV agv = TargetContainerSpace.AGVs.FirstOrDefault(a => a.status == Status.Available);
+                    if (agv != null)
+                    {
+                        agv.container = container;
+                        agv.status = Status.Busy;
+
+                        start = start.AddMinutes(1);
+
+                        StorageColumn storageColumn = TargetContainerSpace.StorageColumns[random.Next(TargetContainerSpace.StorageColumns.Count)];
+                        Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
+
+                        column.AddContainer(agv.container);
+                        container.Histories.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
+                        ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
+                        agv.container = null;
+                        agv.status = Status.Available;
+
+                    }
+                    agvContainers--;
+                }
+                ContainersToUnload--;
             }
-            if(ship.Repeat == false)
+            if (ship.Repeat == false)
             {
                 Finished.Add(ship);
                 Ships.Remove(ship);
             }
-
         }
-        return timer;
+        return totalUnloadTime;
+
     }
 
     internal override void AddShip(Ship ship)

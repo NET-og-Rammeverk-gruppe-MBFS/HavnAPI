@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
 {
     /// <summary>
-    /// Kaster et unntak når antall containere er 0 eller mindre
+    /// Kaster et unntak når destinasjonen sin shipstype er ugyldig
     /// </summary>
-    public class InvalidAmountOfContainersException : ArgumentOutOfRangeException
+    internal class InvalidShipTypeDestinationException : Exception
     {
-        public InvalidAmountOfContainersException(string message) : base(message)
+        public InvalidShipTypeDestinationException(string message) : base(message)
         {
         }
     }
