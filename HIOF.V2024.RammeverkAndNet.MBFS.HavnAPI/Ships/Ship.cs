@@ -11,8 +11,10 @@ public class Ship
     public ShipPlaces PlaceDestination { get; }
     public DateTime ArrivalTime { get; set; }
     internal bool Repeat { get; set; }
-    public int AmountContainers { get; private set; }
     public Status status {get; private set; }
+    public int AmountLongContainers { get; private set; }
+    public int AmountShortContainers { get; private set; }
+    public ShipType Type { get; private set; }
 
     internal Queue<Container> containers { get; private set; }
     internal Collection<HistoryService> histories { get; private set; }
@@ -29,7 +31,7 @@ public class Ship
     /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
     /// <exception cref="InvalidPlaceDestinationException">Kastes hvis PlaceDestination er tom.</exception>
     /// <exception cref="InvalidAmountOfContainersException">Kastes hvis AmountContainers er mindre enn 0.</exception>"
-    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int ammountOfContainers)
+    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType type)
     {
         if (string.IsNullOrEmpty(shipname))
         {
@@ -41,9 +43,9 @@ public class Ship
             throw new InvalidDestinationException("ShipDestination cannot be null");
         }
 
-        if (ammountOfContainers < 0)
+        if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
-            throw new InvalidAmountOfContainersException("AmountContainers must be greater than or equal to 0");
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
 
         Id = Interlocked.Increment(ref Next);
@@ -53,21 +55,25 @@ public class Ship
         Repeat = repeat;
         containers = new Queue<Container>();
         histories = new Collection<HistoryService>();
-        AmountContainers = ammountOfContainers;
-
+        AmountLongContainers = amountOfLongContainers;
+        AmountShortContainers = amountOfShortContainers;
+        Type = type;
         
     }
 
     /// <summary>
-    /// Legger til en container til skipet
+    /// Legger til containere i skipet basert på antall lange og korte containers
     /// </summary>
-    /// <param name="container"></param>
-    internal void MakeContainers ()
+    internal void MakeContainers (ContainerType containerType)
     {
         containers.Clear();
-        for (int i = 0; i < AmountContainers; i++)
+        for (int i = 0; i < AmountLongContainers; i++)
         {
-            containers.Enqueue(new Container());
+            containers.Enqueue(new Container(ContainerType.LONG));
+        }
+        for (int i = 0; i < AmountShortContainers; i++)
+        {
+            containers.Enqueue(new Container(ContainerType.SHORT));
         }
 
     }

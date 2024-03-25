@@ -30,9 +30,9 @@ internal class Anchorage : ShipPlaces
         ShipQueue.Enqueue(ship);
     }
 
-    internal override Collection<Ship> ReturnAllShips()
+    internal override List<Ship> ReturnAllShips()
     {
-        Collection<Ship> OldShips = new Collection<Ship>(Ships);
+        List<Ship> OldShips = new List<Ship>(Ships);
         foreach (var ship in Ships)
         {
             OldShips.Add(ship);

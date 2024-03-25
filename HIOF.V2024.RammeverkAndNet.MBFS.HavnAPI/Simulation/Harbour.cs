@@ -119,7 +119,7 @@ public class Harbour : IHarbour
                 foreach (Ship ship in new List<Ship>(ShipsList))
 				{
                     //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
-                    ship.MakeContainers();
+                    ship.MakeContainers(ContainerType);
 
 					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)

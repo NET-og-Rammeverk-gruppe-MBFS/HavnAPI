@@ -1,24 +1,26 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
 
+using System;
 using System.Collections.ObjectModel;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
-    internal List<Container> containerSaved { get; }
     public double TruckPickupPercentage { get; set; }
 
-    public Unloadingspace(string Name, int Spaces, int cranes, double truckPickupPercentage) : base(Name, Spaces)
+    internal ContainerSpace TargetContainerSpace { get; set; }
+
+    public Unloadingspace(string Name, int Spaces, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces)
     {
         if (cranes < Spaces)
         {
             throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
         }
 
-        containerSaved = new List<Container>();
         Cranes = cranes;
         TruckPickupPercentage = truckPickupPercentage;
+        TargetContainerSpace = targetContainerSpace;
     }
 
     /// <summary>
@@ -27,6 +29,7 @@ public class Unloadingspace : ShipPlaces
     /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
     internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
+        Random random = new Random();
         DateTime start = currentDateTime;
         var totalUnloadTime = 0;
         int TrucksDispatched = 0;
@@ -52,7 +55,22 @@ public class Unloadingspace : ShipPlaces
                 }
                 else if (agvContainers > 0)
                 {
-                    //mangler logikk for AGV og containerplass
+                    AGV agv = TargetContainerSpace.AGVs.FirstOrDefault(a => a.status == Status.Available);
+                    if (agv != null)
+                    {
+                        agv.container = container;
+                        agv.status = Status.Busy;
+
+                        StorageColumn storageColumn = TargetContainerSpace.StorageColumns[random.Next(TargetContainerSpace.StorageColumns.Count)];
+                        Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
+
+                        //Mangler metode for å legge til container til AGV
+
+                        agv.container = null;
+                        agv.status = Status.Available;
+
+                    }
+                    agvContainers--;
                 }
                 ContainersToUnload--;
             }

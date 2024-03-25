@@ -7,12 +7,13 @@ public class Container
 	private static int Next = 0;
 	public int ID { get; }
 	public Collection<HistoryService> Histories { get; private set; }
-	internal ContainerType Type;
+	public ContainerType Type { get; private set; }
 
-	public Container()
+	public Container(ContainerType type)
 	{
 		ID = Interlocked.Increment(ref Next);
-            Histories = new Collection<HistoryService>();
-        }
+		Histories = new Collection<HistoryService>();
+		Type = type;
+		}
 }
 

@@ -8,20 +8,29 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 {
-    internal class ContainerSpace
+    public class ContainerSpace
     {
         internal Collection<StorageColumn> StorageColumns { get; private set; }
-        public int NumberOfAGVs { get; private set; }
+        public Collection<AGV> AGVs { get; private set; }
 
         public ContainerSpace(int numberOfAGVs)
         {
-            NumberOfAGVs = numberOfAGVs;
+            AGVs = new Collection<AGV>();
             StorageColumns = new Collection<StorageColumn>();
+
+            for (int i = 0; i < numberOfAGVs; i++)
+            {
+                AGVs.Add(new AGV());
+            }
         }
 
-        public void AddStorageColumn(StorageColumn storageColumn)
+        public void AddStorageColumn(int amount, int numberOfCranes, int length, int width, int height)
         {
-            StorageColumns.Add(storageColumn);
+            for (int id = 1; id <= amount; id++)
+            {
+                StorageColumn newColumn = new StorageColumn(numberOfCranes, id, width, height);
+                StorageColumns.Add(newColumn);
+            }
         }
     }
 }

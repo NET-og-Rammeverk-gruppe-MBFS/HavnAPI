@@ -13,13 +13,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         internal Collection<Stack<Container>> StackedContainers;
         public int AmountContainer {get; private set; }
         internal int MaxContainers;
-        internal int MaxHeigth;
+        internal int MaxHeight;
         internal ContainerType Type = ContainerType.NONE;
 
         internal Column(int width, int height)
         {
             MaxContainers = width*height;
-            MaxHeigth = height;
+            MaxHeight = height;
             StackedContainers = new Collection<Stack<Container>>();
         }
 
@@ -30,7 +30,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 
             foreach (Stack<Container> stack in StackedContainers)
             {
-                if(stack.Count < MaxHeigth){
+                if(stack.Count < MaxHeight){
                     stack.Push(container);
                     break;
                 }
@@ -39,17 +39,17 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 
         internal void InitializeContainerType(Container container)
         {
-            if (container.Type == ContainerType.FULL)
+            if (container.Type == ContainerType.LONG)
             {
-                for (int i = 0; i < MaxContainers/MaxHeigth; i++)
+                for (int i = 0; i < MaxContainers/MaxHeight; i++)
                 {
                     StackedContainers.Add(new Stack<Container>());
                 }
             }
-            else if (container.Type == ContainerType.FULL)
+            else if (container.Type == ContainerType.LONG)
             {
                 MaxContainers = MaxContainers*2;
-                for (int i = 0; i < (MaxContainers/MaxHeigth)*2; i++)
+                for (int i = 0; i < (MaxContainers/MaxHeight)*2; i++)
                 {
                     StackedContainers.Add(new Stack<Container>());
                 }
