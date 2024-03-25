@@ -110,7 +110,7 @@ public class Harbour : IHarbour
 		DateTime currentTime = start;
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-		while (currentTime < end && ShipsList.Count != 0)
+		while (currentTime < end && (ShipsList.Count + AnchorageHarbour.Ships.Count + AnchorageHarbour.ShipQueue.Count) != 0)
 		{
 			//Begge for-loops under går gjennom alle ship og plassene
 			foreach (ShipPlaces ShipPlace in ShipPlacesList)
@@ -118,12 +118,11 @@ public class Harbour : IHarbour
                 MoveShipFromAnchorage(ShipPlace, currentTime);
                 foreach (Ship ship in new List<Ship>(ShipsList))
 				{
-                    //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
-                    ship.MakeContainers();
-
-					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
+					//Her så vil de se om destienasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)
 					{
+						//Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
+                    	ship.MakeContainers();
                         RaiseArrivedToHarbour(ship);
                         RaiseShipSailing(ship);
                         //Det skjekker om det er ledig plass i plasssen fra for loop-en
