@@ -9,7 +9,7 @@ public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
     public double TruckPickupPercentage { get; set; }
-    internal Collection<HistoryService> ContainerHistory;
+    internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
     internal ContainerSpace TargetContainerSpace { get; set; }
 
     public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces, Type)
@@ -35,7 +35,7 @@ public class Unloadingspace : ShipPlaces
         DateTime start = currentDateTime;
         var totalUnloadTime = 0;
         int TrucksDispatched = 0;
-        foreach (var ship in new Collection<Ship>(Ships))
+        foreach (var ship in new List<Ship>(Ships))
         {
             int ContainersToUnload = ship.containers.Count;
             int truckContainers = (int)(ContainersToUnload * TruckPickupPercentage / 100);
@@ -48,8 +48,8 @@ public class Unloadingspace : ShipPlaces
                 start = start.AddMinutes(TimePerContainer);
 
                 Container container = ship.MoveContainer();
-                container.Histories.Add(new HistoryService(Name, start));
-                ContainerHistory.Add(new HistoryService(Name, start));
+                container.Histories.Add(new HistoryService("Container " + container.ID, start, Name));
+                ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name));
 
                 if (truckContainers > 0)
                 {
@@ -70,8 +70,8 @@ public class Unloadingspace : ShipPlaces
                         Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
 
                         column.AddContainer(agv.container);
-                        container.Histories.Add(new HistoryService(Name+" StorageColumn", start));
-                        ContainerHistory.Add(new HistoryService(Name+" StorageColumn", start));
+                        container.Histories.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
+                        ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
                         agv.container = null;
                         agv.status = Status.Available;
 
