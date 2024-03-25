@@ -11,6 +11,7 @@ public abstract class ShipPlaces
 	public int Id { get; }
 	public string Name { get; private set; }
 	public int Spaces { get; set; }
+	public ShipType Type { get; set; }
 	internal List<Ship> Ships { get; }
 	internal List<Ship> Finished { get; }
 

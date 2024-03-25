@@ -9,8 +9,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 {
     public class AGV
     {
-        internal Container container;
-        internal Status status;
+        internal Container container { get; set; }
+        internal Status status { get; set; }
 
         internal AGV ()
         {

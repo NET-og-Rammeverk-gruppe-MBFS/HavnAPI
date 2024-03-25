@@ -10,6 +10,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 {
     public class ContainerSpace
     {
+        public string Name { get; private set; }
         internal Collection<StorageColumn> StorageColumns { get; private set; }
         public Collection<AGV> AGVs { get; private set; }
 

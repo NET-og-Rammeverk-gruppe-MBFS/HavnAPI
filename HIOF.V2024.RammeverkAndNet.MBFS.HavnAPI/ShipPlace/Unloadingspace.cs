@@ -11,7 +11,7 @@ public class Unloadingspace : ShipPlaces
 
     internal ContainerSpace TargetContainerSpace { get; set; }
 
-    public Unloadingspace(string Name, int Spaces, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces)
+    public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces)
     {
         if (cranes < Spaces)
         {
@@ -61,10 +61,12 @@ public class Unloadingspace : ShipPlaces
                         agv.container = container;
                         agv.status = Status.Busy;
 
+                        start = start.AddMinutes(1);
+
                         StorageColumn storageColumn = TargetContainerSpace.StorageColumns[random.Next(TargetContainerSpace.StorageColumns.Count)];
                         Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
 
-                        //Mangler metode for å legge til container til AGV
+                        column.AddContainer(agv.container);
 
                         agv.container = null;
                         agv.status = Status.Available;
@@ -79,7 +81,6 @@ public class Unloadingspace : ShipPlaces
                 Finished.Add(ship);
                 Ships.Remove(ship);
             }
-
         }
         return totalUnloadTime;
     }
