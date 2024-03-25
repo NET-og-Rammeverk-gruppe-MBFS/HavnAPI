@@ -43,7 +43,7 @@ public class Harbour : IHarbour
 		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage);
+		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
 	}
 
 	public Harbour(String name, int SpacesInAnchorage)
@@ -53,7 +53,7 @@ public class Harbour : IHarbour
 		ShipPlacesList = new List<ShipPlaces>();
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage);
+		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
 	}
 
 
@@ -119,7 +119,7 @@ public class Harbour : IHarbour
                 foreach (Ship ship in new List<Ship>(ShipsList))
 				{
                     //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
-                    ship.MakeContainers(ContainerType);
+                    ship.MakeContainers();
 
 					//Her så vil de se om destinasjonen til skipet og plassen som den itererer
 					if (ship.PlaceDestination.Id == ShipPlace.Id)
