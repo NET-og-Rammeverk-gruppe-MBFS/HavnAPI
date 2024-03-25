@@ -66,6 +66,21 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         Type = container.Type;
         }
 
+        internal bool IsContainerLongOverdue(DateTime current, int days)
+        {
+            foreach (Stack<Container> stack in StackedContainers)
+            {
+                foreach (Container container in stack)
+                {
+                    if ((current - container.Histories.Last().Time).TotalDays >= 1-days)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         internal Container RemoveContainer(DateTime current, int days)
         {
             foreach (Stack<Container> stack in StackedContainers)
