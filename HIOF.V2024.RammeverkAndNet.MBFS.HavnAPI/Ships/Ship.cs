@@ -16,6 +16,7 @@ public class Ship
     public Status status {get; private set; }
     public int AmountLongContainers { get; private set; }
     public int AmountShortContainers { get; private set; }
+    public int TotalContainers { get; private set; }
     public ShipType Type { get; private set; }
 
     internal Queue<Container> containers { get; private set; }
@@ -68,6 +69,7 @@ public class Ship
         histories = new Collection<HistoryService>();
         AmountLongContainers = amountOfLongContainers;
         AmountShortContainers = amountOfShortContainers;
+        TotalContainers = amountOfLongContainers + amountOfShortContainers;
         Type = type;
         
     }

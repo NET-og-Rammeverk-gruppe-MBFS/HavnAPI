@@ -129,7 +129,7 @@ public class Harbour : IHarbour
                         //Det skjekker om det er ledig plass i plasssen fra for loop-en
                         if (ShipPlace.AvailableSpace)
 						{
-							ship.AddHistory(new HistoryService(ShipPlace.Name, currentTime.AddSeconds(60)));
+							ship.AddHistory(new HistoryService(ship.ShipName, currentTime.AddSeconds(60), ShipPlace.Name));
 							RaiseReachedDestination(ship);
 							ShipPlace.AddShip(MoveShip(ship));
 						}
@@ -230,14 +230,14 @@ public class Harbour : IHarbour
 		if (ship.PlaceDestination is Unloadingspace)
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(AnchorageHarbour.Name, CurrentDateTime));
+			ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, AnchorageHarbour.Name));
 			RaiseMovingToAnchorage(ship);
             AnchorageHarbour.AddShipToQueue(MoveShip(ship));
 		}
 		else if (ship.PlaceDestination is Dockspace)
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(ship.PlaceDestination.Name, CurrentDateTime));
+			ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, ship.PlaceDestination.Name));
             RaiseMovingToAnchorage(ship);
             AnchorageHarbour.AddShip(MoveShip(ship));
 		}
@@ -257,7 +257,7 @@ public class Harbour : IHarbour
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShipFromQueue metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-            AnchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
+            AnchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.Peek().ShipName, currentDateTime, shipPlaces.Name));
 			RaiseDepartingAnchorage(AnchorageHarbour.ShipQueue.Peek());
 			AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShipFromQueue());
 		}
@@ -268,7 +268,7 @@ public class Harbour : IHarbour
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShip metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-            AnchorageHarbour.Ships.First().AddHistory(new HistoryService(shipPlaces.Name, currentDateTime));
+            AnchorageHarbour.Ships.First().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.First().ShipName, currentDateTime, shipPlaces.Name));
 			RaiseDepartingAnchorage(AnchorageHarbour.Ships.First());
 			AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShip(AnchorageHarbour.Ships.First().Id));
 		}
