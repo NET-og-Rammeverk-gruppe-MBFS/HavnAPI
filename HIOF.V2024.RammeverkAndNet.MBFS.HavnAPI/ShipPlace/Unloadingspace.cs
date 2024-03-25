@@ -8,7 +8,7 @@ public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
     public double TruckPickupPercentage { get; set; }
-
+    internal Collection<HistoryService> ContainerHistory;
     internal ContainerSpace TargetContainerSpace { get; set; }
 
     public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces)
@@ -47,6 +47,7 @@ public class Unloadingspace : ShipPlaces
 
                 Container container = ship.MoveContainer();
                 container.Histories.Add(new HistoryService(Name, start));
+                ContainerHistory.Add(new HistoryService(Name, start));
 
                 if (truckContainers > 0)
                 {
@@ -67,7 +68,8 @@ public class Unloadingspace : ShipPlaces
                         Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
 
                         column.AddContainer(agv.container);
-
+                        container.Histories.Add(new HistoryService(Name+" StorageColumn", start));
+                        ContainerHistory.Add(new HistoryService(Name+" StorageColumn", start));
                         agv.container = null;
                         agv.status = Status.Available;
 

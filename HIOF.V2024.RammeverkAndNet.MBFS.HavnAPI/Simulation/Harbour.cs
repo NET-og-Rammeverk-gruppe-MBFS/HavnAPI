@@ -180,10 +180,7 @@ public class Harbour : IHarbour
 			ShipsList.AddRange(shipPlaces.ReturnAllShips());
 			if(shipPlaces is Unloadingspace)
 			{
-				foreach (Container container in ((Unloadingspace)shipPlaces).containerSaved)
-				{
-					ContainerHistory.AddRange(container.Histories);
-				}
+				ContainerHistory.AddRange(((Unloadingspace)shipPlaces).ContainerHistory);
 			}
 		}
 		foreach (Ship ship1 in ShipsList)
