@@ -10,6 +10,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 {
     internal class Column
     {
+        private readonly ContainerSpace containerSpace;
+
         internal Collection<Stack<Container>> StackedContainers;
         public int AmountContainer {get; private set; }
         internal int MaxContainers;
@@ -66,13 +68,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         Type = container.Type;
         }
 
-        internal bool IsContainerLongOverdue(DateTime current, int days)
+        internal bool IsContainerLongOverdue(DateTime current)
         {
             foreach (Stack<Container> stack in StackedContainers)
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= 1-days)
+                    if ((current - container.Histories.Last().Time).TotalDays >= containerSpace.DaysInStorageLimit - 1)
                     {
                         return true;
                     }
@@ -81,18 +83,35 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             return false;
         }
 
-        internal Container RemoveContainer(DateTime current, int days)
+        internal Container RetrieveOverdueContainer(DateTime current)
         {
             foreach (Stack<Container> stack in StackedContainers)
             {
-                foreach (Container container in stack)
+                var temporaryStack = new Stack<Container>();
+                Container overdueContainer = null;
+
+                while (stack.Any())
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= 1-days)
+                    Container container = stack.Pop();
+                    if (overdueContainer == null && (current - container.Histories.Last().Time).TotalDays >= containerSpace.DaysInStorageLimit - 1)
                     {
-                        return stack.Pop();
+                        overdueContainer = container;
+                        break;
+                    }
+                    else
+                    {
+                        temporaryStack.Push(container);
                     }
                 }
-                return stack.Pop();
+                while (temporaryStack.Any())
+                {
+                    stack.Push(temporaryStack.Pop());
+                }
+
+                if (overdueContainer != null)
+                {
+                    return overdueContainer;
+                }
             }
             return null;
         }

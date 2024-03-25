@@ -24,17 +24,5 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             }
 
         }
-        internal Container RetriveContainer(DateTime current, int days)
-        {
-            Random random = new Random();
-            foreach (Column column in Columns)
-            {
-                if(column.IsContainerLongOverdue(current, days))
-                {
-                    return column.RemoveContainer(current, days);
-                }
-            }
-            return Columns[random.Next(Columns.Count())].RemoveContainer(current, days);
-        }
     }
 }

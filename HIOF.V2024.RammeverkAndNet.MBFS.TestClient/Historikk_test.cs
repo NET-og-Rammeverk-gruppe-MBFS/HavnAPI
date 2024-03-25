@@ -6,7 +6,7 @@ class Historikk_test
 {
     static void Main(string[] args)
     {
-        ContainerSpace ContainerZone1 = new ContainerSpace(20);
+        ContainerSpace ContainerZone1 = new ContainerSpace(20, 4, 0.10);
         ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
         ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
         
@@ -49,7 +49,7 @@ class Historikk_test
         havn1.ReachedDestination += havn1_ReachedDestination;
         havn1.ShipSailing += havn1_ShipSailing;
 
-        havn1.Run(DateTime.Now, DateTime.Now.AddDays(2));
+        havn1.Run(DateTime.Now, DateTime.Now.AddDays(5));
 
        
         Console.WriteLine("Results:");
