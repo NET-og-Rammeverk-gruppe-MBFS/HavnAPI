@@ -23,6 +23,10 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             StackedContainers = new Collection<Stack<Container>>();
         }
 
+        /// <summary>
+        /// Legger til container i neste ledig plass og initialisere ContainerType for denne kolonnen da første container blir plassert
+        /// </summary>
+        /// <param name="container"></param>
         internal void AddContainer(Container container)
         {
             if(Type == ContainerType.NONE)
@@ -37,6 +41,10 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             }
         }
 
+        /// <summary>
+        /// Initialisere ContainerType i kolonnen basert på containerens ContainerType
+        /// </summary>
+        /// <param name="container"></param>
         internal void InitializeContainerType(Container container)
         {
             if (container.Type == ContainerType.LONG)
@@ -46,7 +54,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
                     StackedContainers.Add(new Stack<Container>());
                 }
             }
-            else if (container.Type == ContainerType.LONG)
+            else if (container.Type == ContainerType.SHORT)
             {
                 MaxContainers = MaxContainers*2;
                 for (int i = 0; i < (MaxContainers/MaxHeight)*2; i++)
@@ -56,6 +64,22 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             }
 
         Type = container.Type;
+        }
+
+        internal Container RemoveContainer(DateTime current, int days)
+        {
+            foreach (Stack<Container> stack in StackedContainers)
+            {
+                foreach (Container container in stack)
+                {
+                    if ((current - container.Histories.Last().Time).TotalDays >= 1-days)
+                    {
+                        return stack.Pop();
+                    }
+                }
+                return stack.Pop();
+            }
+            return null;
         }
     }
 }
