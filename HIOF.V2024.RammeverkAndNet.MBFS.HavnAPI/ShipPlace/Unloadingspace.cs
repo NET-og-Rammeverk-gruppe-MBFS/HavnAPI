@@ -8,7 +8,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
-    public double TruckPickupPercentage { get; set; }
+    internal double TruckPickupPercentage { get; set; }
     internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
     internal ContainerSpace TargetContainerSpace { get; set; }
 

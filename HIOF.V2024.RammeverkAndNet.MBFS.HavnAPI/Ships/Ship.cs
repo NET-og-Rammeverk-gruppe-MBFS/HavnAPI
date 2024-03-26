@@ -8,14 +8,14 @@ using System.Collections.ObjectModel;
 public class Ship
 {
     private static int Next = 0;
-    public int Id { get; }
+    public int Id { get; private set}
     public string ShipName { get; private set; }
-    public ShipPlaces PlaceDestination { get; }
-    public DateTime ArrivalTime { get; set; }
+    public ShipPlaces PlaceDestination { get; private set; }
+    public DateTime ArrivalTime { get; private set; }
     internal bool Repeat { get; set; }
     public Status status {get; private set; }
-    public int AmountLongContainers { get; private set; }
-    public int AmountShortContainers { get; private set; }
+    internal int AmountLongContainers { get; set; }
+    internal int AmountShortContainers { get; set; }
     public int TotalContainers { get; private set; }
     public ShipType Type { get; private set; }
 
