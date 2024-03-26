@@ -75,9 +75,9 @@ public class Unloadingspace : ShipPlaces
                         ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
                         agv.container = null;
                         agv.status = Status.Available;
-
+                        agvContainers--;
                     }
-                    agvContainers--;
+                    
                 }
                 ContainersToUnload--;
             }
@@ -88,7 +88,6 @@ public class Unloadingspace : ShipPlaces
             }
         }
         return totalUnloadTime;
-
     }
 
     internal override void AddShip(Ship ship)
