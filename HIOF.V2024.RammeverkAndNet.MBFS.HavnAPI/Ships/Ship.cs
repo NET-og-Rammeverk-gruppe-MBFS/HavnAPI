@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 public class Ship
 {
     private static int Next = 0;
-    public int Id { get; private set}
+    public int Id { get; private set;}
     public string ShipName { get; private set; }
     public ShipPlaces PlaceDestination { get; private set; }
     public DateTime ArrivalTime { get; private set; }
