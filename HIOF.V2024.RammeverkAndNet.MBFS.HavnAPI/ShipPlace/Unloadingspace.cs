@@ -25,10 +25,11 @@ public class Unloadingspace : ShipPlaces
     }
 
     /// <summary>
-    /// Metoden laster av containere fra skipene som er i havnen til lastebiler og AGVer
-    /// <summary>
-    /// <param name="currentDateTime"> Det blir brukt for å lagre tiden i historikken til en container objekt under simulasjonen</param>
-    /// <param name="end"> Tiden som simulasjonen skal stoppe</param>
+    /// Losser av containere fra skipene
+    /// </summary>
+    /// <param name="currentDateTime"></param>
+    /// <param name="end"></param>
+    /// <returns></returns>
     internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
         Random random = new Random();

@@ -68,6 +68,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         Type = container.Type;
         }
 
+        /// <summary>
+        /// Sjekker om en container skal fjernes fra kolonnen basert på hvor lenge den har vært lagret
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
         internal bool IsContainerLongOverdue(DateTime current)
         {
             foreach (Stack<Container> stack in StackedContainers)
@@ -83,6 +88,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             return false;
         }
 
+        /// <summary>
+        /// Fjerner container fra kolonnen basert på hvor lenge den har vært lagret
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
         internal Container RetrieveOverdueContainer(DateTime current)
         {
             foreach (Stack<Container> stack in StackedContainers)

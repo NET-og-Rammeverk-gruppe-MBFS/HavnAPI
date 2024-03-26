@@ -145,6 +145,13 @@ public class Harbour : IHarbour
                     if (currentTime.Hour == 0)
 					{
 						RaiseMidnightStatusUpdate(ship);
+						foreach (ShipPlaces shipPlaces in ShipPlacesList)
+						{
+                            if (shipPlaces is Unloadingspace)
+							{
+                                ((Unloadingspace)shipPlaces).ReturnRepeatingShips();
+                            }
+                        }	
 					}
                         
                 }

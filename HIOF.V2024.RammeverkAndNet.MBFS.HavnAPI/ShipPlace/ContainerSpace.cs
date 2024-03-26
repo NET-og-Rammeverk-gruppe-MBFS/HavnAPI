@@ -5,6 +5,7 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
@@ -29,6 +30,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             }
         }
 
+        /// <summary>
+        /// Legger til lagringskolonner og kolonner i hver lagringskolonne
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="numberOfCranes"></param>
+        /// <param name="length"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public void AddStorageColumn(int amount, int numberOfCranes, int length, int width, int height)
         {
             for (int id = 1; id <= amount; id++)
@@ -38,13 +47,16 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             }
         }
 
+        /// <summary>
+        /// Sjekker om det er noen containere som er lagret for lenge og fjerner dem fra lageret
+        /// </summary>
+        /// <param name="currentDate"></param>
         public void OverdueContainers(DateTime currentDate) 
         {
             List<Container> overdueContainers = new List<Container>();
-            //Må lage en logikk for tiden
+            int totalRemoveContainerTime = 0;
             int truckContainers = 0;
             int agvContainers = 0;
-            int trucksDispatched = 0;
             DateTime start = currentDate;
 
             foreach (var storageColumn in StorageColumns)
@@ -63,7 +75,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
 
             if (truckContainers > 0)
             {
-                start = start.AddSeconds(30);
                 truckContainers--;
             }
 
@@ -74,13 +85,15 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
                     if (agvContainers > 0 && agv.status == Status.Available)
                     {
                         agv.status = Status.Busy;
-                        start = start.AddMinutes(1);    
+                        start = start.AddMinutes(1);
                         
                         agv.status = Status.Available;
                         agvContainers--;
                     }
                 }
             }
+            start = start.AddMinutes(totalRemoveContainerTime);
+            
         }
     }
 }

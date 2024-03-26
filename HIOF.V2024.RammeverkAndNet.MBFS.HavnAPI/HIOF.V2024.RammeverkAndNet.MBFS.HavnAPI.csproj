@@ -5,6 +5,14 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI</Authors>
+    <PackageId>HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI</PackageId>
+    <Version>1.0.0</Version>
+    <Title>MBFS.HAVNAPI</Title>
+    <Company>HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI</Company>
+    <Product>HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>Rammeverk og .NET skoleprosjekt</Description>
   </PropertyGroup>
 
   <ItemGroup>

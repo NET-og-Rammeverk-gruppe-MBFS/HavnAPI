@@ -24,20 +24,19 @@ public class Ship
 
 
     /// <summary>
-    /// initlisere en ny instans av <see cref="Ship"/>- classe for � holde styr p� skipets informasjon.
+    /// Lager et skip objekt
     /// </summary>
-    /// <param name="id"> id for ship</param>
-    /// <param name="shipname"> navnet på shipet</param>
-    /// <param name="placedestination">destiniasjonen til shipet</param>
-    /// <param name="arrivalTime">ankomst tid for shipet</param>
-    /// <param name="repeat"> verdi som vi setter inn om turen skal gjenta seg</param>
-    /// <param name="amountOfLongContainers">antall lange containere</param>
-    /// <param name="amountOfShortContainers">antall korte containere</param>
-    /// <param name="type">type skip</param>
-    /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
-    /// <exception cref="InvalidPlaceDestinationException">Kastes hvis PlaceDestination er tom.</exception>
-    /// <exception cref="InvalidAmountOfContainersException">Kastes hvis AmountContainers er mindre enn 0.</exception>"
-    /// <exception cref="InvalidShipTypeDestinationException">Kastes hvis ShipType er forskjellig fra PlaceDestination.Type.</exception>""
+    /// <param name="shipname"></param>
+    /// <param name="placedestination"></param>
+    /// <param name="arrivalTime"></param>
+    /// <param name="repeat"></param>
+    /// <param name="amountOfLongContainers"></param>
+    /// <param name="amountOfShortContainers"></param>
+    /// <param name="type"></param>
+    /// <exception cref="InvalidNameException"></exception>
+    /// <exception cref="InvalidDestinationException"></exception>
+    /// <exception cref="InvalidAmountOfContainersException"></exception>
+    /// <exception cref="InvalidShipTypeDestinationException"></exception>
     public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType type)
     {
         if (string.IsNullOrEmpty(shipname))

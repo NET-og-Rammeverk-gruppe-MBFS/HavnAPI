@@ -19,13 +19,13 @@ public abstract class ShipPlaces
     public event EventHandler<DepartingHarbourArgs> DepartingHarbour;
 
     /// <summary>
-    /// Konstruktøren for ShipPlaces
-    /// </summary>
-    /// <param name="ShipName">Navnet på plassen, må ikke være tom.</param>
-    /// <param name="ShipSpaces">Antallet tilgjengelige plasser. Må være større enn 0.</param>
-	/// <param name="type">Type av skipet</param>
-    /// <exception cref="InvalidNameException">Kastes hvis ShipName er tom.</exception>
-    /// <exception cref="InvalidSpacesException">Kastes hvis ShipSpaces er mindre enn eller lik 0.</exception>
+	/// konstruktør for ShipPlaces
+	/// </summary>
+	/// <param name="ShipName"></param>
+	/// <param name="ShipSpaces"></param>
+	/// <param name="type"></param>
+	/// <exception cref="InvalidNameException"></exception>
+	/// <exception cref="InvalidSpacesException"></exception>
     public ShipPlaces(string ShipName, int ShipSpaces, ShipType type)
 	{
 		if (string.IsNullOrWhiteSpace(ShipName))
@@ -123,6 +123,10 @@ public abstract class ShipPlaces
 		}
 	}
 
+	/// <summary>
+	/// Metoden som blir kalt når et skip forlater havnen
+	/// </summary>
+	/// <param name="ship"></param>
     private void RaiseDepartingHarbour(Ship ship)
     {
         DepartingHarbour?.Invoke(this, new DepartingHarbourArgs(ship));
