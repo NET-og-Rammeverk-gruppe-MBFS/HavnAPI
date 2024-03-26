@@ -8,7 +8,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 public class Unloadingspace : ShipPlaces
 {
     private int Cranes { get; set; }
-    public double TruckPickupPercentage { get; set; }
+    internal double TruckPickupPercentage { get; set; }
     internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
     internal ContainerSpace TargetContainerSpace { get; set; }
 
@@ -75,9 +75,9 @@ public class Unloadingspace : ShipPlaces
                         ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
                         agv.container = null;
                         agv.status = Status.Available;
-
+                        agvContainers--;
                     }
-                    agvContainers--;
+                    
                 }
                 ContainersToUnload--;
             }
@@ -88,7 +88,6 @@ public class Unloadingspace : ShipPlaces
             }
         }
         return totalUnloadTime;
-
     }
 
     internal override void AddShip(Ship ship)

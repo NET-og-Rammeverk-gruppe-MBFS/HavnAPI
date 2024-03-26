@@ -9,10 +9,10 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
 public abstract class ShipPlaces
 {
     private static int Next = 0;
-	public int Id { get; }
+	public int Id { get; private set; }
 	public string Name { get; private set; }
-	public int Spaces { get; set; }
-	public ShipType Type { get; set; }
+	public int Spaces { get; private set; }
+	public ShipType Type { get; private set; }
 	internal List<Ship> Ships { get; }
 	internal List<Ship> Finished { get; }
 
