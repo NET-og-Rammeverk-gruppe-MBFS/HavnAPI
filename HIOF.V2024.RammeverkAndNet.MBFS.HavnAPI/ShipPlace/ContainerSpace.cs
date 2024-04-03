@@ -48,12 +48,12 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         }
 
         /// <summary>
-        /// Sjekker om det er noen containere som er lagret for lenge og fjerner dem fra lageret
+        /// Fjerner de containere som er lagret for lenge og fjerner dem fra lageret
         /// </summary>
         /// <param name="currentDate"></param>
-        public void OverdueContainers(DateTime currentDate) 
+        public DateTime OverdueContainers(DateTime currentDate) 
         {
-            List<Container> overdueContainers = new List<Container>();
+            Stack<Container> overdueContainers = new Stack<Container>();
             int totalRemoveContainerTime = 0;
             int truckContainers = 0;
             int agvContainers = 0;
@@ -63,37 +63,46 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
             {
                 foreach (var column in storageColumn.Columns)
                 {
-                    Container removedContainer;
-                    while ((removedContainer = column.RetrieveOverdueContainer(currentDate)) != null)
+                    if (column.IsContainerLongOverdue(currentDate))
                     {
-                        overdueContainers.Add(removedContainer);
+                        Container removedContainer;
+                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate)) != null)
+                        {
+                            overdueContainers.Push(removedContainer);
+                        } 
                     }
                 }
             }
             truckContainers = (int)(overdueContainers.Count * TruckPickupPercentage / 100);
             agvContainers = overdueContainers.Count - truckContainers;
-
-            if (truckContainers > 0)
+            while (overdueContainers.Count > 0)
             {
-                truckContainers--;
-            }
-
-            else if (agvContainers > 0)
-            {
-                foreach (var agv in AGVs)
+                if (truckContainers > 0)
                 {
-                    if (agvContainers > 0 && agv.status == Status.Available)
+                    overdueContainers.Pop();
+                    truckContainers--;
+                    start = start.AddMinutes(1);
+                }
+
+                else if (agvContainers > 0)
+                {
+                    foreach (var agv in AGVs)
                     {
-                        agv.status = Status.Busy;
-                        start = start.AddMinutes(1);
+                        if (agvContainers > 0 && agv.status == Status.Available)
+                        {
+                            agv.status = Status.Busy;
+                            start = start.AddMinutes(1);
                         
-                        agv.status = Status.Available;
-                        agvContainers--;
+                            agv.status = Status.Available;
+                            agvContainers--;
+
+                            overdueContainers.Pop();
+                        }
                     }
                 }
+                start = start.AddMinutes(totalRemoveContainerTime);
             }
-            start = start.AddMinutes(totalRemoveContainerTime);
-            
+            return start; 
         }
     }
 }

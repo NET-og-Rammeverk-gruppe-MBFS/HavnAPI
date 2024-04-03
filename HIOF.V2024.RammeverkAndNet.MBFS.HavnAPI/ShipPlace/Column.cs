@@ -88,31 +88,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
         {
             foreach (Stack<Container> stack in StackedContainers)
             {
-                var temporaryStack = new Stack<Container>();
-                Container overdueContainer = null;
-
-                while (stack.Any())
+                foreach (Container container in stack)
                 {
-                    Container container = stack.Pop();
-                    if (overdueContainer == null && (current - container.Histories.Last().Time).TotalDays >= containerSpace.DaysInStorageLimit - 1)
+                    if ((current - container.Histories.Last().Time).TotalDays >= 1-containerSpace.DaysInStorageLimit)
                     {
-                        overdueContainer = container;
-                        break;
-                    }
-                    else
-                    {
-                        temporaryStack.Push(container);
+                        return stack.Pop();
                     }
                 }
-                while (temporaryStack.Any())
-                {
-                    stack.Push(temporaryStack.Pop());
-                }
-
-                if (overdueContainer != null)
-                {
-                    return overdueContainer;
-                }
+                return stack.Pop();
             }
             return null;
         }
