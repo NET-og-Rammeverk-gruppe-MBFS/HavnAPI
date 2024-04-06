@@ -1,4 +1,4 @@
-﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.NotImplementedException
+﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
 {
     /// <summary>
     /// Kaster et unntak når en metode ikke er implementert

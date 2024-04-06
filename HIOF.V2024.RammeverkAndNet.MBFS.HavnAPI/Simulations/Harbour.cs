@@ -1,7 +1,7 @@
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 using System.Collections.ObjectModel;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation;
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public class Harbour : IHarbour
 {
 	private string name { get; }

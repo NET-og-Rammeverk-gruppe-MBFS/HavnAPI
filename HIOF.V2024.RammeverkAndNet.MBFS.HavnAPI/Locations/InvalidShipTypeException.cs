@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     /// <summary>
     /// Kaster et unntak når skipstypen er ugyldig

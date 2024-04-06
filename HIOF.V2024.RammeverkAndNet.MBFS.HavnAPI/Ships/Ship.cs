@@ -1,7 +1,7 @@
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 using System;
 using System.Collections.ObjectModel;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
 	public class ShipStartUnloadingArgs : EventArgs
 	{

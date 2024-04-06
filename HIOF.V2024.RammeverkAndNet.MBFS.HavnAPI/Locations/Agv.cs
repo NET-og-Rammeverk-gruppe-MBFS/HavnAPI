@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     public class AGV
     {

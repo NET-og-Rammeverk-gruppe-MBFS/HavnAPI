@@ -1,5 +1,5 @@
 ﻿
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulation
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 
 {
     /// <summary>

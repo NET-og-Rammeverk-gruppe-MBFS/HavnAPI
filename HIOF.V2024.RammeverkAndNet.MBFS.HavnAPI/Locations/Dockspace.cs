@@ -1,4 +1,4 @@
-﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.ShipPlace;
+﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 
 public class Dockspace : ShipPlaces
 {
