@@ -157,7 +157,6 @@ public class Harbour : IHarbour
 					//Her så legger vi til miutter basert på hvor mange Container objekter det er i en skip, hvor mange
 					//skip det er i losseplassen, og hvor fort losse-prossessen er basert på bruker av API-et
 					currentTime.AddMinutes(((Unloadingspace)ShipPlace).UnloadContainer(currentTime, end));
-					currentTime.AddMinutes(((Unloadingspace)ShipPlace).TargetContainerSpace.OverdueContainers(currentTime));
 
 					//Etter at alle skipene i losseplassen er ferdig, så returnerer vi listen tilbake til havn klassen
 					AddAllShips(((Unloadingspace)ShipPlace).ReturnRepeatingShips());
