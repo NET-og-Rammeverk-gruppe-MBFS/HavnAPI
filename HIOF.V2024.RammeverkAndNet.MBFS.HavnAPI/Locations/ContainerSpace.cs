@@ -51,22 +51,23 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// Fjerner de containere som er lagret for lenge og fjerner dem fra lageret
         /// </summary>
         /// <param name="currentDate"></param>
-        public DateTime OverdueContainers(DateTime currentDate) 
+        public int OverdueContainers(DateTime currentDate, DateTime end) 
         {
             Stack<Container> overdueContainers = new Stack<Container>();
             int totalRemoveContainerTime = 0;
             int truckContainers = 0;
             int agvContainers = 0;
+            int time = 0;
             DateTime start = currentDate;
 
             foreach (var storageColumn in StorageColumns)
             {
                 foreach (var column in storageColumn.Columns)
                 {
-                    if (column.IsContainerLongOverdue(currentDate))
+                    if (column.IsContainerLongOverdue(currentDate, DaysInStorageLimit))
                     {
                         Container removedContainer;
-                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate)) != null)
+                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate, DaysInStorageLimit)) != null)
                         {
                             overdueContainers.Push(removedContainer);
                         } 
@@ -82,6 +83,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                     overdueContainers.Pop();
                     truckContainers--;
                     start = start.AddMinutes(1);
+                    time += 1;
                 }
 
                 else if (agvContainers > 0)
@@ -92,6 +94,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                         {
                             agv.status = Status.Busy;
                             start = start.AddMinutes(1);
+                            time += 1;
                         
                             agv.status = Status.Available;
                             agvContainers--;
@@ -102,7 +105,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                 }
                 start = start.AddMinutes(totalRemoveContainerTime);
             }
-            return start; 
+            return time; 
         }
     }
 }

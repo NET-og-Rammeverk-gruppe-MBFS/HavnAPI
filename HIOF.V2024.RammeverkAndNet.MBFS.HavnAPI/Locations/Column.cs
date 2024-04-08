@@ -10,8 +10,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     internal class Column
     {
-        private readonly ContainerSpace containerSpace;
-
         internal Collection<Stack<Container>> StackedContainers;
         internal int AmountContainer {get; private set; }
         internal int MaxContainers;
@@ -69,13 +67,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         }
 
         
-        internal bool IsContainerLongOverdue(DateTime current)
+        internal bool IsContainerLongOverdue(DateTime current, int daysInStorageLimit)
         {
             foreach (Stack<Container> stack in StackedContainers)
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= containerSpace.DaysInStorageLimit - 1)
+                    if ((current - container.Histories.Last().Time).TotalDays >= daysInStorageLimit - 1)
                     {
                         return true;
                     }
@@ -84,13 +82,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             return false;
         }
 
-        internal Container RetrieveOverdueContainer(DateTime current)
+        internal Container RetrieveOverdueContainer(DateTime current, int daysInStorageLimit)
         {
             foreach (Stack<Container> stack in StackedContainers)
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= 1-containerSpace.DaysInStorageLimit)
+                    if ((current - container.Histories.Last().Time).TotalDays >= 1-daysInStorageLimit)
                     {
                         return stack.Pop();
                     }
