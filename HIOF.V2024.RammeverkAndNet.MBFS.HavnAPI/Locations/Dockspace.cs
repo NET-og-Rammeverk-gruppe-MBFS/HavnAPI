@@ -2,7 +2,7 @@
 
 public class Dockspace : ShipPlaces
 {
-	public Dockspace(string Name, int Spaces, ShipType Type) : base(Name, Spaces, Type)
+	public Dockspace(string shipName, int shipSpaces, ShipType type) : base(shipName, shipSpaces, type)
 	{
 	}
 }

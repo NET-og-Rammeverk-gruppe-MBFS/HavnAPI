@@ -12,7 +12,7 @@ public class Unloadingspace : ShipPlaces
     internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
     internal ContainerSpace TargetContainerSpace { get; set; }
 
-    public Unloadingspace(string Name, int Spaces, ShipType Type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(Name, Spaces, Type)
+    public Unloadingspace(string shipName, int shipSpaces, ShipType type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(shipName, shipSpaces, type)
     {
         if (cranes < Spaces)
         {

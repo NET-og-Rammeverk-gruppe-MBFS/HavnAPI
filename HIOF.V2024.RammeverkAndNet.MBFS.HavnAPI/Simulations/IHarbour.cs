@@ -7,7 +7,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 {
 	public interface IHarbour
 	{
-		public void Run(DateTime Start, DateTime end);
+		public void Run(DateTime start, DateTime end);
 
         public void RemoveShip(Ship ship);
 

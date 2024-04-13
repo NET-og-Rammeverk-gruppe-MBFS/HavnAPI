@@ -8,7 +8,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 internal class Anchorage : ShipPlaces
 {
     internal Queue<Ship> ShipQueue { get; }
-    public Anchorage(string Name, int Spaces, ShipType Type) : base(Name, Spaces, Type)
+    public Anchorage(string shipName, int shipSpaces, ShipType type) : base(shipName, shipSpaces, type)
     {
         ShipQueue = new Queue<Ship>();
     }

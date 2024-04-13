@@ -195,10 +195,10 @@ public class Harbour : IHarbour
 	/// </summary>
 	/// <param name="TheShip"></param>
 	/// <returns></returns>
-	private Ship MoveShip(Ship TheShip)
+	private Ship MoveShip(Ship theShip)
 	{
-		Ship Ship = TheShip;
-		ShipsList.Remove(TheShip);
+		Ship Ship = theShip;
+		ShipsList.Remove(theShip);
 		return Ship;
 	}
 
@@ -208,11 +208,11 @@ public class Harbour : IHarbour
 	/// </summary>
 	/// <param name="ShipPlaceId"></param>
 	/// <param name="ship"></param>
-	private void AddToSpesificPlace(int ShipPlaceId, Ship ship)
+	private void AddToSpesificPlace(int shipPlaceId, Ship ship)
 	{
 		foreach (ShipPlaces Shipplace in ShipPlacesList)
 		{
-			if(ShipPlaceId == Shipplace.Id)
+			if(shipPlaceId == Shipplace.Id)
 			{
 				Shipplace.AddShip(MoveShip(ship));
 			}
