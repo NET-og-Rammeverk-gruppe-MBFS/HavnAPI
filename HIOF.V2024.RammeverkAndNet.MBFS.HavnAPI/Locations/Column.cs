@@ -93,7 +93,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                         return stack.Pop();
                     }
                 }
-                return stack.Pop();
+                if (stack.Count != 0)
+                    return stack.Pop();
             }
             return null;
         }
