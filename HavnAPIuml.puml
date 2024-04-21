@@ -37,21 +37,8 @@ class ContainerSpace {
     +AddStorageColumn(amount:int, numberOfCranes: int,  length:int, width:int, height:int):void
     +OverdueContainers(currentDate : DateTime) : void
 }
-class DepartingHarbourArgs extends EventArgs {
-    +ship : Ship
-    +DepartingHarbourArgs(theship : Ship)
-}
 class Dockspace extends ShipPlaces {
     +Dockspace(Name: string, Spaces: int, Type: ShipType)
-}
-class InvalidAmountOfCranesPerSpacesEception extends Exception{
-    +InvalidAmountOfCranesPerSpacesEception(message :string)
-}
-class InvalidFrequencyException extends Exception {
-    +InvalidFrequencyException(message : string)
-}
-class InvalidShipTypeException extends Exception{
-    +InvalidShipTypeException(message: string)
 }
 abstract class ShipPlaces {
     {static} -Next: int
@@ -71,14 +58,7 @@ abstract class ShipPlaces {
     -AvailableSpace(): bool
     -RaiseDepartingHarbour(ship:Ship):void
 }
-class ShipStartsUnloadingArgs extends EventArgs{
-    +ship:Ship
-    +ShipStartsUnloadingArgs(theship : Ship)
-}
-class ShipUnloadedArgs extends EventArgs{
-    +ship: Ship
-    +ShipUnloadedArgs(theship : Ship)
-}
+
 class StorageColumn{
     -Columns: Collection<Column>
     +NumberOfCranes: int
@@ -95,9 +75,6 @@ class Unloadingspace extends ShipPlaces {
     -UnloadContainer((currentDateTime: DateTime, end: DateTime):int
     -AddShip(ship:Ship):void
 }
-
-
-
 class Container {
     {static} - Next: int
     +ID: int
@@ -114,15 +91,7 @@ class HistoryService {
     -HistoryService(name:sting, entryTime:DateTime,description:string)
     +ToString():override string
 }
-class InvalidAmountOfContainersEception extends ArgumentOutOfRangeException{
-    InvalidAmountOfContainersEception((message : string)
-}
-class InvalidDestinationException extends ArgumentNullException{
-    +InvalidDestinationException((message : string)
-}
-class InvalidShipTypeDestinationException extends Exception{
-    +InvalidShipTypeDestinationException((message : string)
-}
+
 class Ship {
     {static} -Next:int
     +Id: int
@@ -144,14 +113,7 @@ class Ship {
     -AddHistory(history: HistoryService): void
     -RemoveHistory(history: HistoryService): void
 }
-class ArrivedToHarbourArgs extends EventArgs{
-    +ship: Ship
-    +ArrivedToHarbourArgs(theship : Ship)
-}
-class DepartingAnchorageArgs extends EventArgs{
-    +ship: Ship
-    +DepartingAnchorageArgs(theship : Ship)
-}
+
 class Harbour implements IHarbour {
     -name:string
     -ShipHistory: List<HistoryService>
@@ -195,42 +157,12 @@ interface IHarbour {
     +AddShip(Ship:ship): void
     +AddAllShips(List<Ship> Allships): void
 }
-class InvalidDateTimeRangeException{
-    +InvalidDateTimeRangeException(message:string,paramName:string)
-}
-class MidnightStatusUpdateArgs{
-    +ship:Ship
-    +MidnightStatusUpdateArgs(theship:Ship)
-}
-class MovingToAnchorageArgs{
-    +ship:Ship
-    +MovingToAnchorageArgs(ship: Ship)
-}
-class ReachedDestinationArgs{
-    + ship: Ship
-    +ReachedDestinationArgs(ship:Ship)
-}
-class ShipSailingArgs{
-    +ship:Ship
-    +ShipSailingArgs(ship:Ship)
-}
 enum ContainerType{
     NONE,
     LONG,
     SHORT
 }
-class InvalidNameException{
-    +InvalidNameException(message:String)
-}
-class InvalidSpacesException{
-    +InvalidSpacesException(message : string)
-}
-class NotImplementedException{
-    +NotImplementedException(message : string)
-}
-class Program{
-    +{static} Main(args:string[])
-}
+
 enum ShipType{
     all,
     cargo,
@@ -251,7 +183,21 @@ Harbour "1" *-- Ship
 ShipPlaces "1" *-- Ship
 Ship "1" *-- Container
 Ship "1" *-- "many" HistoryService
-Container "1" *-- HistoryService
+Container "1" *--- HistoryService
+ContainerSpace ---> Unloadingspace
+Agv --o ContainerSpace
+Column --o StorageColumn
+StorageColumn --o ContainerSpace
+ContainerType -----> Container
+ContainerType -->Column
+Status ----> Ship
+Status ----> Agv
+
+
+
+
+
+
 
 
 
