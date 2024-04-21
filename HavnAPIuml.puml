@@ -176,9 +176,8 @@ enum Status{
 }
 
 
-ShipStatus --> Ship
-ShipType --> Ship
-Harbour "1" *-- ShipPlaces
+ShipType ---> Ship
+Harbour "1" *--- ShipPlaces
 Harbour "1" *-- Ship
 ShipPlaces "1" *-- Ship
 Ship "1" *-- Container
@@ -190,8 +189,8 @@ Column --o StorageColumn
 StorageColumn --o ContainerSpace
 ContainerType -----> Container
 ContainerType -->Column
-Status ----> Ship
-Status ----> Agv
+Status --> Ship
+Status --> Agv
 
 
 
