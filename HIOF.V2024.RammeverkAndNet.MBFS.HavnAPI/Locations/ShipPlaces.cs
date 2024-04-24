@@ -21,16 +21,16 @@ public abstract class ShipPlaces
     /// <summary>
 	/// konstruktør for ShipPlaces
 	/// </summary>
-	/// <param name="ShipName"></param>
+	/// <param name="name"></param>
 	/// <param name="ShipSpaces"></param>
 	/// <param name="type"></param>
 	/// <exception cref="InvalidNameException"></exception>
 	/// <exception cref="InvalidSpacesException"></exception>
-    public ShipPlaces(string shipName, int shipSpaces, ShipType type)
+    public ShipPlaces(string name, int shipSpaces, ShipType type)
 	{
-		if (string.IsNullOrWhiteSpace(shipName))
+		if (string.IsNullOrWhiteSpace(name))
 		{
-			throw new InvalidNameException("ShipName cannot be empty");
+			throw new InvalidNameException("name cannot be empty");
 		}
 
 		if (shipSpaces <= 0)
@@ -38,7 +38,7 @@ public abstract class ShipPlaces
 			throw new InvalidSpacesException("ShipSpaces must be greater than 0");
 		}
 
-		Name = shipName;
+		Name = name;
 		Spaces = shipSpaces;
 		Type = type;
 		Ships = new List<Ship>();

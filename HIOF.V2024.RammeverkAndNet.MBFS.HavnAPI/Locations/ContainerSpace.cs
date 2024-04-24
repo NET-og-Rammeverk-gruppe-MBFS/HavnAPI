@@ -12,13 +12,23 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     public class ContainerSpace
     {
+        public string Name { get; private set; }
         internal Collection<StorageColumn> StorageColumns { get; private set; }
         internal Collection<AGV> AGVs { get; private set; }
         internal double TruckPickupPercentage { get; private set; }
         internal int DaysInStorageLimit { get; private set; }
 
-        public ContainerSpace(int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
+        public ContainerSpace(String name, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
+            if (string.IsNullOrWhiteSpace(name))
+		    {
+			    throw new InvalidNameException("name cannot be empty");
+		    }
+            if (numberOfAGVs <= 1)
+            {
+                throw new InvalidAmountException("You need at least one AGV");
+            }
+            Name = name;
             TruckPickupPercentage = truckPickupPercentage;
             DaysInStorageLimit = daysInStorageLimit;
             AGVs = new Collection<AGV>();
