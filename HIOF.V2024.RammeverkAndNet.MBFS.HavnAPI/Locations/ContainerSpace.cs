@@ -18,6 +18,15 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         internal double TruckPickupPercentage { get; private set; }
         internal int DaysInStorageLimit { get; private set; }
 
+        /// <summary>
+        /// For å lage en containerspace.
+        /// </summary>
+        /// <param name="name"> Navn til containerspace-en</param>
+        /// <param name="numberOfAGVs">Antall AGV kjøretøy i denne plassen</param>
+        /// <param name="daysInStorageLimit">Maks antall dager en container kan lagres i denne plassen</param>
+        /// <param name="truckPickupPercentage"> En prosentandel av lastebiler som kjører containere ut av plassen (Resten blir fraktet av et skip)</param>
+        /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
+        /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er som f.eks -1</exception>
         public ContainerSpace(String name, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -43,11 +52,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Legger til lagringskolonner og kolonner i hver lagringskolonne
         /// </summary>
-        /// <param name="amount"></param>
-        /// <param name="numberOfCranes"></param>
-        /// <param name="length"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="amount">Antall lagringskolonner</param>
+        /// <param name="numberOfCranes"> Antall kraner for denne lagringskolonnen</param>
+        /// <param name="length">Det er lengden basert på antall containere</param>
+        /// <param name="width">Det er bredden basert på antall containere</param>
+        /// <param name="height">Det er høyden basert på antall containere</param>
         public void AddStorageColumn(int amount, int numberOfCranes, int length, int width, int height)
         {
             for (int id = 1; id <= amount; id++)
@@ -61,7 +70,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// Fjerner de containere som er lagret for lenge og fjerner dem fra lageret
         /// </summary>
         /// <param name="currentDate"></param>
-        public int OverdueContainers(DateTime currentDate, DateTime end) 
+        internal int OverdueContainers(DateTime currentDate, DateTime end) 
         {
             Stack<Container> overdueContainers = new Stack<Container>();
             int totalRemoveContainerTime = 0;

@@ -16,6 +16,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         internal int MaxHeight;
         internal ContainerType Type = ContainerType.NONE;
 
+        /// <summary>
+        /// For å lage en kolonne som inneholder containere
+        /// </summary>
+        /// <param name="width"> Det er bredden basert på antall containere</param>
+        /// <param name="height">Det er høyden basert på antall containere</param>
         internal Column(int width, int height)
         {
             MaxContainers = width*height;
@@ -26,7 +31,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Legger til container i neste ledig plass og initialisere ContainerType for denne kolonnen da første container blir plassert
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container"> container som skal bli lagt til kolonnen</param>
         internal void AddContainer(Container container)
         {
             if(Type == ContainerType.NONE)
@@ -44,7 +49,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Initialisere ContainerType i kolonnen basert på containerens ContainerType
         /// </summary>
-        /// <param name="container"></param>
+        /// <param name="container"> containeren som blir brukt for å initialisere ContainerType</param>
         internal void InitializeContainerType(Container container)
         {
             if (container.Type == ContainerType.LONG)
@@ -66,7 +71,12 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         Type = container.Type;
         }
 
-        
+        /// <summary>
+        /// Metode som ser om en av containerene ha nådd maks antall dager den kan være i kolonnen
+        /// </summary>
+        /// <param name="current">Nåværende tid</param>
+        /// <param name="daysInStorageLimit">Maks antall dager</param>
+        /// <returns> Returnerer boolean om det er noen containere som har nådd maks dager eller ikke</returns>
         internal bool IsContainerLongOverdue(DateTime current, int daysInStorageLimit)
         {
             foreach (Stack<Container> stack in StackedContainers)
@@ -82,6 +92,12 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             return false;
         }
 
+        /// <summary>
+        /// Metode som henter en container som har nådd maks antall dager den kan være i kolonnen
+        /// </summary>
+        /// <param name="current">Nåværende tid</param>
+        /// <param name="daysInStorageLimit">Maks antall dager</param>
+        /// <returns>Returnerer containeren og fjerner det fra kolonnen</returns>
         internal Container RetrieveOverdueContainer(DateTime current, int daysInStorageLimit)
         {
             foreach (Stack<Container> stack in StackedContainers)

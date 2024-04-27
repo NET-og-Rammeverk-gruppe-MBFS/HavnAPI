@@ -12,7 +12,19 @@ public class Unloadingspace : ShipPlaces
     internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
     internal ContainerSpace TargetContainerSpace { get; set; }
 
-    public Unloadingspace(string shipName, int shipSpaces, ShipType type, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(shipName, shipSpaces, type)
+    /// <summary>
+    /// For å lage losseplass
+    /// </summary>
+    /// <param name="name">Navnet til losseplassen</param>
+    /// <param name="shipSpaces">Antall plasser i losseplassen</param>
+    /// <param name="shipType">Type skip som er tillatt i losseplassen</param>
+    /// <param name="cranes">Antall kraner i losseplassen</param>
+    /// <param name="truckPickupPercentage">En prosentandel av lasterbiler som frakter containere direkte ut (Resten blir fraktet til containerspace)</param>
+    /// <param name="targetContainerSpace">Containerspace der containere blir lagret. OBS: Du må lage containerspace samt bruke AddStorageColumn metoden før du legger det her. Se dokumentasjonen for mer info</param>
+    /// <exception cref="InvalidAmountOfCranesPerSpacesException"> Error </exception>
+    /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
+    /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
+    public Unloadingspace(string name, int shipSpaces, ShipType shipType, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(name, shipSpaces, shipType)
     {
         if (cranes < Spaces)
         {

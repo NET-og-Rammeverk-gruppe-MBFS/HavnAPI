@@ -6,7 +6,7 @@ class Historikk_test
 {
     static void Main(string[] args)
     {
-        ContainerSpace ContainerZone1 = new ContainerSpace(20, 4, 0.10);
+        ContainerSpace ContainerZone1 = new ContainerSpace("arle",20 , 4, 0.10);
         ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
         ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
         

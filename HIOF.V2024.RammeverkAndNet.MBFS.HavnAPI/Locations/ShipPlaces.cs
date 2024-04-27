@@ -18,15 +18,12 @@ public abstract class ShipPlaces
 
     public event EventHandler<DepartingHarbourArgs> DepartingHarbour;
 
-    /// <summary>
-	/// konstruktør for ShipPlaces
-	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="ShipSpaces"></param>
-	/// <param name="type"></param>
-	/// <exception cref="InvalidNameException"></exception>
-	/// <exception cref="InvalidSpacesException"></exception>
-    public ShipPlaces(string name, int shipSpaces, ShipType type)
+	/// <param name="name">Navnet til plassen</param>
+    /// <param name="shipSpaces">Antall plasser i plassen</param>
+    /// <param name="shipType">Type skip som er tillatt i plassen</param>
+    /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
+    /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
+    public ShipPlaces(string name, int shipSpaces, ShipType shipType)
 	{
 		if (string.IsNullOrWhiteSpace(name))
 		{
@@ -35,12 +32,12 @@ public abstract class ShipPlaces
 
 		if (shipSpaces <= 0)
 		{
-			throw new InvalidSpacesException("ShipSpaces must be greater than 0");
+			throw new InvalidAmountException("ShipSpaces must be greater than 0");
 		}
 
 		Name = name;
 		Spaces = shipSpaces;
-		Type = type;
+		Type = shipType;
 		Ships = new List<Ship>();
 		Finished = new List<Ship>();
 		Id = Interlocked.Increment(ref Next);

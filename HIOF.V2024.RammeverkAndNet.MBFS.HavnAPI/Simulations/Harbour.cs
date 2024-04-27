@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public class Harbour : IHarbour
 {
-	private string name { get; }
+	private string Name { get; }
 	public List<HistoryService> ShipHistory { get; private set; }
 	public List<HistoryService> ContainerHistory { get; private set; }
 	private List<ShipPlaces> ShipPlacesList;
@@ -19,12 +19,12 @@ public class Harbour : IHarbour
 	public event EventHandler<ShipSailingArgs> ShipSailing;
 
     /// <summary>
-    /// Konstruktøren for Harbour klassen
+    /// For å lage havn objekt
     /// </summary>
-    /// <param name="ships"></param>
-    /// <param name="shipPlaces"></param>
-    /// <param name="name"></param>
-    /// <param name="SpacesInAnchorage"></param>
+    /// <param name="ships"> Liste med Ship objekter som blir lagt til denne objektet.</param>
+    /// <param name="shipPlaces">Liste med objekter som Unloadingspace og Dockspace. OBS når du skal lage en liste, så må du bruke ShipPlace som datatype</param>
+    /// <param name="name">Navnet til havnen</param>
+    /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
     public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces, String name, int SpacesInAnchorage)
@@ -36,7 +36,7 @@ public class Harbour : IHarbour
 
 		if (SpacesInAnchorage <= 0)
 		{
-            throw new InvalidSpacesException("SpacesInAnchorage must be greater than 0");
+            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
         }
 
 		ShipsList = new List<Ship>(ships);
@@ -44,35 +44,66 @@ public class Harbour : IHarbour
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
 		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
+		Name = name;
 	}
 
+	/// <summary>
+    /// For å lage havn objekt
+    /// </summary>
+    /// <param name="name">Navnet til havnen</param>
+    /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
+    /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
+    /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
 	public Harbour(String name, int SpacesInAnchorage)
 	{
+		if (string.IsNullOrEmpty(name))
+		{
+            throw new InvalidNameException("Name can't be null or empty");
+        }
+
+		if (SpacesInAnchorage <= 0)
+		{
+            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
+        }
 
 		ShipsList = new List<Ship>();
 		ShipPlacesList = new List<ShipPlaces>();
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
 		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
+		Name = name;
 	}
 
-
- 
+	/// <summary>
+	/// Metode for å fjerne et skip
+	/// </summary>
+	/// <param name="ship">skipet som skal bli fjernet</param>
 	public void RemoveShip(Ship ship)
 	{
 		ShipsList.Remove(ship);
 	}
 
+	/// <summary>
+	/// Metode for å fjerne alle skipene fra havn objektet
+	/// </summary>
 	public void RemoveAllShip()
 	{
 		ShipsList.Clear();
 	}
 
+	/// <summary>
+	/// Metode for å legge til Unlaodingspace eller Dockspace
+	/// </summary>
+	/// <param name="shipPlace">Unloadingspace eller Dockspace objekt</param>
 	public void AddShipPlace(ShipPlaces shipPlace)
 	{
 		ShipPlacesList.Add(shipPlace);
 	}
 
+	/// <summary>
+	/// Metode for å legge til alle objektene som arver ShipPlace som Unloadingspace og Dockspace
+	/// </summary>
+	/// <param name="shipPlaces">Liste med Unloadingspace og/eller Dockspace objekter</param>
 	public void AddAllShipPlaces(List<ShipPlaces> shipPlaces)
 	{
 		ShipPlacesList.AddRange(shipPlaces);
@@ -87,9 +118,13 @@ public class Harbour : IHarbour
 		ShipsList.Add(ship);
 	}
 
-	public void AddAllShips(List<Ship> Allships)
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="allships"></param>
+	public void AddAllShips(List<Ship> allships)
 	{
-		ShipsList.AddRange(Allships);
+		ShipsList.AddRange(allships);
 	}
 
 
@@ -145,8 +180,6 @@ public class Harbour : IHarbour
                     if (currentTime.Hour == 0)
 					{
 						RaiseMidnightStatusUpdate(ship);
-
-
 					}
                         
                 }

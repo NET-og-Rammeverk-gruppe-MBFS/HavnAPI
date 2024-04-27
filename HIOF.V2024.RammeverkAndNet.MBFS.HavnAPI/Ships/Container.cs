@@ -9,11 +9,15 @@ public class Container
 	internal Collection<HistoryService> Histories { get; private set; }
 	public ContainerType Type { get; private set; }
 
-	internal Container(ContainerType type)
+	/// <summary>
+	/// For å lage Container
+	/// </summary>
+	/// <param name="containerType"> Sette en container type som bruker enum ContainerType</param>
+	internal Container(ContainerType containerType)
 	{
 		ID = Interlocked.Increment(ref Next);
 		Histories = new Collection<HistoryService>();
-		Type = type;
+		Type = containerType;
 		}
 }
 

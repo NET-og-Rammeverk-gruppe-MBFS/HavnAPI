@@ -12,6 +12,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         internal Container container { get; set; }
         internal Status status { get; set; }
 
+        /// <summary>
+        /// For å lage AGV kjøretøy
+        /// </summary>
         internal AGV ()
         {
             status = Status.Available;
