@@ -24,11 +24,16 @@ public class Unloadingspace : ShipPlaces
     /// <exception cref="InvalidAmountOfCranesPerSpacesException"> Error </exception>
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
+    /// <exception cref="InvalidDestinationException">hvis du referer til et containerspace som ikke eksisterer</exception>
     public Unloadingspace(string name, int shipSpaces, ShipType shipType, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(name, shipSpaces, shipType)
     {
         if (cranes < Spaces)
         {
             throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
+        }
+        if (targetContainerSpace == null)
+        {
+            throw new InvalidDestinationException("Containersapce cannot be null");
         }
 
         Cranes = cranes;
