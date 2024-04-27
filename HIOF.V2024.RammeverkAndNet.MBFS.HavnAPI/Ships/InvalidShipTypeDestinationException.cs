@@ -9,7 +9,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
     /// <summary>
     /// Kaster et unntak når destinasjonen sin shipstype er ugyldig
     /// </summary>
-    internal class InvalidShipTypeDestinationException : Exception
+    public class InvalidShipTypeDestinationException : Exception
     {
         public InvalidShipTypeDestinationException(string message) : base(message)
         {

@@ -9,7 +9,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
     /// <summary>
     /// Kaster et unntak når skipstypen er ugyldig
     /// </summary>
-    internal class InvalidShipTypeException : Exception
+    public class InvalidShipTypeException : Exception
     {
         public InvalidShipTypeException(string message) : base(message)
         {
