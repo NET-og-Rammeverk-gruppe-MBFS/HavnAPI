@@ -49,7 +49,7 @@ public class Ship
             throw new InvalidDestinationException("ShipDestination cannot be null");
         }
 
-        if (amountOfLongContainers <= 0 || amountOfShortContainers <= 0)
+        if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
