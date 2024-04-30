@@ -39,7 +39,7 @@ class Historikk_test
         ships.Add(ship5);
 
        
-        Harbour havn1 = new Harbour(ships, shipPlaces, "havn1", 50);
+        Harbour havn1 = new Harbour("havn1", 50, ships, shipPlaces);
 
 
         havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;

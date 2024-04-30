@@ -12,7 +12,7 @@ public abstract class ShipPlaces
 	public int Id { get; private set; }
 	public string Name { get; private set; }
 	public int Spaces { get; private set; }
-	public ShipType Type { get; private set; }
+	public ShipType Shiptype { get; private set; }
 	internal List<Ship> Ships { get; }
 	internal List<Ship> Finished { get; }
 
@@ -37,7 +37,7 @@ public abstract class ShipPlaces
 
 		Name = name;
 		Spaces = shipSpaces;
-		Type = shipType;
+		Shiptype = shipType;
 		Ships = new List<Ship>();
 		Finished = new List<Ship>();
 		Id = Interlocked.Increment(ref Next);

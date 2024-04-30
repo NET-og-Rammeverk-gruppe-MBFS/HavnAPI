@@ -32,12 +32,12 @@ public class Ship
     /// <param name="repeat"></param>
     /// <param name="amountOfLongContainers"></param>
     /// <param name="amountOfShortContainers"></param>
-    /// <param name="type"></param>
+    /// <param name="shipType"></param>
     /// <exception cref="InvalidNameException"></exception>
     /// <exception cref="InvalidDestinationException"></exception>
     /// <exception cref="InvalidAmountOfContainersException"></exception>
     /// <exception cref="InvalidShipTypeDestinationException"></exception>
-    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType type)
+    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
         if (string.IsNullOrEmpty(shipname))
         {
@@ -54,7 +54,7 @@ public class Ship
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
 
-        if (placedestination.Type != ShipType.all && type != placedestination.Type)
+        if (placedestination.Shiptype != ShipType.all && shipType != placedestination.Shiptype)
         {
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
@@ -69,7 +69,7 @@ public class Ship
         AmountLongContainers = amountOfLongContainers;
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
-        Type = type;
+        Type = shipType;
         
     }
 

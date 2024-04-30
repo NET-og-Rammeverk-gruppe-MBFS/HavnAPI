@@ -26,7 +26,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="daysInStorageLimit">Maks antall dager en container kan lagres i denne plassen</param>
         /// <param name="truckPickupPercentage"> En prosentandel av lastebiler som kjører containere ut av plassen (Resten blir fraktet av et skip)</param>
         /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
-        /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er som f.eks -1</exception>
+        /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er, ugyldig dager, eller ugyldig prosent</exception>
         public ContainerSpace(String name, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -36,6 +36,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             if (numberOfAGVs <= 1)
             {
                 throw new InvalidAmountException("You need at least one AGV");
+            }
+            if (DaysInStorageLimit < 1)
+            {
+                throw new InvalidAmountException("Days in storage must be at least 1");
+            }
+            if (truckPickupPercentage < 0 || truckPickupPercentage > 1)
+            {
+                throw new InvalidAmountException("The percentage can't be higher than 1 or less than 0");
             }
             Name = name;
             TruckPickupPercentage = truckPickupPercentage;

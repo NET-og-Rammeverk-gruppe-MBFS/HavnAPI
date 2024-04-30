@@ -27,7 +27,7 @@ public class Harbour : IHarbour
     /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-    public Harbour(List<Ship> ships, List<ShipPlaces> shipPlaces, String name, int SpacesInAnchorage)
+    public Harbour(string name, int SpacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
 	{
 		if (string.IsNullOrEmpty(name))
 		{
@@ -54,7 +54,7 @@ public class Harbour : IHarbour
     /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-	public Harbour(String name, int SpacesInAnchorage)
+	public Harbour(string name, int SpacesInAnchorage)
 	{
 		if (string.IsNullOrEmpty(name))
 		{
