@@ -7,8 +7,8 @@ public class Harbour : IHarbour
 	private string Name { get; }
 	public List<HistoryService> ShipHistory { get; private set; }
 	public List<HistoryService> ContainerHistory { get; private set; }
-	private List<ShipPlaces> ShipPlacesList;
-	private List<Ship> ShipsList { get; }
+	public List<ShipPlaces> ShipPlacesList;
+	public List<Ship> ShipsList { get; }
 	private Anchorage AnchorageHarbour;
 
 	public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;

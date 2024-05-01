@@ -20,7 +20,7 @@ public class Ship
     public ShipType Type { get; private set; }
 
     internal Queue<Container> containers { get; private set; }
-    internal Collection<HistoryService> histories { get; private set; }
+    public Collection<HistoryService> histories { get; private set; }
 
 
     /// <summary>
