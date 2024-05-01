@@ -37,7 +37,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 throw new InvalidAmountException("You need at least one AGV");
             }
-            if (DaysInStorageLimit < 1)
+            if (daysInStorageLimit < 1)
             {
                 throw new InvalidDaysInStorageAmountException("Days in storage must be at least 1");
             }
