@@ -33,7 +33,7 @@ public class Unloadingspace : ShipPlaces
         }
         if (targetContainerSpace == null)
         {
-            throw new InvalidDestinationException("Containersapce cannot be null");
+            throw new InvalidDestinationException("TargetContainerSpace cannot be null");
         }
 
         Cranes = cranes;
