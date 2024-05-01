@@ -10,12 +10,12 @@ class Historikk_test
         ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
         ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
         
-        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, HavnAPI.ShipType.passenger);
-        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, HavnAPI.ShipType.passenger);
-        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, HavnAPI.ShipType.passenger);
+        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, HavnAPI.ShipType.Passenger);
+        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, HavnAPI.ShipType.Passenger);
+        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, HavnAPI.ShipType.Passenger);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, HavnAPI.ShipType.cargo,1, 0.5, ContainerZone1);
-        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5,HavnAPI.ShipType.cargo, 5, 0.5, ContainerZone1);
+        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, HavnAPI.ShipType.Cargo,1, 0.5, ContainerZone1);
+        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, HavnAPI.ShipType.Cargo, 5, 0.5, ContainerZone1);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
         shipPlaces.Add(kaiplass1);
@@ -25,11 +25,11 @@ class Historikk_test
         shipPlaces.Add(losseplass2);
 
         
-        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, false, 0, 0, HavnAPI.ShipType.passenger);
-        Ship ship2 = new Ship("Fred", kaiplass2, DateTime.Now, false, 0, 0, HavnAPI.ShipType.passenger);
-        Ship ship3 = new Ship("Ibrahim", losseplass2, DateTime.Now, false, 10, 10, HavnAPI.ShipType.cargo);
-        Ship ship4 = new Ship("Magnus", losseplass1, DateTime.Now, false, 20, 0, HavnAPI.ShipType.cargo);
-        Ship ship5 = new Ship("Colorline", losseplass1, DateTime.Now, false, 30, 10, HavnAPI.ShipType.cargo);
+        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, false, 0, 0, HavnAPI.ShipType.Passenger);
+        Ship ship2 = new Ship("Fred", kaiplass2, DateTime.Now, false, 0, 0, HavnAPI.ShipType.Passenger);
+        Ship ship3 = new Ship("Ibrahim", losseplass2, DateTime.Now, false, 10, 10, HavnAPI.ShipType.Cargo);
+        Ship ship4 = new Ship("Magnus", losseplass1, DateTime.Now, false, 20, 0, HavnAPI.ShipType.Cargo);
+        Ship ship5 = new Ship("Colorline", losseplass1, DateTime.Now, false, 30, 10, HavnAPI.ShipType.Cargo);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);

@@ -43,7 +43,7 @@ public class Harbour : IHarbour
 		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
+		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.All);
 		Name = name;
 	}
 
@@ -70,7 +70,7 @@ public class Harbour : IHarbour
 		ShipPlacesList = new List<ShipPlaces>();
 		ShipHistory = new List<HistoryService>();
 		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.all);
+		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.All);
 		Name = name;
 	}
 
@@ -271,7 +271,7 @@ public class Harbour : IHarbour
 		else if (ship.PlaceDestination is Dockspace)
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, ship.PlaceDestination.Name));
+			ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, AnchorageHarbour.Name));
             RaiseMovingToAnchorage(ship);
             AnchorageHarbour.AddShip(MoveShip(ship));
 		}

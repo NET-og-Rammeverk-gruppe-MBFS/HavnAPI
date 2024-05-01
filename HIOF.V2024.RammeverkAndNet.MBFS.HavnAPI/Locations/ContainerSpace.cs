@@ -33,17 +33,17 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 		    {
 			    throw new InvalidNameException("name cannot be empty");
 		    }
-            if (numberOfAGVs <= 1)
+            if (numberOfAGVs < 1)
             {
                 throw new InvalidAmountException("You need at least one AGV");
             }
             if (DaysInStorageLimit < 1)
             {
-                throw new InvalidAmountException("Days in storage must be at least 1");
+                throw new InvalidDaysInStorageAmountException("Days in storage must be at least 1");
             }
             if (truckPickupPercentage < 0 || truckPickupPercentage > 1)
             {
-                throw new InvalidAmountException("The percentage can't be higher than 1 or less than 0");
+                throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0");
             }
             Name = name;
             TruckPickupPercentage = truckPickupPercentage;

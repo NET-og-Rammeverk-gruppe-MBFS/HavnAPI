@@ -14,7 +14,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         internal int AmountContainer {get; private set; }
         internal int MaxContainers;
         internal int MaxHeight;
-        internal ContainerType Type = ContainerType.NONE;
+        internal ContainerType Type = ContainerType.None;
 
         /// <summary>
         /// For å lage en kolonne som inneholder containere
@@ -34,7 +34,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="container"> container som skal bli lagt til kolonnen</param>
         internal void AddContainer(Container container)
         {
-            if(Type == ContainerType.NONE)
+            if(Type == ContainerType.None)
                 InitializeContainerType(container);
 
             foreach (Stack<Container> stack in StackedContainers)
@@ -52,14 +52,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="container"> containeren som blir brukt for å initialisere ContainerType</param>
         internal void InitializeContainerType(Container container)
         {
-            if (container.Type == ContainerType.LONG)
+            if (container.Type == ContainerType.Long)
             {
                 for (int i = 0; i < MaxContainers/MaxHeight; i++)
                 {
                     StackedContainers.Add(new Stack<Container>());
                 }
             }
-            else if (container.Type == ContainerType.SHORT)
+            else if (container.Type == ContainerType.Short)
             {
                 MaxContainers = MaxContainers*2;
                 for (int i = 0; i < (MaxContainers/MaxHeight)*2; i++)
