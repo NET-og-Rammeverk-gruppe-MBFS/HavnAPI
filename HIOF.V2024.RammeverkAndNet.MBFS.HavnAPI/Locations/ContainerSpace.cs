@@ -12,6 +12,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     public class ContainerSpace
     {
+        /// <summary>
+        /// Navnet til containerspace
+        /// </summary>
         public string Name { get; private set; }
         internal Collection<StorageColumn> StorageColumns { get; private set; }
         internal Collection<AGV> AGVs { get; private set; }

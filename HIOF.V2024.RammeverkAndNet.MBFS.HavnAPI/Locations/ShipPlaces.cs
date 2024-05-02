@@ -9,9 +9,21 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public abstract class ShipPlaces
 {
     private static int Next = 0;
+	/// <summary>
+	/// ID til plassen. ID er autogenerert
+	/// </summary>
 	public int Id { get; private set; }
+	/// <summary>
+	/// Navnet til plassen
+	/// </summary>
 	public string Name { get; private set; }
+	/// <summary>
+	/// Antall plasser i plassen
+	/// </summary>
 	public int Spaces { get; private set; }
+	/// <summary>
+	/// Dette forteller hva slags type skip som er tillatt
+	/// </summary>
 	public ShipType Shiptype { get; private set; }
 	internal List<Ship> Ships { get; }
 	internal List<Ship> Finished { get; }

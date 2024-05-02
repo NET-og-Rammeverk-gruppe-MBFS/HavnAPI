@@ -5,8 +5,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 public class Container
 {
 	private static int Next = 0;
+	/// <summary>
+	/// ID til en container. ID er autogenerert
+	/// </summary>
 	public int ID { get; private set; }
 	internal Collection<HistoryService> Histories { get; private set; }
+	/// <summary>
+	/// Dette forteller hva slags type container det er
+	/// </summary>
 	public ContainerType Type { get; private set; }
 
 	/// <summary>
