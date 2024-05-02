@@ -6,11 +6,16 @@ public class HistoryService
 {
 
     /// <summary>
-    /// F�r navnet p� stedet hvor skipet ligger.
+    /// Navnet til objekten (Container eller Ship).
     /// </summary>
     public string Name { get; private set; }
-    
+    /// <summary>
+    /// Dato når historikken ble lagd
+    /// </summary>
     public DateTime Time { get; private set; }
+    /// <summary>
+    /// Forklaring for denne historikken. Denne blir mest brukt for å fortelle når et skip eller container er sist plassert
+    /// </summary>
     public string Description { get; private set; }
 
     /// <summary>

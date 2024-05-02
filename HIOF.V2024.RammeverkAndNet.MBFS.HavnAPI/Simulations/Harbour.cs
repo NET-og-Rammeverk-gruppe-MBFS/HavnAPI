@@ -5,9 +5,21 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public class Harbour : IHarbour
 {
 	private string Name { get; }
+	/// <summary>
+	/// Liste over alle loggførte plassering for hver skip
+	/// </summary>
 	public List<HistoryService> ShipHistory { get; private set; }
+	/// <summary>
+	/// Liste over alle loggførte plassering for hver container
+	/// </summary>
 	public List<HistoryService> ContainerHistory { get; private set; }
+	/// <summary>
+	/// Liste over alle plasser i havnen
+	/// </summary>
 	public List<ShipPlaces> ShipPlacesList;
+	/// <summary>
+	/// Liste over alle skip i havnen
+	/// </summary>
 	public List<Ship> ShipsList { get; }
 	private Anchorage AnchorageHarbour;
 
