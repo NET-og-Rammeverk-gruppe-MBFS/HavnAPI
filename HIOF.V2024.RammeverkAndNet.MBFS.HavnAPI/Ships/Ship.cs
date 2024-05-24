@@ -11,40 +11,47 @@ public class Ship
     /// <summary>
     /// ID til et skip. ID er autogenerert
     /// </summary>
-    public int Id { get; private set;}
+    public int id { get; private set;}
     /// <summary>
     /// Navnet til skipet
     /// </summary>
-    public string ShipName { get; private set; }
+    public string shipName { get; private set; }
     /// <summary>
     /// Destinasjonen til skipet. Dette er et ShipPlace objekt
     /// </summary>
-    public ShipPlaces PlaceDestination { get; private set; }
+    public ShipPlaces placeDestination { get; private set; }
     /// <summary>
     /// Tiden når skipet skal ankomme destinasjonen
     /// </summary>
-    public DateTime ArrivalTime { get; private set; }
-    internal bool Repeat { get; set; }
+    public Nullable<DateTime> spesificDateTime { get; private set; } = null;
+    public Nullable<DayOfWeek> weekly { get; private set; } = null;
+    public Nullable<TimeOnly> daily { get; private set; } = null;
+    internal Nullable<DateTime> currentRepeatedDateTime { get; set; } = null;
+    internal bool repeat { get; set; }
     /// <summary>
     /// Nåværende status til skipet
     /// </summary>
-    public Status status {get; private set; }
-    internal int AmountLongContainers { get; set; }
-    internal int AmountShortContainers { get; set; }
+    public Status status {get; internal set; } = Status.Available;
+    internal int amountLongContainers { get; set; }
+    internal int amountShortContainers { get; set; }
     /// <summary>
     /// Totalt antall containere i skipet
     /// </summary>
-    public int TotalContainers { get; private set; }
+    public int totalContainers { get; private set; }
     /// <summary>
     /// Det forteller hva slags type skip det er
     /// </summary>
-    public ShipType Type { get; private set; }
+    public ShipType type { get; private set; }
 
     internal Queue<Container> containers { get; private set; }
     /// <summary>
     /// Liste over alle loggførte plassering.
     /// </summary>
     public Collection<HistoryService> histories { get; private set; }
+    /// <summary>
+    /// Nåværende sted til skipet. Returnerer kun navnet til plassen
+    /// </summary>
+    public string currentLocation { get; internal set; }
 
 
     /// <summary>
@@ -52,7 +59,7 @@ public class Ship
     /// </summary>
     /// <param name="shipname">Navnet til skipet</param>
     /// <param name="placedestination"> Destinasjon til skipet. OBS du må ha en dockspace eller unloadingspace objekt før du kan lage skip objektet</param>
-    /// <param name="arrivalTime">Når skipet skal nå destinasjon</param>
+    /// <param name="spesificDateTime">Når skipet skal nå destinasjon</param>
     /// <param name="repeat"> Om skipet skal ha repeterende seilinger eller ikke</param>
     /// <param name="amountOfLongContainers">Antall lange ISO containere</param>
     /// <param name="amountOfShortContainers">Antall korte ISO containere</param>
@@ -61,7 +68,7 @@ public class Ship
     /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
     /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
-    public Ship(string shipname, ShipPlaces placedestination, DateTime arrivalTime, bool repeat, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    public Ship(string shipname, ShipPlaces placedestination, DateTime spesificDateTimeSailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
         if (string.IsNullOrEmpty(shipname))
         {
@@ -83,17 +90,89 @@ public class Ship
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
 
-        Id = Interlocked.Increment(ref Next);
-        ShipName = shipname;
-        PlaceDestination = placedestination;
-        ArrivalTime = arrivalTime;
-        Repeat = repeat;
+        id = Interlocked.Increment(ref Next);
+        shipName = shipname;
+        placeDestination = placedestination;
+        spesificDateTime = spesificDateTimeSailing;
+        repeat = false;
         containers = new Queue<Container>();
         histories = new Collection<HistoryService>();
-        AmountLongContainers = amountOfLongContainers;
-        AmountShortContainers = amountOfShortContainers;
-        TotalContainers = amountOfLongContainers + amountOfShortContainers;
-        Type = shipType;
+        amountLongContainers = amountOfLongContainers;
+        amountShortContainers = amountOfShortContainers;
+        totalContainers = amountOfLongContainers + amountOfShortContainers;
+        type = shipType;
+        
+    }
+
+    public Ship(string shipname, ShipPlaces placedestination, DayOfWeek weeklySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    {
+        if (string.IsNullOrEmpty(shipname))
+        {
+            throw new InvalidNameException("ShipName cannot be empty");
+        }
+
+        if (placedestination == null)
+        {
+            throw new InvalidDestinationException("ShipDestination cannot be null");
+        }
+
+        if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
+        {
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+        }
+
+        if (placedestination.Shiptype != ShipType.All && shipType != placedestination.Shiptype)
+        {
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
+        }
+
+        id = Interlocked.Increment(ref Next);
+        shipName = shipname;
+        placeDestination = placedestination;
+        weekly = weeklySailing;
+        this.repeat = true;
+        containers = new Queue<Container>();
+        histories = new Collection<HistoryService>();
+        amountLongContainers = amountOfLongContainers;
+        amountShortContainers = amountOfShortContainers;
+        totalContainers = amountOfLongContainers + amountOfShortContainers;
+        type = shipType;
+        
+    }
+
+    public Ship(string shipname, ShipPlaces placedestination, TimeOnly dailySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    {
+        if (string.IsNullOrEmpty(shipname))
+        {
+            throw new InvalidNameException("ShipName cannot be empty");
+        }
+
+        if (placedestination == null)
+        {
+            throw new InvalidDestinationException("ShipDestination cannot be null");
+        }
+
+        if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
+        {
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+        }
+
+        if (placedestination.Shiptype != ShipType.All && shipType != placedestination.Shiptype)
+        {
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
+        }
+
+        id = Interlocked.Increment(ref Next);
+        shipName = shipname;
+        placeDestination = placedestination;
+        daily = dailySailing;
+        repeat = true;
+        containers = new Queue<Container>();
+        histories = new Collection<HistoryService>();
+        amountLongContainers = amountOfLongContainers;
+        amountShortContainers = amountOfShortContainers;
+        totalContainers = amountOfLongContainers + amountOfShortContainers;
+        type = shipType;
         
     }
 
@@ -103,11 +182,11 @@ public class Ship
     internal void MakeContainers()
     {
         containers.Clear();
-        for (int i = 0; i < AmountLongContainers; i++)
+        for (int i = 0; i < amountLongContainers; i++)
         {
             containers.Enqueue(new Container(ContainerType.Long));
         }
-        for (int i = 0; i < AmountShortContainers; i++)
+        for (int i = 0; i < amountShortContainers; i++)
         {
             containers.Enqueue(new Container(ContainerType.Short));
         }

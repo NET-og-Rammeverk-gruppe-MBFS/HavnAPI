@@ -98,7 +98,7 @@ public class Unloadingspace : ShipPlaces
                 }
                 ContainersToUnload--;
             }
-            if (ship.Repeat == false)
+            if (ship.repeat == false)
             {
                 Finished.Add(ship);
                 Ships.Remove(ship);

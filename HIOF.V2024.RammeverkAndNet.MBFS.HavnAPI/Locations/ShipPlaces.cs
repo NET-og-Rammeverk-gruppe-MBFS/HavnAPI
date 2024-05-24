@@ -61,10 +61,12 @@ public abstract class ShipPlaces
 	/// <param name="ship"></param>
 	internal virtual void AddShip(Ship ship)
 	{
-	if (ship.Repeat == true)
-		Ships.Add(ship);
-	else
-		Finished.Add(ship);
+		ship.status = Status.Finished;
+		ship.currentLocation = Name;
+		if (ship.repeat == true)
+			Ships.Add(ship);
+		else
+			Finished.Add(ship);
 	}
 
 	/// <summary>
@@ -77,7 +79,7 @@ public abstract class ShipPlaces
 		Ship TheShip;
 		foreach (var SpesificShip in Ships)
 		{
-			if (SpesificShip.Id == id)
+			if (SpesificShip.id == id)
 			{
 				TheShip = SpesificShip;
 				Ships.Remove(SpesificShip);
@@ -96,8 +98,9 @@ public abstract class ShipPlaces
 		List<Ship> OldShips = new List<Ship>();
 		foreach (Ship ship in new List<Ship>(Ships))
 		{
-			if (ship.Repeat is true)
+			if (ship.repeat is true)
 			{
+				ship.status = Status.Available;
 				OldShips.Add(ship);
 				Ships.Remove(ship);
 			}
