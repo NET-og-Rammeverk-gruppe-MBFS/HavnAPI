@@ -4,86 +4,86 @@ using System.Collections.ObjectModel;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public class Harbour : IHarbour
 {
-	public string Name { get; }
+	public string name { get; }
 	/// <summary>
 	/// Liste over alle loggførte plassering for hver skip
 	/// </summary>
-	public List<HistoryService> ShipHistory { get; private set; }
+	public List<HistoryService> shipHistory { get; private set; }
 	/// <summary>
 	/// Liste over alle loggførte plassering for hver container
 	/// </summary>
-	public List<HistoryService> ContainerHistory { get; private set; }
+	public List<HistoryService> containerHistory { get; private set; }
 	/// <summary>
 	/// Liste over alle plasser i havnen
 	/// </summary>
-	public List<ShipPlaces> ShipPlacesList;
+	public List<ShipPlaces> shipPlacesList;
 	/// <summary>
 	/// Liste over alle skip i havnen
 	/// </summary>
-	public List<Ship> ShipsList { get; }
-	private Anchorage AnchorageHarbour;
+	public List<Ship> shipsList { get; }
+	private Anchorage anchorageHarbour;
 
-	public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;
-	public event EventHandler<DepartingAnchorageArgs> DepartingAnchorage;
-    public event EventHandler<MidnightStatusUpdateArgs> MidnightStatusUpdate;
-	public event EventHandler<MovingToAnchorageArgs> MovingToAnchorage;
-	public event EventHandler<ReachedDestinationArgs> ReachedDestination;
-	public event EventHandler<ShipSailingArgs> ShipSailing;
+	public event EventHandler<ArrivedToHarbourArgs> arrivedToHarbour;
+	public event EventHandler<DepartingAnchorageArgs> departingAnchorage;
+    public event EventHandler<MidnightStatusUpdateArgs> midnightStatusUpdate;
+	public event EventHandler<MovingToAnchorageArgs> movingToAnchorage;
+	public event EventHandler<ReachedDestinationArgs> reachedDestination;
+	public event EventHandler<ShipSailingArgs> shipSailing;
 
     /// <summary>
     /// For å lage havn objekt
     /// </summary>
     /// <param name="ships"> Liste med Ship objekter som blir lagt til denne objektet.</param>
     /// <param name="shipPlaces">Liste med objekter som Unloadingspace og Dockspace. OBS når du skal lage en liste, så må du bruke ShipPlace som datatype</param>
-    /// <param name="name">Navnet til havnen</param>
-    /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
+    /// <param name="harbourName">Navnet til havnen</param>
+    /// <param name="spacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-    public Harbour(string name, int SpacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
+    public Harbour(string harbourName, int spacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
 	{
-		if (string.IsNullOrEmpty(name))
+		if (string.IsNullOrEmpty(harbourName))
 		{
             throw new InvalidNameException("Name can't be null or empty");
         }
 
-		if (SpacesInAnchorage <= 0)
+		if (spacesInAnchorage <= 0)
 		{
             throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
         }
 
-		ShipsList = new List<Ship>(ships);
-		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
-		ShipHistory = new List<HistoryService>();
-		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.All);
-		Name = name;
+		shipsList = new List<Ship>(ships);
+		shipPlacesList = new List<ShipPlaces>(shipPlaces);
+		shipHistory = new List<HistoryService>();
+		containerHistory = new List<HistoryService>();
+		anchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
+		name = harbourName;
 	}
 
 	/// <summary>
     /// For å lage havn objekt
     /// </summary>
-    /// <param name="name">Navnet til havnen</param>
-    /// <param name="SpacesInAnchorage">Antall plasser i venteplassen</param>
+    /// <param name="harbourName">Navnet til havnen</param>
+    /// <param name="spacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-	public Harbour(string name, int SpacesInAnchorage)
+	public Harbour(string harbourName, int spacesInAnchorage)
 	{
-		if (string.IsNullOrEmpty(name))
+		if (string.IsNullOrEmpty(harbourName))
 		{
             throw new InvalidNameException("Name can't be null or empty");
         }
 
-		if (SpacesInAnchorage <= 0)
+		if (spacesInAnchorage <= 0)
 		{
             throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
         }
 
-		ShipsList = new List<Ship>();
-		ShipPlacesList = new List<ShipPlaces>();
-		ShipHistory = new List<HistoryService>();
-		ContainerHistory = new List<HistoryService>();
-		AnchorageHarbour = new Anchorage(name + " venteplass", SpacesInAnchorage, ShipType.All);
-		Name = name;
+		shipsList = new List<Ship>();
+		shipPlacesList = new List<ShipPlaces>();
+		shipHistory = new List<HistoryService>();
+		containerHistory = new List<HistoryService>();
+		anchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
+		name = harbourName;
 	}
 
 	/// <summary>
@@ -92,7 +92,7 @@ public class Harbour : IHarbour
 	/// <param name="ship">skipet som skal bli fjernet</param>
 	public void RemoveShip(Ship ship)
 	{
-		ShipsList.Remove(ship);
+		shipsList.Remove(ship);
 	}
 
 	/// <summary>
@@ -100,7 +100,7 @@ public class Harbour : IHarbour
 	/// </summary>
 	public void RemoveAllShip()
 	{
-		ShipsList.Clear();
+		shipsList.Clear();
 	}
 
 	/// <summary>
@@ -109,7 +109,7 @@ public class Harbour : IHarbour
 	/// <param name="shipPlace">Unloadingspace eller Dockspace objekt</param>
 	public void AddShipPlace(ShipPlaces shipPlace)
 	{
-		ShipPlacesList.Add(shipPlace);
+		shipPlacesList.Add(shipPlace);
 	}
 
 	/// <summary>
@@ -118,7 +118,7 @@ public class Harbour : IHarbour
 	/// <param name="shipPlaces">Liste med Unloadingspace og/eller Dockspace objekter</param>
 	public void AddAllShipPlaces(List<ShipPlaces> shipPlaces)
 	{
-		ShipPlacesList.AddRange(shipPlaces);
+		shipPlacesList.AddRange(shipPlaces);
 	}
 
 	/// <summary>
@@ -127,7 +127,7 @@ public class Harbour : IHarbour
 	/// <param name="ship"></param>
 	public void AddShip(Ship ship)
 	{
-		ShipsList.Add(ship);
+		shipsList.Add(ship);
 	}
 
 	/// <summary>
@@ -136,7 +136,7 @@ public class Harbour : IHarbour
 	/// <param name="allships"></param>
 	public void AddAllShips(List<Ship> allships)
 	{
-		ShipsList.AddRange(allships);
+		shipsList.AddRange(allships);
 	}
 
 
@@ -156,7 +156,7 @@ public class Harbour : IHarbour
 		//Vi starter med å lage en timer
 		DateTime currentTime = start;
 
-		foreach (Ship ship in ShipsList)
+		foreach (Ship ship in shipsList)
 		{
 			if (ship.repeat)
 			{
@@ -181,13 +181,13 @@ public class Harbour : IHarbour
 		}
 
 		//Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-		while (currentTime < end && (ShipsList.Count + AnchorageHarbour.ships.Count + AnchorageHarbour.shipQueue.Count) != 0)
+		while (currentTime < end && (shipsList.Count + anchorageHarbour.ships.Count + anchorageHarbour.shipQueue.Count) != 0)
 		{
 			//Begge for-loops under går gjennom alle ship og plassene
-			foreach (ShipPlaces ShipPlace in ShipPlacesList)
+			foreach (ShipPlaces ShipPlace in shipPlacesList)
 			{
                 MoveShipFromAnchorage(ShipPlace, currentTime);
-                foreach (Ship ship in new List<Ship>(ShipsList))
+                foreach (Ship ship in new List<Ship>(shipsList))
 				{
 					//Her så vil de se om destienasjonen til skipet og plassen som den itererer
 					if ((ship.placeDestination.id == ShipPlace.id) && (ship.spesificDateTime <= currentTime || ship.currentRepeatedDateTime <= currentTime))
@@ -197,7 +197,7 @@ public class Harbour : IHarbour
 						else if (ship.daily != null && ship.weekly == null)
 							ship.currentRepeatedDateTime = ship.currentRepeatedDateTime.Value.AddDays(1);
 						//Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
-						ship.currentLocation = Name;
+						ship.currentLocation = name;
                     	ship.MakeContainers();
 						ship.status = Status.Busy;
                         RaiseArrivedToHarbour(ship);
@@ -242,7 +242,6 @@ public class Harbour : IHarbour
 			}
 			if (currentTime.Hour == 0)
 			{
-				Console.WriteLine(currentTime);
 				RaiseMidnightStatusUpdate(getAllReadOnlyShips());
 			}
             //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
@@ -250,17 +249,17 @@ public class Harbour : IHarbour
             currentTime = currentTime.AddMinutes(60);
         }
 
-		foreach (ShipPlaces shipPlaces in ShipPlacesList)
+		foreach (ShipPlaces shipPlaces in shipPlacesList)
 		{
-			ShipsList.AddRange(shipPlaces.ReturnAllShips());
+			shipsList.AddRange(shipPlaces.ReturnAllShips());
 			if(shipPlaces is Unloadingspace)
 			{
-				ContainerHistory.AddRange(((Unloadingspace)shipPlaces).containerHistory);
+				containerHistory.AddRange(((Unloadingspace)shipPlaces).containerHistory);
 			}
 		}
-		foreach (Ship ship1 in ShipsList)
+		foreach (Ship ship1 in shipsList)
 		{
-			ShipHistory.AddRange(ship1.histories);
+			shipHistory.AddRange(ship1.histories);
 		}
 	}
 
@@ -272,7 +271,7 @@ public class Harbour : IHarbour
 	private Ship MoveShip(Ship theShip)
 	{
 		Ship Ship = theShip;
-		ShipsList.Remove(theShip);
+		shipsList.Remove(theShip);
 		return Ship;
 	}
 
@@ -284,7 +283,7 @@ public class Harbour : IHarbour
 	/// <param name="ship"></param>
 	private void AddToSpesificPlace(int shipPlaceId, Ship ship)
 	{
-		foreach (ShipPlaces Shipplace in ShipPlacesList)
+		foreach (ShipPlaces Shipplace in shipPlacesList)
 		{
 			if(shipPlaceId == Shipplace.id)
 			{
@@ -305,20 +304,20 @@ public class Harbour : IHarbour
 		if (ship.placeDestination is Unloadingspace)
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(ship.shipName, CurrentDateTime, AnchorageHarbour.name));
+			ship.AddHistory(new HistoryService(ship.shipName, CurrentDateTime, anchorageHarbour.name));
 			RaiseMovingToAnchorage(ship);
 			ship.status = Status.Available;
-			ship.currentLocation = AnchorageHarbour.name;
-            AnchorageHarbour.AddShipToQueue(MoveShip(ship));
+			ship.currentLocation = anchorageHarbour.name;
+            anchorageHarbour.AddShipToQueue(MoveShip(ship));
 		}
 		else if (ship.placeDestination is Dockspace)
 		{
 			CurrentDateTime = CurrentDateTime.AddMinutes(30);
-			ship.AddHistory(new HistoryService(ship.shipName, CurrentDateTime, AnchorageHarbour.name));
+			ship.AddHistory(new HistoryService(ship.shipName, CurrentDateTime, anchorageHarbour.name));
             RaiseMovingToAnchorage(ship);
 			ship.status = Status.Available;
-			ship.currentLocation = AnchorageHarbour.name;
-            AnchorageHarbour.AddShip(MoveShip(ship));
+			ship.currentLocation = anchorageHarbour.name;
+            anchorageHarbour.AddShip(MoveShip(ship));
 		}
 	}
 
@@ -331,27 +330,27 @@ public class Harbour : IHarbour
 	private void MoveShipFromAnchorage(ShipPlaces shipPlaces, DateTime current)
 	{
 		DateTime currentDateTime = current;
-		if (AnchorageHarbour.shipQueue.Count != 0 && AnchorageHarbour.shipQueue.Peek().placeDestination.id == shipPlaces.id && shipPlaces.AvailableSpace)
+		if (anchorageHarbour.shipQueue.Count != 0 && anchorageHarbour.shipQueue.Peek().placeDestination.id == shipPlaces.id && shipPlaces.AvailableSpace)
 		{
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShipFromQueue metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-            AnchorageHarbour.shipQueue.Peek().AddHistory(new HistoryService(AnchorageHarbour.shipQueue.Peek().shipName, currentDateTime, shipPlaces.name));
-			RaiseDepartingAnchorage(AnchorageHarbour.shipQueue.Peek());
-			AnchorageHarbour.shipQueue.Peek().status = Status.Busy;
-			AddToSpesificPlace(shipPlaces.id, AnchorageHarbour.MoveShipFromQueue());
+            anchorageHarbour.shipQueue.Peek().AddHistory(new HistoryService(anchorageHarbour.shipQueue.Peek().shipName, currentDateTime, shipPlaces.name));
+			RaiseDepartingAnchorage(anchorageHarbour.shipQueue.Peek());
+			anchorageHarbour.shipQueue.Peek().status = Status.Busy;
+			AddToSpesificPlace(shipPlaces.id, anchorageHarbour.MoveShipFromQueue());
 		}
 
 		//Og hvis skipet ikke skal til losseplass, så skal den til en kaiplass
-		else if (AnchorageHarbour.ships.Count != 0 && AnchorageHarbour.ships.First().placeDestination.id == shipPlaces.id && shipPlaces.AvailableSpace)
+		else if (anchorageHarbour.ships.Count != 0 && anchorageHarbour.ships.First().placeDestination.id == shipPlaces.id && shipPlaces.AvailableSpace)
 		{
 			//Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShip metoden og
 			//plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
 			currentDateTime.AddMinutes(30);
-            AnchorageHarbour.ships.First().AddHistory(new HistoryService(AnchorageHarbour.shipQueue.First().shipName, currentDateTime, shipPlaces.name));
-			RaiseDepartingAnchorage(AnchorageHarbour.ships.First());
-			AnchorageHarbour.shipQueue.Peek().status = Status.Busy;
-			AddToSpesificPlace(shipPlaces.id, AnchorageHarbour.MoveShip(AnchorageHarbour.ships.First().id));
+            anchorageHarbour.ships.First().AddHistory(new HistoryService(anchorageHarbour.shipQueue.First().shipName, currentDateTime, shipPlaces.name));
+			RaiseDepartingAnchorage(anchorageHarbour.ships.First());
+			anchorageHarbour.shipQueue.Peek().status = Status.Busy;
+			AddToSpesificPlace(shipPlaces.id, anchorageHarbour.MoveShip(anchorageHarbour.ships.First().id));
 		}
 	}
 
@@ -362,10 +361,10 @@ public class Harbour : IHarbour
 	private IReadOnlyCollection<Ship> getAllReadOnlyShips()
 	{
 		List<Ship> temp = new List<Ship>();
-		temp.AddRange(AnchorageHarbour.ships);
-		temp.AddRange(ShipsList);
-		temp.AddRange(AnchorageHarbour.shipQueue);
-		foreach (ShipPlaces shipPlaces in ShipPlacesList)
+		temp.AddRange(anchorageHarbour.ships);
+		temp.AddRange(shipsList);
+		temp.AddRange(anchorageHarbour.shipQueue);
+		foreach (ShipPlaces shipPlaces in shipPlacesList)
 		{
 			temp.AddRange(shipPlaces.ships);
 			temp.AddRange(shipPlaces.finished);
@@ -375,31 +374,31 @@ public class Harbour : IHarbour
 
 	private void RaiseArrivedToHarbour(Ship ship)
 	{
-		ArrivedToHarbour?.Invoke(this, new ArrivedToHarbourArgs(ship));
+		arrivedToHarbour?.Invoke(this, new ArrivedToHarbourArgs(ship));
 	}
 
 	private void RaiseDepartingAnchorage(Ship ship)
 	{
-		DepartingAnchorage?.Invoke(this, new DepartingAnchorageArgs(ship));
+		departingAnchorage?.Invoke(this, new DepartingAnchorageArgs(ship));
 	}
 
 	private void RaiseMidnightStatusUpdate(IReadOnlyCollection<Ship> ship)
 	{
-		MidnightStatusUpdate?.Invoke(this, new MidnightStatusUpdateArgs(ship));
+		midnightStatusUpdate?.Invoke(this, new MidnightStatusUpdateArgs(ship));
 	}
 
 	private void RaiseMovingToAnchorage(Ship ship)
 	{
-		MovingToAnchorage?.Invoke(this, new MovingToAnchorageArgs(ship));
+		movingToAnchorage?.Invoke(this, new MovingToAnchorageArgs(ship));
 	}
 
 	private void RaiseReachedDestination(Ship ship)
 	{
-		ReachedDestination?.Invoke(this, new ReachedDestinationArgs(ship));
+		reachedDestination?.Invoke(this, new ReachedDestinationArgs(ship));
 	}
 
 	private void RaiseShipSailing(Ship ship)
 	{
-		ShipSailing?.Invoke(this, new ShipSailingArgs(ship));
+		shipSailing?.Invoke(this, new ShipSailingArgs(ship));
 	}
 }

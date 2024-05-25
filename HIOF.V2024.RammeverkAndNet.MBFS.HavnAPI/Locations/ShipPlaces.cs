@@ -37,7 +37,7 @@ public abstract class ShipPlaces
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
     public ShipPlaces(string placeName, int shipSpaces, ShipType shipType)
 	{
-		if (string.IsNullOrWhiteSpace(name))
+		if (string.IsNullOrWhiteSpace(placeName))
 		{
 			throw new InvalidNameException("name cannot be empty");
 		}

@@ -27,11 +27,11 @@ public class Unloadingspace : ShipPlaces
     /// <exception cref="InvalidDestinationException">hvis du referer til et containerspace som ikke eksisterer</exception>
     public Unloadingspace(string placeName, int shipSpaces, ShipType shipType, int unloadingCranes, double truckPickupPercentageUnload, ContainerSpace targetContainerSpaceUnload) : base(placeName, shipSpaces, shipType)
     {
-        if (cranes < space)
+        if (unloadingCranes < shipSpaces)
         {
             throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
         }
-        if (targetContainerSpace == null)
+        if (targetContainerSpaceUnload == null)
         {
             throw new InvalidDestinationException("TargetContainerSpace cannot be null");
         }

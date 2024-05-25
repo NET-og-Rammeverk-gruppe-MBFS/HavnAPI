@@ -42,12 +42,12 @@ class Historikk_test
         Harbour havn1 = new Harbour("havn1", 50, ships, shipPlaces);
 
 
-        havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;
-        havn1.DepartingAnchorage += havn1_DepartingAnchorage;
-        havn1.MidnightStatusUpdate += havn1_MidnightStatusUpdate;
-        havn1.MovingToAnchorage += havn1_MovingToAnchorage;
-        havn1.ReachedDestination += havn1_ReachedDestination;
-        havn1.ShipSailing += havn1_ShipSailing;
+        havn1.arrivedToHarbour += havn1_ArrivedToHarbour;
+        havn1.departingAnchorage += havn1_DepartingAnchorage;
+        havn1.midnightStatusUpdate += havn1_MidnightStatusUpdate;
+        havn1.movingToAnchorage += havn1_MovingToAnchorage;
+        havn1.reachedDestination += havn1_ReachedDestination;
+        havn1.shipSailing += havn1_ShipSailing;
 
         havn1.Run(DateTime.Now, DateTime.Now.AddDays(5));
 
@@ -55,13 +55,13 @@ class Historikk_test
         Console.WriteLine("Results:");
         Console.WriteLine(" ");
         Console.WriteLine("Ship:");
-       foreach (HistoryService ShipHistory in havn1.ShipHistory)
+       foreach (HistoryService ShipHistory in havn1.shipHistory)
         {
             Console.WriteLine(ShipHistory.ToString());
         }
         Console.WriteLine(" ");
         Console.WriteLine("Container:");
-        foreach (HistoryService ContainerHistory in havn1.ContainerHistory)
+        foreach (HistoryService ContainerHistory in havn1.containerHistory)
         {
             Console.WriteLine(ContainerHistory.ToString());
         }

@@ -32,9 +32,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er</exception>
         /// <exception cref="InvalidDaysInStorageAmountException">Ugyldig antall dager</exception>
         /// <exception cref="InvalidPercentageExcpetion">Ugyldig bruk av prosent</exception>
-        public ContainerSpace(String containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
+        public ContainerSpace(string containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(containerSpaceName))
 		    {
 			    throw new InvalidNameException("name cannot be empty");
 		    }
