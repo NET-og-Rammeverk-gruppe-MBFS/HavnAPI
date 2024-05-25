@@ -9,9 +9,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 		/// <summary>
 		/// Når losseplassen begynner å losse containers
 		/// </summary>
-		public ShipStartUnloadingArgs(Ship theship)
+		public ShipStartUnloadingArgs(Ship theShip)
 		{
-			ship = theship;
+			ship = theShip;
 		}
 
 	}

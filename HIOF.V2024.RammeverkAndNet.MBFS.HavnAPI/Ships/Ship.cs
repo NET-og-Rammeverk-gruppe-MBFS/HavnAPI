@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 public class Ship
 {
-    private static int Next = 0;
+    private static int next = 0;
     /// <summary>
     /// ID til et skip. ID er autogenerert
     /// </summary>
@@ -21,10 +21,16 @@ public class Ship
     /// </summary>
     public ShipPlaces placeDestination { get; private set; }
     /// <summary>
-    /// Tiden når skipet skal ankomme destinasjonen
+    /// Tiden når skipet skal ankomme destinasjonen i et spesifikk tid (Ikke gjentagende seiling)
     /// </summary>
     public Nullable<DateTime> spesificDateTime { get; private set; } = null;
+    /// <summary>
+    /// Gjentagende seiling for hver uke.
+    /// </summary>
     public Nullable<DayOfWeek> weekly { get; private set; } = null;
+    /// <summary>
+    /// Gjentagende seiling for hver dag
+    /// </summary>
     public Nullable<TimeOnly> daily { get; private set; } = null;
     internal Nullable<DateTime> currentRepeatedDateTime { get; set; } = null;
     internal bool repeat { get; set; }
@@ -59,8 +65,7 @@ public class Ship
     /// </summary>
     /// <param name="shipname">Navnet til skipet</param>
     /// <param name="placedestination"> Destinasjon til skipet. OBS du må ha en dockspace eller unloadingspace objekt før du kan lage skip objektet</param>
-    /// <param name="spesificDateTime">Når skipet skal nå destinasjon</param>
-    /// <param name="repeat"> Om skipet skal ha repeterende seilinger eller ikke</param>
+    /// <param name="spesificDateTimeSailing">Når skipet skal nå destinasjon i et spesifikk tid</param>
     /// <param name="amountOfLongContainers">Antall lange ISO containere</param>
     /// <param name="amountOfShortContainers">Antall korte ISO containere</param>
     /// <param name="shipType">Type for hva skal type skip det er</param>
@@ -90,7 +95,7 @@ public class Ship
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
 
-        id = Interlocked.Increment(ref Next);
+        id = Interlocked.Increment(ref next);
         shipName = shipname;
         placeDestination = placedestination;
         spesificDateTime = spesificDateTimeSailing;
@@ -104,6 +109,19 @@ public class Ship
         
     }
 
+    /// <summary>
+    /// For laget et skip
+    /// </summary>
+    /// <param name="shipname">Navnet til skipet</param>
+    /// <param name="placedestination"> Destinasjon til skipet. OBS du må ha en dockspace eller unloadingspace objekt før du kan lage skip objektet</param>
+    /// <param name="weeklySailing">Ukentlig seilinger basert på bestemt dag i uken f.eks Onsdag</param>
+    /// <param name="amountOfLongContainers">Antall lange ISO containere</param>
+    /// <param name="amountOfShortContainers">Antall korte ISO containere</param>
+    /// <param name="shipType">Type for hva skal type skip det er</param>
+    /// <exception cref="InvalidNameException">Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
+    /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
+    /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
+    /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
     public Ship(string shipname, ShipPlaces placedestination, DayOfWeek weeklySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
         if (string.IsNullOrEmpty(shipname))
@@ -126,7 +144,7 @@ public class Ship
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
 
-        id = Interlocked.Increment(ref Next);
+        id = Interlocked.Increment(ref next);
         shipName = shipname;
         placeDestination = placedestination;
         weekly = weeklySailing;
@@ -140,6 +158,19 @@ public class Ship
         
     }
 
+    /// <summary>
+    /// For laget et skip
+    /// </summary>
+    /// <param name="shipname">Navnet til skipet</param>
+    /// <param name="placedestination"> Destinasjon til skipet. OBS du må ha en dockspace eller unloadingspace objekt før du kan lage skip objektet</param>
+    /// <param name="dailySailing">Daglig seilinger basert på et bestemt tid på dagen f.eks 14:00</param>
+    /// <param name="amountOfLongContainers">Antall lange ISO containere</param>
+    /// <param name="amountOfShortContainers">Antall korte ISO containere</param>
+    /// <param name="shipType">Type for hva skal type skip det er</param>
+    /// <exception cref="InvalidNameException">Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
+    /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
+    /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
+    /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
     public Ship(string shipname, ShipPlaces placedestination, TimeOnly dailySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
         if (string.IsNullOrEmpty(shipname))
@@ -162,7 +193,7 @@ public class Ship
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
 
-        id = Interlocked.Increment(ref Next);
+        id = Interlocked.Increment(ref next);
         shipName = shipname;
         placeDestination = placedestination;
         daily = dailySailing;

@@ -9,9 +9,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Event når skipen blir tømt
         /// </summary>
-        public ShipUnloadedArgs(Ship theship)
+        public ShipUnloadedArgs(Ship theShip)
 		{
-            ship = theship;
+            ship = theShip;
 		}
 	}
 }

@@ -16,7 +16,7 @@ public class HistoryService
     /// <summary>
     /// Forklaring for denne historikken. Denne blir mest brukt for å fortelle når et skip eller container er sist plassert
     /// </summary>
-    public string Description { get; private set; }
+    public string description { get; private set; }
 
     /// <summary>
     /// Oppretter en ny instans av <see cref="HistoryService"/>-klassen for � holde styr p� historiske hendelser.
@@ -24,15 +24,15 @@ public class HistoryService
     /// </summary>
     /// <param name="historyName">Navnet p� stedet hvor hendelsen skjedde.</param>
     /// <param name="entryTime">Tidspunktet for hendelsen.</param>
-    internal HistoryService(string historyName, DateTime entryTime, string description)
+    internal HistoryService(string historyName, DateTime entryTime, string historyDescription)
     {
-        Description = description;
+        description = historyDescription;
         name = historyName;
         time = entryTime;
     }
 
     public override string ToString()
     {
-        return $"{name} - {time} - {Description}";
+        return $"{name} - {time} - {description}";
     }
 }

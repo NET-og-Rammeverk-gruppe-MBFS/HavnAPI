@@ -11,7 +11,7 @@ public class Dockspace : ShipPlaces
     /// <param name="shipType">Type skip som er tillatt i kaiplassen</param>
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
-	public Dockspace(string name, int shipSpaces, ShipType shipType) : base(name, shipSpaces, shipType)
+	public Dockspace(string placeName, int shipSpaces, ShipType shipType) : base(placeName, shipSpaces, shipType)
 	{
 	}
 

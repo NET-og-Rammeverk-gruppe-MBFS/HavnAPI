@@ -35,7 +35,7 @@ public abstract class ShipPlaces
     /// <param name="shipType">Type skip som er tillatt i plassen</param>
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
-    public ShipPlaces(string name, int shipSpaces, ShipType shipType)
+    public ShipPlaces(string placeName, int shipSpaces, ShipType shipType)
 	{
 		if (string.IsNullOrWhiteSpace(name))
 		{
@@ -47,7 +47,7 @@ public abstract class ShipPlaces
 			throw new InvalidAmountException("ShipSpaces must be greater than 0");
 		}
 
-		this.name = name;
+		name = placeName;
 		space = shipSpaces;
 		this.shipType = shipType;
 		ships = new List<Ship>();
