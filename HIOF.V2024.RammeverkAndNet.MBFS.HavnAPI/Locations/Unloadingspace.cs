@@ -7,10 +7,10 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
 {
-    private int Cranes { get; set; }
-    internal double TruckPickupPercentage { get; set; }
-    internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
-    internal ContainerSpace TargetContainerSpace { get; set; }
+    private int cranes { get; set; }
+    internal double truckPickupPercentage { get; set; }
+    internal Collection<HistoryService> containerHistory = new Collection<HistoryService>();
+    internal ContainerSpace targetContainerSpace { get; set; }
 
     /// <summary>
     /// For å lage losseplass
@@ -25,9 +25,9 @@ public class Unloadingspace : ShipPlaces
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
     /// <exception cref="InvalidDestinationException">hvis du referer til et containerspace som ikke eksisterer</exception>
-    public Unloadingspace(string name, int shipSpaces, ShipType shipType, int cranes, double truckPickupPercentage, ContainerSpace targetContainerSpace) : base(name, shipSpaces, shipType)
+    public Unloadingspace(string placeName, int shipSpaces, ShipType shipType, int unloadingCranes, double truckPickupPercentageUnload, ContainerSpace targetContainerSpaceUnload) : base(placeName, shipSpaces, shipType)
     {
-        if (cranes < Spaces)
+        if (cranes < space)
         {
             throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
         }
@@ -36,9 +36,9 @@ public class Unloadingspace : ShipPlaces
             throw new InvalidDestinationException("TargetContainerSpace cannot be null");
         }
 
-        Cranes = cranes;
-        TruckPickupPercentage = truckPickupPercentage;
-        TargetContainerSpace = targetContainerSpace;
+        cranes = unloadingCranes;
+        truckPickupPercentage = truckPickupPercentageUnload;
+        targetContainerSpace = targetContainerSpaceUnload;
     }
 
     /// <summary>
@@ -53,21 +53,22 @@ public class Unloadingspace : ShipPlaces
         DateTime start = currentDateTime;
         var totalUnloadTime = 0;
         int TrucksDispatched = 0;
-        foreach (var ship in new List<Ship>(Ships))
+        foreach (var ship in new List<Ship>(ships))
         {
+            ship.status = Status.Busy;
             int ContainersToUnload = ship.containers.Count;
-            int truckContainers = (int)(ContainersToUnload * TruckPickupPercentage / 100);
+            int truckContainers = (int)(ContainersToUnload * truckPickupPercentage / 100);
             int agvContainers = ContainersToUnload - truckContainers;
 
             while (ship.containers.Count > 0 && start < end)
             {
-                int TimePerContainer = Math.Max(1, 5 / Cranes);
+                int TimePerContainer = Math.Max(1, 5 / cranes);
                 totalUnloadTime += TimePerContainer;
                 start = start.AddMinutes(TimePerContainer);
 
                 Container container = ship.MoveContainer();
-                container.Histories.Add(new HistoryService("Container " + container.ID, start, Name));
-                ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name));
+                container.histories.Add(new HistoryService("Container " + container.id, start, name));
+                containerHistory.Add(new HistoryService("Container " + container.id, start, name));
 
                 if (truckContainers > 0)
                 {
@@ -77,7 +78,7 @@ public class Unloadingspace : ShipPlaces
                 }
                 else if (agvContainers > 0)
                 {
-                    AGV agv = TargetContainerSpace.AGVs.FirstOrDefault(a => a.status == Status.Available);
+                    AGV agv = targetContainerSpace.AGVs.FirstOrDefault(a => a.status == Status.Available);
                     if (agv != null)
                     {
                         agv.container = container;
@@ -85,12 +86,12 @@ public class Unloadingspace : ShipPlaces
 
                         start = start.AddMinutes(1);
 
-                        StorageColumn storageColumn = TargetContainerSpace.StorageColumns[random.Next(TargetContainerSpace.StorageColumns.Count)];
-                        Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
+                        StorageColumn storageColumn = targetContainerSpace.storageColumns[random.Next(targetContainerSpace.storageColumns.Count)];
+                        Column column = storageColumn.columns[random.Next(storageColumn.columns.Count)];
 
                         column.AddContainer(agv.container);
-                        container.Histories.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
-                        ContainerHistory.Add(new HistoryService("Container " + container.ID, start, Name + " StorageColumn"));
+                        container.histories.Add(new HistoryService("Container " + container.id, start, name + " StorageColumn"));
+                        containerHistory.Add(new HistoryService("Container " + container.id, start, name + " StorageColumn"));
                         agv.container = null;
                         agv.status = Status.Available;
                         agvContainers--;
@@ -100,17 +101,14 @@ public class Unloadingspace : ShipPlaces
             }
             if (ship.repeat == false)
             {
-                Finished.Add(ship);
-                Ships.Remove(ship);
+                ship.status = Status.Finished;
+                finished.Add(ship);
+                ships.Remove(ship);
             }
+            else
+                ship.status = Status.Available;
         }
         return totalUnloadTime;
     }
-
-    internal override void AddShip(Ship ship)
-    {
-        Ships.Add(ship);
-    }
-
 
 }

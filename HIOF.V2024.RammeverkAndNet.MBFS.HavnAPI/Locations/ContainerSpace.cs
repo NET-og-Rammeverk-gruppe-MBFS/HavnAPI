@@ -15,16 +15,16 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Navnet til containerspace
         /// </summary>
-        public string Name { get; private set; }
-        internal Collection<StorageColumn> StorageColumns { get; private set; }
+        public string name { get; private set; }
+        internal Collection<StorageColumn> storageColumns { get; private set; }
         internal Collection<AGV> AGVs { get; private set; }
-        internal double TruckPickupPercentage { get; private set; }
-        internal int DaysInStorageLimit { get; private set; }
+        internal double truckPickupPercentage { get; private set; }
+        internal int daysInStorageLimit { get; private set; }
 
         /// <summary>
         /// For å lage en containerspace.
         /// </summary>
-        /// <param name="name"> Navn til containerspace-en</param>
+        /// <param name="containerSpaceName"> Navn til containerspace-en</param>
         /// <param name="numberOfAGVs">Antall AGV kjøretøy i denne plassen</param>
         /// <param name="daysInStorageLimit">Maks antall dager en container kan lagres i denne plassen</param>
         /// <param name="truckPickupPercentage"> En prosentandel av lastebiler som kjører containere ut av plassen (Resten blir fraktet av et skip)</param>
@@ -32,7 +32,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er</exception>
         /// <exception cref="InvalidDaysInStorageAmountException">Ugyldig antall dager</exception>
         /// <exception cref="InvalidPercentageExcpetion">Ugyldig bruk av prosent</exception>
-        public ContainerSpace(String name, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
+        public ContainerSpace(String containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
             if (string.IsNullOrWhiteSpace(name))
 		    {
@@ -50,11 +50,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0");
             }
-            Name = name;
-            TruckPickupPercentage = truckPickupPercentage;
-            DaysInStorageLimit = daysInStorageLimit;
+            name = containerSpaceName;
+            this.truckPickupPercentage = truckPickupPercentage;
+            this.daysInStorageLimit = daysInStorageLimit;
             AGVs = new Collection<AGV>();
-            StorageColumns = new Collection<StorageColumn>();
+            storageColumns = new Collection<StorageColumn>();
 
             for (int i = 0; i < numberOfAGVs; i++)
             {
@@ -75,7 +75,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             for (int id = 1; id <= amount; id++)
             {
                 StorageColumn newColumn = new StorageColumn(numberOfCranes, id, width, height);
-                StorageColumns.Add(newColumn);
+                storageColumns.Add(newColumn);
             }
         }
 
@@ -92,21 +92,21 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             int time = 0;
             DateTime start = currentDate;
 
-            foreach (var storageColumn in StorageColumns)
+            foreach (var storageColumn in storageColumns)
             {
-                foreach (var column in storageColumn.Columns)
+                foreach (var column in storageColumn.columns)
                 {
-                    if (column.IsContainerLongOverdue(currentDate, DaysInStorageLimit))
+                    if (column.IsContainerLongOverdue(currentDate, daysInStorageLimit))
                     {
                         Container removedContainer;
-                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate, DaysInStorageLimit)) != null)
+                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate, daysInStorageLimit)) != null)
                         {
                             overdueContainers.Push(removedContainer);
                         } 
                     }
                 }
             }
-            truckContainers = (int)(overdueContainers.Count * TruckPickupPercentage / 100);
+            truckContainers = (int)(overdueContainers.Count * truckPickupPercentage / 100);
             agvContainers = overdueContainers.Count - truckContainers;
             while (overdueContainers.Count > 0)
             {

@@ -8,11 +8,11 @@ public class HistoryService
     /// <summary>
     /// Navnet til objekten (Container eller Ship).
     /// </summary>
-    public string Name { get; private set; }
+    public string name { get; private set; }
     /// <summary>
     /// Dato når historikken ble lagd
     /// </summary>
-    public DateTime Time { get; private set; }
+    public DateTime time { get; private set; }
     /// <summary>
     /// Forklaring for denne historikken. Denne blir mest brukt for å fortelle når et skip eller container er sist plassert
     /// </summary>
@@ -22,17 +22,17 @@ public class HistoryService
     /// Oppretter en ny instans av <see cref="HistoryService"/>-klassen for � holde styr p� historiske hendelser.
     /// Dette lar deg lagre et stedsnavn sammen med et tidspunkt for en hendelse, noe som er nyttig for � organisere og hente historisk informasjon.
     /// </summary>
-    /// <param name="name">Navnet p� stedet hvor hendelsen skjedde.</param>
+    /// <param name="historyName">Navnet p� stedet hvor hendelsen skjedde.</param>
     /// <param name="entryTime">Tidspunktet for hendelsen.</param>
-    internal HistoryService(string name, DateTime entryTime, string description)
+    internal HistoryService(string historyName, DateTime entryTime, string description)
     {
         Description = description;
-        Name = name;
-        Time = entryTime;
+        name = historyName;
+        time = entryTime;
     }
 
     public override string ToString()
     {
-        return $"{Name} - {Time} - {Description}";
+        return $"{name} - {time} - {Description}";
     }
 }

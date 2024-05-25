@@ -7,7 +7,7 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 internal class Anchorage : ShipPlaces
 {
-    internal Queue<Ship> ShipQueue { get; }
+    internal Queue<Ship> shipQueue { get; }
 
     /// <summary>
     /// For å lage venteplass
@@ -19,7 +19,7 @@ internal class Anchorage : ShipPlaces
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
     public Anchorage(string name, int shipSpaces, ShipType shipType) : base(name, shipSpaces, shipType)
     {
-        ShipQueue = new Queue<Ship>();
+        shipQueue = new Queue<Ship>();
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ internal class Anchorage : ShipPlaces
     /// <param name="id">Id til skipet som flyttes</param>
     internal Ship MoveShipFromQueue()
     {
-        return ShipQueue.Dequeue();
+        return shipQueue.Dequeue();
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ internal class Anchorage : ShipPlaces
     /// <param name="ship">Skipet som skal legges til</param>
     internal void AddShipToQueue(Ship ship)
     {
-        ShipQueue.Enqueue(ship);
+        shipQueue.Enqueue(ship);
     }
 
     /// <summary>
@@ -46,17 +46,17 @@ internal class Anchorage : ShipPlaces
     /// <returns> Alle skip i List<Ship> liste ></returns>
     internal override List<Ship> ReturnAllShips()
     {
-        List<Ship> OldShips = new List<Ship>(Ships);
-        foreach (var ship in Ships)
+        List<Ship> OldShips = new List<Ship>(ships);
+        foreach (var ship in ships)
         {
             OldShips.Add(ship);
         }
-        foreach (var shipInQueue in ShipQueue)
+        foreach (var shipInQueue in shipQueue)
         {
             OldShips.Add(shipInQueue);
         }
-        Ships.Clear();
-        ShipQueue.Clear();
+        ships.Clear();
+        shipQueue.Clear();
         return OldShips;
     }
 
@@ -67,7 +67,7 @@ internal class Anchorage : ShipPlaces
     {
         get
         {
-            return Spaces > Ships.Count + ShipQueue.Count;
+            return space > ships.Count + shipQueue.Count;
         }
     }
 }

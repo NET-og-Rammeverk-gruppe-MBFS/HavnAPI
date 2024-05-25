@@ -1,4 +1,5 @@
 ﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Dockspace : ShipPlaces
 {
@@ -13,4 +14,20 @@ public class Dockspace : ShipPlaces
 	public Dockspace(string name, int shipSpaces, ShipType shipType) : base(name, shipSpaces, shipType)
 	{
 	}
+
+    internal override void AddShip(Ship ship)
+	{
+		ship.currentLocation = name;
+		if (ship.repeat == true)
+		{
+			ship.status = Status.Available;
+            ships.Add(ship);
+		}
+        else
+        {
+            ship.status = Status.Finished;
+            finished.Add(ship);
+        }
+	}
+
 }

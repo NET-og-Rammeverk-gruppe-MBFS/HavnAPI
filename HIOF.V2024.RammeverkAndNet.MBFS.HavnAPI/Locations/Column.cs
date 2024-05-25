@@ -10,10 +10,10 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     internal class Column
     {
-        internal Collection<Stack<Container>> StackedContainers;
-        internal int AmountContainer {get; private set; }
-        internal int MaxContainers;
-        internal int MaxHeight;
+        internal Collection<Stack<Container>> stackedContainers;
+        internal int amountContainer {get; private set; }
+        internal int maxContainers;
+        internal int maxHeight;
         internal ContainerType Type = ContainerType.None;
 
         /// <summary>
@@ -23,9 +23,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="height">Det er høyden basert på antall containere</param>
         internal Column(int width, int height)
         {
-            MaxContainers = width*height;
-            MaxHeight = height;
-            StackedContainers = new Collection<Stack<Container>>();
+            maxContainers = width*height;
+            maxHeight = height;
+            stackedContainers = new Collection<Stack<Container>>();
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             if(Type == ContainerType.None)
                 InitializeContainerType(container);
 
-            foreach (Stack<Container> stack in StackedContainers)
+            foreach (Stack<Container> stack in stackedContainers)
             {
-                if(stack.Count < MaxHeight){
+                if(stack.Count < maxHeight){
                     stack.Push(container);
                     break;
                 }
@@ -52,23 +52,23 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="container"> containeren som blir brukt for å initialisere ContainerType</param>
         internal void InitializeContainerType(Container container)
         {
-            if (container.Type == ContainerType.Long)
+            if (container.type == ContainerType.Long)
             {
-                for (int i = 0; i < MaxContainers/MaxHeight; i++)
+                for (int i = 0; i < maxContainers/maxHeight; i++)
                 {
-                    StackedContainers.Add(new Stack<Container>());
+                    stackedContainers.Add(new Stack<Container>());
                 }
             }
-            else if (container.Type == ContainerType.Short)
+            else if (container.type == ContainerType.Short)
             {
-                MaxContainers = MaxContainers*2;
-                for (int i = 0; i < (MaxContainers/MaxHeight)*2; i++)
+                maxContainers = maxContainers*2;
+                for (int i = 0; i < (maxContainers/maxHeight)*2; i++)
                 {
-                    StackedContainers.Add(new Stack<Container>());
+                    stackedContainers.Add(new Stack<Container>());
                 }
             }
 
-        Type = container.Type;
+        Type = container.type;
         }
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <returns> Returnerer boolean om det er noen containere som har nådd maks dager eller ikke</returns>
         internal bool IsContainerLongOverdue(DateTime current, int daysInStorageLimit)
         {
-            foreach (Stack<Container> stack in StackedContainers)
+            foreach (Stack<Container> stack in stackedContainers)
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= daysInStorageLimit - 1)
+                    if ((current - container.histories.Last().time).TotalDays >= daysInStorageLimit - 1)
                     {
                         return true;
                     }
@@ -100,11 +100,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <returns>Returnerer containeren og fjerner det fra kolonnen</returns>
         internal Container RetrieveOverdueContainer(DateTime current, int daysInStorageLimit)
         {
-            foreach (Stack<Container> stack in StackedContainers)
+            foreach (Stack<Container> stack in stackedContainers)
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= 1-daysInStorageLimit)
+                    if ((current - container.histories.Last().time).TotalDays >= 1-daysInStorageLimit)
                     {
                         return stack.Pop();
                     }

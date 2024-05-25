@@ -85,7 +85,7 @@ public class Ship
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
 
-        if (placedestination.Shiptype != ShipType.All && shipType != placedestination.Shiptype)
+        if (placedestination.shipType != ShipType.All && shipType != placedestination.shipType)
         {
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
@@ -121,7 +121,7 @@ public class Ship
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
 
-        if (placedestination.Shiptype != ShipType.All && shipType != placedestination.Shiptype)
+        if (placedestination.shipType != ShipType.All && shipType != placedestination.shipType)
         {
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
@@ -157,7 +157,7 @@ public class Ship
             throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
         }
 
-        if (placedestination.Shiptype != ShipType.All && shipType != placedestination.Shiptype)
+        if (placedestination.shipType != ShipType.All && shipType != placedestination.shipType)
         {
             throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
         }
