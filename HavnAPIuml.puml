@@ -3,171 +3,161 @@
 class Agv {
     -Container: container
     -Status: status
-    +Agv()
 }
 class Anchorage extends ShipPlaces {
     -ShipQueue: Queue<Ship>
-    +Anchorage(Name: string,Spaces: int, Type: Shiptype)
     -MoveShipFromQueue(): Ship
-    -AddShipToQueue(ship: Ship): void
+    -AddShipToQueue(Ship ship): void
     -ReturnAllShips() : List<Ship>
-    -AvalibleSpace : bool
+    -AvalibleSpace() : bool
 }
 class Column{
-    -contianerspace : Containerspace
     -StackedContainers : Collection<Stack<Container>>
-    +AmountContainers : int
+    -AmountContainers : int
     -MaxContainers: int
     -MaxHeight : int
     -Type : ContainerType
 
-    -Column(width : int, height: int)
-    -AddContainer(container: Container) : void
-    -InitializeContainerType(container: Container) : void
-    -IsContainerLongOverdue(current : Datetime) : bool
-    -RetrieveOverdueContainer(current : Datetime): Container
+    -AddContainer(Container container) : void
+    -InitializeContainerType(Container container) : void
+    -IsContainerLongOverdue(Datetime current, int daysInStorageLimit) : bool
+    -RetrieveOverdueContainer(Datetime current, int daysInStorageLimit): Container
 }
 class ContainerSpace {
-    -StorageColumns : Collection<StorageColumns>
-    +AGVs : Collection<AGV>
-    -TruckPickupPercentage : double
-    -DaysInStorageLimit : int
+    +name : string
+    -storageColumns : Collection<StorageColumns>
+    -AGVs : Collection<AGV>
+    -truckPickupPercentage : double
+    -daysInStorageLimit : int
 
-    +ContainerSpace(numberOfAGVs : int, daysInStorageLimit: int, truckPickupPercentage: double)
-    +AddStorageColumn(amount:int, numberOfCranes: int,  length:int, width:int, height:int):void
-    +OverdueContainers(currentDate : DateTime) : void
+    +AddStorageColumn(int amount, int numberOfCranes,  int length, int width, int height) : void
+    -OverdueContainers(DateTime currentDate, DateTime end) : void
 }
 class Dockspace extends ShipPlaces {
-    +Dockspace(Name: string, Spaces: int, Type: ShipType)
+    AddShip(Ship ship) : void
 }
 abstract class ShipPlaces {
-    {static} -Next: int
-    -Id: int
-    +Name: string
-    +Spaces: int
-    +Type : ShipType
+    {static} -next: int
+    +id: int
+    +name: string
+    +spaces: int
+    +shipType : ShipType
     -Ships: List<Ship>
     -Finished: List<Ship>
     +DepartingHarbour: EventHandler<DepartingHarbourArgs>
 
-    +ShipPlaces(spaces : int, name : string, type : ShipType)
-    +AddShip(ship: Ship): void
-    -MoveShip(id: int): Ship
+    -AddShip(Ship ship): void
+    -MoveShip(int id): Ship
     -ReturnRepeatingShips(): List<Ship>
     -ReturnAllShips(): List<Ship>
     -AvailableSpace(): bool
-    -RaiseDepartingHarbour(ship:Ship):void
+    -RaiseDepartingHarbour(Ship ship):void
 }
 
 class StorageColumn{
     -Columns: Collection<Column>
-    +NumberOfCranes: int
-
-    + StorageColumn(numberOfCranes:int, numberOfColumns: int, width: int)
+    -numberOfCranes: int
 }
 class Unloadingspace extends ShipPlaces {
-    -Cranes: int
-    +TruckPickupPercentage:double
-    -ContainerHistory : Collection<HistoryService>
-    -TargetContainerSpace : ContainerSpace
+    -cranes: int
+    -truckPickupPercentage : double
+    -containerHistory : Collection<HistoryService>
+    -targetContainerSpace : ContainerSpace
 
-    +Unloadingspace(Name:string, Spaces:int, Type:shipType, cranes:int, truckPickupPercentage: double, targetContainerSpace: containerSpace)
-    -UnloadContainer((currentDateTime: DateTime, end: DateTime):int
-    -AddShip(ship:Ship):void
+    -UnloadContainer(DateTime currentDateTime, DateTime end) : int
 }
 class Container {
-    {static} - Next: int
-    +ID: int
-    +Histories: Collection<HistoryService>
-    +Type: ContainerType
-
-    +Container(type:ContainerType)
+    {static} - next: int
+    +id: int
+    -histories: Collection<HistoryService>
+    +type: ContainerType
 }
 class HistoryService {
-    +Name: string
-    +Time: DateTime
-    +Description:string
+    +name: string
+    +time: DateTime
+    +description:string
 
-    -HistoryService(name:sting, entryTime:DateTime,description:string)
-    +ToString():override string
+    +ToString(): string
 }
 
 class Ship {
-    {static} -Next:int
-    +Id: int
-    +ShipName: string
-    +PlaceDestination: ShipPlaces
-    +ArrivalTime: DateTime
+    {static} -next : int
+    +id: int
+    +shipName: string
+    +placeDestination: ShipPlaces
+    +spesificDateTime: Nullable<Datetime>
+    +weekly: Nullable<DayOfWeek>
+    +daily: Nullable<TimeOnly>
+    -currentRepeatedDateTime: Nullable<DateTime>
     -Repeat: bool
     +status: Status
-    +AmountLongContainers: int
-    +AmountShortContainers: int
+    -AmountLongContainers: int
+    -AmountShortContainers: int
     +TotalContainers:int
-    +Type:ShipType
+    +type:ShipType
     -containers: Queue<Container>
-    -histories: List<HistoryService>
+    +histories: Collection<HistoryService>
+    +currentLocation: string
 
-    +Ship(shipname:string, placeDestination:ShipPlaces,arrivaltime:DateTime,repeat:bool, amountOfShortContainers:int, amountOfLongContainers:int, type: ShipType)
     -MakeContainers(): void
     -MoveContainer(): Container
-    -AddHistory(history: HistoryService): void
-    -RemoveHistory(history: HistoryService): void
+    -AddHistory(HistoryService history): void
+    -RemoveHistory(HistoryService history): void
 }
 
 class Harbour implements IHarbour {
-    -name:string
-    -ShipHistory: List<HistoryService>
-    -ContainerHistory: List<HistoryService>
-    -ShipPlacesList: List<ShipPlaces>
-    -ShipsList: List<Ship>
-    -AnchorageHarbour : Anchorage
-    +ArrivedToHarbour: EventHandler<ArrivedToHarbourArgs>
-    +DepartingAnchorage: EventHandler<DepartingAnchorageArgs>
-    +MidnightStatusUpdate: EventHandler<MidnightStatusUpdateArgs>
-    +MovingToAnchorage: EventHandler<MovingToAnchorageArgs>
-    +ReachedDestination: EventHandler<ReachedDestinationArgs>
-    +ShipSailing: EventHandler<ShipSailingArgs>
+    +name: string
+    +shipHistory: List<HistoryService>
+    +containerHistory: List<HistoryService>
+    +shipPlacesList: List<ShipPlaces>
+    +shipsList: List<Ship>
+    -anchorageHarbour : Anchorage
+    +arrivedToHarbour: EventHandler<ArrivedToHarbourArgs>
+    +departingAnchorage: EventHandler<DepartingAnchorageArgs>
+    +midnightStatusUpdate: EventHandler<MidnightStatusUpdateArgs>
+    +movingToAnchorage: EventHandler<MovingToAnchorageArgs>
+    +reachedDestination: EventHandler<ReachedDestinationArgs>
+    +shipSailing: EventHandler<ShipSailingArgs>
 
-    +Harbour(ship:List<Ship>, shipPlaces:List<ShipPlaces>,name:string, SpacesInAnchorage:int)
-    +Harbour(name: string, spaceInAnchorage)
-    +RemoveShip(ship: Ship): void
+    +RemoveShip(Ship ship): void
     +RemoveAllShip(): void
-    +AddShipPlace(shipPlaces ShipPlace)
-    +AddAllShipPlaces(shipPlaces: List<ShipPlaces>)
-    +AddShip(ship: Ship): void
-    +AddAllShips(Allships: List<Ship>): void
-    +Run(Start: DateTime, end: DateTime): void
-    -MoveShip(TheShip: Ship): Ship
-    -AddSpecificPlace(ShipPlaceId:int, ship:Ship):void
-    +AddShipToAnchorage(ship: Ship, current: DateTime): void
-    +MoveShipFromAnchorage(shipPlaces: ShipPlaces, ship: Ship, current: DateTime): void
-    -RaiseArrivedToHarbour(ship: Ship):void
-    -RaiseDepartingAnchorage(ship: Ship):void
-    -RaiseMidnightStatus(ship:Ship):void
-    -RaiseMovingToAnchorage(ship:Ship):void
-    -RaiseReachedDestination(ship:Ship):void
-    -RaiseShipSailing(ship:Ship):void
+    +AddShipPlace(ShipPlace shipPlaces): void
+    +AddAllShipPlaces(List<ShipPlaces> shipPlaces): void
+    +AddShip(Ship ship): void
+    +AddAllShips(List<Ship> allships): void
+    +Run(DateTime start, DateTime end): void
+    -MoveShip(Ship theShip): Ship
+    -AddSpecificPlace(int shipPlaceId, Ship ship): void
+    -AddShipToAnchorage(Ship ship, DateTime current): void
+    -MoveShipFromAnchorage(ShipPlaces shipPlaces, DateTime current): void
+    -getAllReadOnlyShips(): IReadOnlyCollection<Ship>
+    -RaiseArrivedToHarbour(Ship ship):void
+    -RaiseDepartingAnchorage(Ship ship): void
+    -RaiseMidnightStatus(IReadOnlyCollection<Ship> ships): void
+    -RaiseMovingToAnchorage(Ship ship): void
+    -RaiseReachedDestination(Ship ship): void
+    -RaiseShipSailing(Ship ship): void
 }
 interface IHarbour {
-    +Run(Start: DateTime, end: DateTime): void
-    +RemoveShip(Ship: ship): void
+    +Run(DateTime start, DateTime end): void
+    +RemoveShip(Ship ship): void
     +RemoveAllShip(): void
     +AddShipPlace(ShipPlaces shipPlace): void
     +AddAllShipPlaces(List<ShipPlaces> shipPlaces): void
-    +AddShip(Ship:ship): void
-    +AddAllShips(List<Ship> Allships): void
+    +AddShip(Ship ship): void
+    +AddAllShips(List<Ship> allships): void
 }
 enum ContainerType{
-    NONE,
-    LONG,
-    SHORT
+    None,
+    Long,
+    Short
 }
 
 enum ShipType{
-    all,
-    cargo,
-    passanger,
-    tankship
+    All,
+    Cargo,
+    Passanger,
+    Tankship
 }
 enum Status{
     Avalible,
