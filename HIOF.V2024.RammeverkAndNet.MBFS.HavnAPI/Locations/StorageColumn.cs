@@ -11,8 +11,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     public class StorageColumn
     {
-        internal Collection<Column> columns { get; private set; }
-        internal int numberOfCranes { get; private set; }
+        internal Collection<Column> Columns { get; private set; }
+        internal int NumberOfCranes { get; private set; }
 
         /// <summary>
         /// For å lage en lagringskolonne
@@ -23,11 +23,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <param name="height">høyde basert på antall containere i en kolonne</param>
         public StorageColumn(int numberOfCranesInColumn,int numberOfColumns, int width, int height)
         {
-            numberOfCranes = numberOfCranesInColumn;
-            columns = new Collection<Column>();
+            NumberOfCranes = numberOfCranesInColumn;
+            Columns = new Collection<Column>();
             for (int i = 0; i < numberOfColumns; i++) 
             {
-                columns.Add(new Column(width, height));
+                Columns.Add(new Column(width, height));
             }
 
         }

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
-    public class AGV
+    public class AutomatedGuidedVehicle
     {
-        internal Container container { get; set; }
-        internal Status status { get; set; }
+        internal Container Container { get; set; }
+        internal Status Status { get; set; }
 
         /// <summary>
         /// For å lage AGV kjøretøy
         /// </summary>
-        internal AGV ()
+        internal AutomatedGuidedVehicle ()
         {
-            status = Status.Available;
+            Status = Status.Available;
         }
     }
 }

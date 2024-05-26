@@ -5,13 +5,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
 	public class ShipUnloadedArgs : EventArgs
 	{
-        public Ship ship { get; private set; }
+        public Ship TheShip { get; private set; }
         /// <summary>
         /// Event når skipen blir tømt
         /// </summary>
         public ShipUnloadedArgs(Ship theShip)
 		{
-            ship = theShip;
+            TheShip = theShip;
 		}
 	}
 }

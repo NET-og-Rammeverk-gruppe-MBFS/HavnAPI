@@ -8,25 +8,25 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 
 public abstract class ShipPlaces
 {
-    private static int next = 0;
+    private static int Next = 0;
 	/// <summary>
 	/// ID til plassen. ID er autogenerert
 	/// </summary>
-	public int id { get; private set; }
+	public int Id { get; private set; }
 	/// <summary>
 	/// Navnet til plassen
 	/// </summary>
-	public string name { get; private set; }
+	public string Name { get; private set; }
 	/// <summary>
 	/// Antall plasser i plassen
 	/// </summary>
-	public int space { get; private set; }
+	public int Space { get; private set; }
 	/// <summary>
 	/// Dette forteller hva slags type skip som er tillatt
 	/// </summary>
-	public ShipType shipType { get; private set; }
-	internal List<Ship> ships { get; }
-	internal List<Ship> finished { get; }
+	public ShipType ShipType { get; private set; }
+	internal List<Ship> Ships { get; }
+	internal List<Ship> Finished { get; }
 
     public event EventHandler<DepartingHarbourArgs> DepartingHarbour;
 
@@ -35,7 +35,7 @@ public abstract class ShipPlaces
     /// <param name="shipType">Type skip som er tillatt i plassen</param>
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
-    public ShipPlaces(string placeName, int shipSpaces, ShipType shipType)
+    internal ShipPlaces(string placeName, int shipSpaces, ShipType shipType)
 	{
 		if (string.IsNullOrWhiteSpace(placeName))
 		{
@@ -47,12 +47,12 @@ public abstract class ShipPlaces
 			throw new InvalidAmountException("ShipSpaces must be greater than 0");
 		}
 
-		name = placeName;
-		space = shipSpaces;
-		this.shipType = shipType;
-		ships = new List<Ship>();
-		finished = new List<Ship>();
-		id = Interlocked.Increment(ref next);
+		Name = placeName;
+		Space = shipSpaces;
+		ShipType = shipType;
+		Ships = new List<Ship>();
+		Finished = new List<Ship>();
+		Id = Interlocked.Increment(ref Next);
 	}
 
 	/// <summary>
@@ -61,12 +61,12 @@ public abstract class ShipPlaces
 	/// <param name="ship"></param>
 	internal virtual void AddShip(Ship ship)
 	{
-		ship.currentLocation = name;
-		if (ship.repeat == true)
+		ship.CurrentLocation = Name;
+		if (ship.Repeat == true)
 		{
-			ship.status = Status.Available;
+			ship.Status = Status.Available;
 		}
-		ships.Add(ship);
+		Ships.Add(ship);
 	}
 
 	/// <summary>
@@ -77,12 +77,12 @@ public abstract class ShipPlaces
 	internal virtual Ship MoveShip(int id)
 	{
 		Ship TheShip;
-		foreach (var SpesificShip in ships)
+		foreach (var SpesificShip in Ships)
 		{
-			if (SpesificShip.id == id)
+			if (SpesificShip.Id == id)
 			{
 				TheShip = SpesificShip;
-				ships.Remove(SpesificShip);
+				Ships.Remove(SpesificShip);
 				return TheShip;
 			}
 		}
@@ -96,12 +96,12 @@ public abstract class ShipPlaces
 	internal List<Ship> ReturnRepeatingShips()
 	{
 		List<Ship> OldShips = new List<Ship>();
-		foreach (Ship ship in new List<Ship>(ships))
+		foreach (Ship ship in new List<Ship>(Ships))
 		{
-			if (ship.repeat is true)
+			if (ship.Repeat is true)
 			{
 				OldShips.Add(ship);
-				ships.Remove(ship);
+				Ships.Remove(ship);
 				RaiseDepartingHarbour(ship);
 			}
 		}
@@ -115,10 +115,10 @@ public abstract class ShipPlaces
 	/// <returns></returns>
 	internal virtual List<Ship> ReturnAllShips()
 	{
-		List<Ship> OldShips = new List<Ship>(ships);
-		OldShips.AddRange(finished);
-		ships.Clear();
-		finished.Clear();
+		List<Ship> OldShips = new List<Ship>(Ships);
+		OldShips.AddRange(Finished);
+		Ships.Clear();
+		Finished.Clear();
 		return OldShips;
 	}
 
@@ -130,7 +130,7 @@ public abstract class ShipPlaces
 	{
 		get
 		{
-			return space > ships.Count;
+			return Space > Ships.Count;
 		}
 	}
 

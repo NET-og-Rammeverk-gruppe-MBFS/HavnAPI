@@ -4,14 +4,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
 	public class ShipStartUnloadingArgs : EventArgs
 	{
-		public Ship ship { get; private set; }
+		public Ship TheShip { get; private set; }
 
 		/// <summary>
 		/// Når losseplassen begynner å losse containers
 		/// </summary>
 		public ShipStartUnloadingArgs(Ship theShip)
 		{
-			ship = theShip;
+			TheShip = theShip;
 		}
 
 	}

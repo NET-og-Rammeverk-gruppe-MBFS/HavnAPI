@@ -42,12 +42,12 @@ class Historikk_test
         Harbour havn1 = new Harbour("havn1", 50, ships, shipPlaces);
 
 
-        havn1.arrivedToHarbour += havn1_ArrivedToHarbour;
-        havn1.departingAnchorage += havn1_DepartingAnchorage;
-        havn1.midnightStatusUpdate += havn1_MidnightStatusUpdate;
-        havn1.movingToAnchorage += havn1_MovingToAnchorage;
-        havn1.reachedDestination += havn1_ReachedDestination;
-        havn1.shipSailing += havn1_ShipSailing;
+        havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;
+        havn1.DepartingAnchorage += havn1_DepartingAnchorage;
+        havn1.MidnightStatusUpdate += havn1_MidnightStatusUpdate;
+        havn1.MovingToAnchorage += havn1_MovingToAnchorage;
+        havn1.ReachedDestination += havn1_ReachedDestination;
+        havn1.ShipSailing += havn1_ShipSailing;
 
         havn1.Run(DateTime.Now, DateTime.Now.AddDays(5));
 
@@ -55,13 +55,13 @@ class Historikk_test
         Console.WriteLine("Results:");
         Console.WriteLine(" ");
         Console.WriteLine("Ship:");
-       foreach (HistoryService ShipHistory in havn1.shipHistory)
+       foreach (HistoryService ShipHistory in havn1.ShipHistory)
         {
             Console.WriteLine(ShipHistory.ToString());
         }
         Console.WriteLine(" ");
         Console.WriteLine("Container:");
-        foreach (HistoryService ContainerHistory in havn1.containerHistory)
+        foreach (HistoryService ContainerHistory in havn1.ContainerHistory)
         {
             Console.WriteLine(ContainerHistory.ToString());
         }
@@ -69,25 +69,25 @@ class Historikk_test
 
     private static void havn1_ArrivedToHarbour(object? sender, ArrivedToHarbourArgs e)
     {
-        Console.WriteLine(e.ship.shipName+" har nådd havnen med "+e.ship.totalContainers+" containere");
+        Console.WriteLine(e.TheShip.ShipName+" har nådd havnen med "+e.TheShip.TotalContainers+" containere");
     }
 
     private static void havn1_DepartingAnchorage(object? sender, DepartingAnchorageArgs e)
     {
-        Console.WriteLine(e.ship.placeDestination.name+" er ledig, "+e.ship.shipName+" blir flyttet fra ankerplassen");
+        Console.WriteLine(e.TheShip.PlaceDestination.Name+" er ledig, "+e.TheShip.ShipName+" blir flyttet fra ankerplassen");
     }
 
     private static void havn1_MidnightStatusUpdate(object? sender, MidnightStatusUpdateArgs e)
     {
         Console.WriteLine("\n-----------------------------");
         Console.WriteLine("Midnatt status");
-        foreach (Ship ship in e.shipList)
+        foreach (Ship ship in e.ShipList)
         {
             Console.WriteLine("\n--------------");
-            Console.WriteLine("Ship name: "+ship.shipName);
-            Console.WriteLine("Current location: "+ship.currentLocation);
-            Console.WriteLine("Current status: "+ship.status);
-            Console.WriteLine("Targeted Destination: "+ship.placeDestination.name);
+            Console.WriteLine("Ship name: "+ship.ShipName);
+            Console.WriteLine("Current location: "+ship.CurrentLocation);
+            Console.WriteLine("Current status: "+ship.Status);
+            Console.WriteLine("Targeted Destination: "+ship.PlaceDestination.Name);
             Console.WriteLine("--------------");
         }
         Console.WriteLine("-----------------------------");
@@ -95,17 +95,17 @@ class Historikk_test
 
     private static void havn1_MovingToAnchorage(object? sender, MovingToAnchorageArgs e)
     {
-        Console.WriteLine(e.ship.placeDestination.name+" er full, flytter "+e.ship.shipName+" til ankerplassen");
+        Console.WriteLine(e.TheShip.PlaceDestination.Name+" er full, flytter "+e.TheShip.ShipName+" til ankerplassen");
     }
 
     private static void havn1_ReachedDestination(object? sender, ReachedDestinationArgs e)
     {
-        Console.WriteLine(e.ship.shipName+" har nådd "+e.ship.placeDestination.name);
+        Console.WriteLine(e.TheShip.ShipName+" har nådd "+e.TheShip.PlaceDestination.Name);
     }
 
     private static void havn1_ShipSailing(object? sender, ShipSailingArgs e)
     {
-        Console.WriteLine(e.ship.shipName+ " seiler...");
+        Console.WriteLine(e.TheShip.ShipName+ " seiler...");
     }
 }
 

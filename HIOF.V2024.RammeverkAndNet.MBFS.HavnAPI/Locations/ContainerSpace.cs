@@ -15,11 +15,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <summary>
         /// Navnet til containerspace
         /// </summary>
-        public string name { get; private set; }
-        internal Collection<StorageColumn> storageColumns { get; private set; }
-        internal Collection<AGV> AGVs { get; private set; }
-        internal double truckPickupPercentage { get; private set; }
-        internal int daysInStorageLimit { get; private set; }
+        public string Name { get; private set; }
+        internal Collection<StorageColumn> StorageColumns { get; private set; }
+        internal Collection<AutomatedGuidedVehicle> AGVs { get; private set; }
+        internal double TruckPickupPercentage { get; private set; }
+        internal int DaysInStorageLimit { get; private set; }
 
         /// <summary>
         /// For å lage en containerspace.
@@ -50,15 +50,15 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0");
             }
-            name = containerSpaceName;
-            this.truckPickupPercentage = truckPickupPercentage;
-            this.daysInStorageLimit = daysInStorageLimit;
-            AGVs = new Collection<AGV>();
-            storageColumns = new Collection<StorageColumn>();
+            Name = containerSpaceName;
+            this.TruckPickupPercentage = truckPickupPercentage;
+            this.DaysInStorageLimit = daysInStorageLimit;
+            AGVs = new Collection<AutomatedGuidedVehicle>();
+            StorageColumns = new Collection<StorageColumn>();
 
             for (int i = 0; i < numberOfAGVs; i++)
             {
-                AGVs.Add(new AGV());
+                AGVs.Add(new AutomatedGuidedVehicle());
             }
         }
 
@@ -75,7 +75,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             for (int id = 1; id <= amount; id++)
             {
                 StorageColumn newColumn = new StorageColumn(numberOfCranes, id, width, height);
-                storageColumns.Add(newColumn);
+                StorageColumns.Add(newColumn);
             }
         }
 
@@ -92,21 +92,21 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             int time = 0;
             DateTime start = currentDate;
 
-            foreach (var storageColumn in storageColumns)
+            foreach (var storageColumn in StorageColumns)
             {
-                foreach (var column in storageColumn.columns)
+                foreach (var column in storageColumn.Columns)
                 {
-                    if (column.IsContainerLongOverdue(currentDate, daysInStorageLimit))
+                    if (column.IsContainerLongOverdue(currentDate, DaysInStorageLimit))
                     {
                         Container removedContainer;
-                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate, daysInStorageLimit)) != null)
+                        while ((removedContainer = column.RetrieveOverdueContainer(currentDate, DaysInStorageLimit)) != null)
                         {
                             overdueContainers.Push(removedContainer);
                         } 
                     }
                 }
             }
-            truckContainers = (int)(overdueContainers.Count * truckPickupPercentage / 100);
+            truckContainers = (int)(overdueContainers.Count * TruckPickupPercentage / 100);
             agvContainers = overdueContainers.Count - truckContainers;
             while (overdueContainers.Count > 0)
             {
@@ -122,13 +122,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                 {
                     foreach (var agv in AGVs)
                     {
-                        if (agvContainers > 0 && agv.status == Status.Available)
+                        if (agvContainers > 0 && agv.Status == Status.Available)
                         {
-                            agv.status = Status.Busy;
+                            agv.Status = Status.Busy;
                             start = start.AddMinutes(1);
                             time += 1;
                         
-                            agv.status = Status.Available;
+                            agv.Status = Status.Available;
                             agvContainers--;
 
                             overdueContainers.Pop();

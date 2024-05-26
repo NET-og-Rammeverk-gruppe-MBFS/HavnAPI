@@ -17,16 +17,16 @@ public class Dockspace : ShipPlaces
 
     internal override void AddShip(Ship ship)
 	{
-		ship.currentLocation = name;
-		if (ship.repeat == true)
+		ship.CurrentLocation = Name;
+		if (ship.Repeat == true)
 		{
-			ship.status = Status.Available;
-            ships.Add(ship);
+			ship.Status = Status.Available;
+            Ships.Add(ship);
 		}
         else
         {
-            ship.status = Status.Finished;
-            finished.Add(ship);
+            ship.Status = Status.Finished;
+            Finished.Add(ship);
         }
 	}
 

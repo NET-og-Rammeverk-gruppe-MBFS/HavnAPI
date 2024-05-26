@@ -1,6 +1,6 @@
 @startuml
 
-class Agv {
+class AutomatedGuidedVehicle {
     -Container: container
     -Status: status
 }
@@ -24,11 +24,11 @@ class Column{
     -RetrieveOverdueContainer(Datetime current, int daysInStorageLimit): Container
 }
 class ContainerSpace {
-    +name : string
-    -storageColumns : Collection<StorageColumns>
+    +Name : string
+    -StorageColumns : Collection<StorageColumns>
     -AGVs : Collection<AGV>
-    -truckPickupPercentage : double
-    -daysInStorageLimit : int
+    -TruckPickupPercentage : double
+    -DaysInStorageLimit : int
 
     +AddStorageColumn(int amount, int numberOfCranes,  int length, int width, int height) : void
     -OverdueContainers(DateTime currentDate, DateTime end) : void
@@ -37,11 +37,11 @@ class Dockspace extends ShipPlaces {
     AddShip(Ship ship) : void
 }
 abstract class ShipPlaces {
-    {static} -next: int
-    +id: int
-    +name: string
-    +spaces: int
-    +shipType : ShipType
+    {static} -Next: int
+    +Id: int
+    +Name: string
+    +Spaces: int
+    +ShipType : ShipType
     -Ships: List<Ship>
     -Finished: List<Ship>
     +DepartingHarbour: EventHandler<DepartingHarbourArgs>
@@ -56,48 +56,48 @@ abstract class ShipPlaces {
 
 class StorageColumn{
     -Columns: Collection<Column>
-    -numberOfCranes: int
+    -NumberOfCranes: int
 }
 class Unloadingspace extends ShipPlaces {
-    -cranes: int
-    -truckPickupPercentage : double
-    -containerHistory : Collection<HistoryService>
-    -targetContainerSpace : ContainerSpace
+    -Cranes: int
+    -TruckPickupPercentage : double
+    -ContainerHistory : Collection<HistoryService>
+    -TargetContainerSpace : ContainerSpace
 
     -UnloadContainer(DateTime currentDateTime, DateTime end) : int
 }
 class Container {
-    {static} - next: int
-    +id: int
-    -histories: Collection<HistoryService>
-    +type: ContainerType
+    {static} - Next: int
+    +Id: int
+    -Histories: Collection<HistoryService>
+    +Type: ContainerType
 }
 class HistoryService {
-    +name: string
-    +time: DateTime
-    +description:string
+    +Name: string
+    +Time: DateTime
+    +Description:string
 
     +ToString(): string
 }
 
 class Ship {
-    {static} -next : int
-    +id: int
-    +shipName: string
-    +placeDestination: ShipPlaces
-    +spesificDateTime: Nullable<Datetime>
-    +weekly: Nullable<DayOfWeek>
-    +daily: Nullable<TimeOnly>
-    -currentRepeatedDateTime: Nullable<DateTime>
+    {static} -Next : int
+    +Id: int
+    +ShipName: string
+    +PlaceDestination: ShipPlaces
+    +SpesificDateTime: Nullable<Datetime>
+    +Weekly: Nullable<DayOfWeek>
+    +Daily: Nullable<TimeOnly>
+    -CurrentRepeatedDateTime: Nullable<DateTime>
     -Repeat: bool
-    +status: Status
+    +Status: Status
     -AmountLongContainers: int
     -AmountShortContainers: int
     +TotalContainers:int
-    +type:ShipType
-    -containers: Queue<Container>
-    +histories: Collection<HistoryService>
-    +currentLocation: string
+    +Type:ShipType
+    -Containers: Queue<Container>
+    +Histories: Collection<HistoryService>
+    +CurrentLocation: string
 
     -MakeContainers(): void
     -MoveContainer(): Container
@@ -106,18 +106,18 @@ class Ship {
 }
 
 class Harbour implements IHarbour {
-    +name: string
-    +shipHistory: List<HistoryService>
-    +containerHistory: List<HistoryService>
-    +shipPlacesList: List<ShipPlaces>
-    +shipsList: List<Ship>
-    -anchorageHarbour : Anchorage
-    +arrivedToHarbour: EventHandler<ArrivedToHarbourArgs>
-    +departingAnchorage: EventHandler<DepartingAnchorageArgs>
-    +midnightStatusUpdate: EventHandler<MidnightStatusUpdateArgs>
-    +movingToAnchorage: EventHandler<MovingToAnchorageArgs>
-    +reachedDestination: EventHandler<ReachedDestinationArgs>
-    +shipSailing: EventHandler<ShipSailingArgs>
+    +Name: string
+    +ShipHistory: List<HistoryService>
+    +ContainerHistory: List<HistoryService>
+    +ShipPlacesList: List<ShipPlaces>
+    +ShipsList: List<Ship>
+    -AnchorageHarbour : Anchorage
+    +ArrivedToHarbour: EventHandler<ArrivedToHarbourArgs>
+    +DepartingAnchorage: EventHandler<DepartingAnchorageArgs>
+    +MidnightStatusUpdate: EventHandler<MidnightStatusUpdateArgs>
+    +MovingToAnchorage: EventHandler<MovingToAnchorageArgs>
+    +ReachedDestination: EventHandler<ReachedDestinationArgs>
+    +ShipSailing: EventHandler<ShipSailingArgs>
 
     +RemoveShip(Ship ship): void
     +RemoveAllShip(): void
@@ -133,7 +133,7 @@ class Harbour implements IHarbour {
     -getAllReadOnlyShips(): IReadOnlyCollection<Ship>
     -RaiseArrivedToHarbour(Ship ship):void
     -RaiseDepartingAnchorage(Ship ship): void
-    -RaiseMidnightStatus(IReadOnlyCollection<Ship> ships): void
+    -RaiseMidnightStatus(IReadOnlyCollection<Ship> shipList): void
     -RaiseMovingToAnchorage(Ship ship): void
     -RaiseReachedDestination(Ship ship): void
     -RaiseShipSailing(Ship ship): void

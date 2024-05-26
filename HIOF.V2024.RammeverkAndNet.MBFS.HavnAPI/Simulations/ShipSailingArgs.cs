@@ -4,13 +4,13 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 {
 	public class ShipSailingArgs: EventArgs
 	{
-        public Ship ship { get; set; }
+        public Ship TheShip { get; set; }
         /// <summary>
         /// Event der skipen holder på å seile
         /// </summary>
-        public ShipSailingArgs(Ship ship)
+        public ShipSailingArgs(Ship theShip)
 		{
-            this.ship = ship;
+            this.TheShip = theShip;
 		}
 	}
 }
