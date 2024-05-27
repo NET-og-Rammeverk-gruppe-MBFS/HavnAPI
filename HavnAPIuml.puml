@@ -69,7 +69,8 @@ class Unloadingspace extends ShipPlaces {
 class Container {
     {static} - Next: int
     +Id: int
-    -Histories: Collection<HistoryService>
+    +Histories: ReadOnlyCollection<HistoryService>
+    -HistoriesInternal: Collection<HistoryService>
     +Type: ContainerType
 }
 class HistoryService {
@@ -96,7 +97,8 @@ class Ship {
     +TotalContainers:int
     +Type:ShipType
     -Containers: Queue<Container>
-    +Histories: Collection<HistoryService>
+    +Histories: ReadOnlyCollection<HistoryService>
+    -HistoriesInternal: Collection<HistoryService>
     +CurrentLocation: string
 
     -MakeContainers(): void
@@ -107,8 +109,10 @@ class Ship {
 
 class Harbour implements IHarbour {
     +Name: string
-    +ShipHistory: List<HistoryService>
-    +ContainerHistory: List<HistoryService>
+    +ShipHistory: ReadOnlyCollection<HistoryService>
+    -ShipHistoryInternal: List<HistoryService>
+    +ContainerHistory: ReadOnlyCollection<HistoryService>
+    -ContainerHistoryInternal: List<HistoryService>
     +ShipPlacesList: List<ShipPlaces>
     +ShipsList: List<Ship>
     -AnchorageHarbour : Anchorage
@@ -119,6 +123,8 @@ class Harbour implements IHarbour {
     +ReachedDestination: EventHandler<ReachedDestinationArgs>
     +ShipSailing: EventHandler<ShipSailingArgs>
 
+    +RemoveShipPlace(ShipPlaces shipPlaces): void
+    +RemoveAllShipPlaces(): void
     +RemoveShip(Ship ship): void
     +RemoveAllShip(): void
     +AddShipPlace(ShipPlace shipPlaces): void

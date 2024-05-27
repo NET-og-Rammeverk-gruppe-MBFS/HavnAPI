@@ -4,23 +4,34 @@ using System.Collections.ObjectModel;
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 public class Harbour : IHarbour
 {
+	/// <summary>
+	/// Navnet til havnen
+	/// </summary>
 	public string Name { get; }
 	/// <summary>
 	/// Liste over alle loggførte plassering for hver skip
 	/// </summary>
-	public List<HistoryService> ShipHistory { get; private set; }
+	public ReadOnlyCollection<HistoryService> ShipHistory
+  	{
+    	get { return new ReadOnlyCollection<HistoryService>(ShipHistoryInternal); }
+  	}
+	internal List<HistoryService> ShipHistoryInternal { get; set; }
 	/// <summary>
 	/// Liste over alle loggførte plassering for hver container
 	/// </summary>
-	public List<HistoryService> ContainerHistory { get; private set; }
+	public ReadOnlyCollection<HistoryService> ContainerHistory
+  	{
+    	get { return new ReadOnlyCollection<HistoryService>(ContainerHistoryInternal); }
+  	}
+	internal List<HistoryService> ContainerHistoryInternal { get; set; }
 	/// <summary>
 	/// Liste over alle plasser i havnen
 	/// </summary>
-	public List<ShipPlaces> ShipPlacesList;
+	public List<ShipPlaces> ShipPlacesList { get; private set; }
 	/// <summary>
 	/// Liste over alle skip i havnen
 	/// </summary>
-	public List<Ship> ShipsList { get; }
+	public List<Ship> ShipsList { get; private set; }
 	private Anchorage AnchorageHarbour;
 
 	public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;
@@ -53,8 +64,8 @@ public class Harbour : IHarbour
 
 		ShipsList = new List<Ship>(ships);
 		ShipPlacesList = new List<ShipPlaces>(shipPlaces);
-		ShipHistory = new List<HistoryService>();
-		ContainerHistory = new List<HistoryService>();
+		ShipHistoryInternal = new List<HistoryService>();
+		ContainerHistoryInternal = new List<HistoryService>();
 		AnchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
 		Name = harbourName;
 	}
@@ -80,10 +91,27 @@ public class Harbour : IHarbour
 
 		ShipsList = new List<Ship>();
 		ShipPlacesList = new List<ShipPlaces>();
-		ShipHistory = new List<HistoryService>();
-		ContainerHistory = new List<HistoryService>();
+		ShipHistoryInternal = new List<HistoryService>();
+		ContainerHistoryInternal = new List<HistoryService>();
 		AnchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
 		Name = harbourName;
+	}
+
+	/// <summary>
+	/// Metode for å fjerne et plass
+	/// </summary>
+	/// <param name="shipPlaces"></param>
+	public void RemoveShipPlace(ShipPlaces shipPlaces)
+	{
+		ShipPlacesList.Remove(shipPlaces);
+	}
+
+	/// <summary>
+	/// Metode for å fjerner alle plassene fra objektet
+	/// </summary>
+    public void RemoveAllShipPlaces()
+	{
+		ShipPlacesList.Clear();
 	}
 
 	/// <summary>
@@ -131,7 +159,7 @@ public class Harbour : IHarbour
 	}
 
 	/// <summary>
-	/// 
+	/// Legger til en liste med skip
 	/// </summary>
 	/// <param name="allships"></param>
 	public void AddAllShips(List<Ship> allships)
@@ -254,12 +282,12 @@ public class Harbour : IHarbour
 			ShipsList.AddRange(shipPlaces.ReturnAllShips());
 			if(shipPlaces is Unloadingspace)
 			{
-				ContainerHistory.AddRange(((Unloadingspace)shipPlaces).ContainerHistory);
+				ContainerHistoryInternal.AddRange(((Unloadingspace)shipPlaces).ContainerHistory);
 			}
 		}
 		foreach (Ship ship1 in ShipsList)
 		{
-			ShipHistory.AddRange(ship1.Histories);
+			ShipHistoryInternal.AddRange(ship1.HistoriesInternal);
 		}
 	}
 

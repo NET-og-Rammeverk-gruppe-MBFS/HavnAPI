@@ -83,7 +83,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= daysInStorageLimit - 1)
+                    if ((current - container.HistoriesInternal.Last().Time).TotalDays >= daysInStorageLimit - 1)
                     {
                         return true;
                     }
@@ -104,7 +104,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 foreach (Container container in stack)
                 {
-                    if ((current - container.Histories.Last().Time).TotalDays >= 1-daysInStorageLimit)
+                    if ((current - container.HistoriesInternal.Last().Time).TotalDays >= 1-daysInStorageLimit)
                     {
                         return stack.Pop();
                     }

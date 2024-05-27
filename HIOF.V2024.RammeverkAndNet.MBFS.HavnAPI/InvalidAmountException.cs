@@ -2,7 +2,7 @@
 
 {
     /// <summary>
-    /// Kaster et unntak når det er oppgitt plasser utenfor det akseptable området
+    /// Kaster et unntak når det er oppgitt ugyldig mengde
     /// </summary>
     public class InvalidAmountException : ArgumentOutOfRangeException
     {

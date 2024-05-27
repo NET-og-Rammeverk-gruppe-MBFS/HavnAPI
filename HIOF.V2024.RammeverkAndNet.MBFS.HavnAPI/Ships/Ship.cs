@@ -51,9 +51,13 @@ public class Ship
 
     internal Queue<Container> Containers { get; private set; }
     /// <summary>
-    /// Liste over alle loggførte plassering.
+    /// Liste over alle loggførte plassering til skip.
     /// </summary>
-    public Collection<HistoryService> Histories { get; private set; }
+    public ReadOnlyCollection<HistoryService> Histories
+  	{
+    	get { return new ReadOnlyCollection<HistoryService>(HistoriesInternal); }
+  	}
+    internal Collection<HistoryService> HistoriesInternal { get; set; }
     /// <summary>
     /// Nåværende sted til skipet. Returnerer kun navnet til plassen
     /// </summary>
@@ -101,7 +105,7 @@ public class Ship
         SpesificDateTime = spesificDateTimeSailing;
         Repeat = false;
         Containers = new Queue<Container>();
-        Histories = new Collection<HistoryService>();
+        HistoriesInternal = new Collection<HistoryService>();
         AmountLongContainers = amountOfLongContainers;
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
@@ -150,7 +154,7 @@ public class Ship
         Weekly = weeklySailing;
         this.Repeat = true;
         Containers = new Queue<Container>();
-        Histories = new Collection<HistoryService>();
+        HistoriesInternal = new Collection<HistoryService>();
         AmountLongContainers = amountOfLongContainers;
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
@@ -199,7 +203,7 @@ public class Ship
         Daily = dailySailing;
         Repeat = true;
         Containers = new Queue<Container>();
-        Histories = new Collection<HistoryService>();
+        HistoriesInternal = new Collection<HistoryService>();
         AmountLongContainers = amountOfLongContainers;
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
@@ -239,7 +243,7 @@ public class Ship
     /// <param name="history">Historikk objektet som skal bli lagt til</param>
     internal void AddHistory(HistoryService history)
     {
-        Histories.Add(history);
+        HistoriesInternal.Add(history);
         
     }
 
@@ -249,6 +253,6 @@ public class Ship
     /// <param name="history">Historikk objektet som skal bli slettet</param>
     internal void RemoveHistory(HistoryService history)
     {
-        Histories.Remove(history);
+        HistoriesInternal.Remove(history);
     }
 }

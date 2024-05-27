@@ -9,9 +9,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
         /// Event der skipen holder på å seile
         /// </summary>
         public ShipSailingArgs(Ship theShip)
-		{
-            this.TheShip = theShip;
-		}
+        {
+            TheShip = theShip;
+        }
 	}
 }
 

@@ -9,6 +9,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 	{
 		public void Run(DateTime start, DateTime end);
 
+        public void RemoveShipPlace(ShipPlaces shipPlaces);
+        public void RemoveAllShipPlaces();
+
         public void RemoveShip(Ship ship);
 
         public void RemoveAllShip();

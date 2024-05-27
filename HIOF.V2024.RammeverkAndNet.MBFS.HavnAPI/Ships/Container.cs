@@ -9,7 +9,14 @@ public class Container
 	/// ID til en container. ID er autogenerert
 	/// </summary>
 	public int Id { get; private set; }
-	internal Collection<HistoryService> Histories { get; private set; }
+	/// <summary>
+	/// Liste over alle loggførte plassering til container
+	/// </summary>
+	public ReadOnlyCollection<HistoryService> Histories
+  	{
+    	get { return new ReadOnlyCollection<HistoryService>(HistoriesInternal); }
+  	}
+	internal Collection<HistoryService> HistoriesInternal { get; set; }
 	/// <summary>
 	/// Dette forteller hva slags type container det er
 	/// </summary>
@@ -22,7 +29,7 @@ public class Container
 	internal Container(ContainerType containerType)
 	{
 		Id = Interlocked.Increment(ref Next);
-		Histories = new Collection<HistoryService>();
+		HistoriesInternal = new Collection<HistoryService>();
 		Type = containerType;
 		}
 }

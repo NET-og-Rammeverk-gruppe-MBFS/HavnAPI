@@ -7,7 +7,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 	{
         public Ship TheShip { get; private set; }
         /// <summary>
-        /// Når skipet forlater sitt destinasjon
+        /// Når skipet forlater venteplassen
         /// </summary>
         public DepartingAnchorageArgs(Ship theship)
 		{

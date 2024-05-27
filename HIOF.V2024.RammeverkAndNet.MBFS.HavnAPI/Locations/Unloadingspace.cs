@@ -67,7 +67,7 @@ public class Unloadingspace : ShipPlaces
                 start = start.AddMinutes(TimePerContainer);
 
                 Container container = ship.MoveContainer();
-                container.Histories.Add(new HistoryService("Container " + container.Id, start, Name));
+                container.HistoriesInternal.Add(new HistoryService("Container " + container.Id, start, Name));
                 ContainerHistory.Add(new HistoryService("Container " + container.Id, start, Name));
 
                 if (truckContainers > 0)
@@ -90,7 +90,7 @@ public class Unloadingspace : ShipPlaces
                         Column column = storageColumn.Columns[random.Next(storageColumn.Columns.Count)];
 
                         column.AddContainer(agv.Container);
-                        container.Histories.Add(new HistoryService("Container " + container.Id, start, Name + " StorageColumn"));
+                        container.HistoriesInternal.Add(new HistoryService("Container " + container.Id, start, Name + " StorageColumn"));
                         ContainerHistory.Add(new HistoryService("Container " + container.Id, start, Name + " StorageColumn"));
                         agv.Container = null;
                         agv.Status = Status.Available;
