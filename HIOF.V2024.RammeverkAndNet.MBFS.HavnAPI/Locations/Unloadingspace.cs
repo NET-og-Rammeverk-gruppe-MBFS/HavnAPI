@@ -29,11 +29,11 @@ public class Unloadingspace : ShipPlaces
     {
         if (unloadingCranes < shipSpaces)
         {
-            throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces");
+            throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces.");
         }
         if (targetContainerSpaceUnload == null)
         {
-            throw new InvalidDestinationException("TargetContainerSpace cannot be null");
+            throw new InvalidDestinationException("TargetContainerSpace cannot be null.");
         }
 
         Cranes = unloadingCranes;

@@ -81,22 +81,22 @@ public class Ship
     {
         if (string.IsNullOrEmpty(shipname))
         {
-            throw new InvalidNameException("ShipName cannot be empty");
+            throw new InvalidNameException("ShipName cannot be empty.");
         }
 
         if (placedestination == null)
         {
-            throw new InvalidDestinationException("ShipDestination cannot be null");
+            throw new InvalidDestinationException("ShipDestination cannot be null.");
         }
 
         if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
-            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0.");
         }
 
         if (placedestination.ShipType != ShipType.All && shipType != placedestination.ShipType)
         {
-            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types.");
         }
 
         Id = Interlocked.Increment(ref Next);
@@ -130,22 +130,22 @@ public class Ship
     {
         if (string.IsNullOrEmpty(shipname))
         {
-            throw new InvalidNameException("ShipName cannot be empty");
+            throw new InvalidNameException("ShipName cannot be empty.");
         }
 
         if (placedestination == null)
         {
-            throw new InvalidDestinationException("ShipDestination cannot be null");
+            throw new InvalidDestinationException("ShipDestination cannot be null.");
         }
 
         if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
-            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0.");
         }
 
         if (placedestination.ShipType != ShipType.All && shipType != placedestination.ShipType)
         {
-            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types.");
         }
 
         Id = Interlocked.Increment(ref Next);
@@ -179,22 +179,22 @@ public class Ship
     {
         if (string.IsNullOrEmpty(shipname))
         {
-            throw new InvalidNameException("ShipName cannot be empty");
+            throw new InvalidNameException("ShipName cannot be empty.");
         }
 
         if (placedestination == null)
         {
-            throw new InvalidDestinationException("ShipDestination cannot be null");
+            throw new InvalidDestinationException("ShipDestination cannot be null.");
         }
 
         if (amountOfLongContainers < 0 || amountOfShortContainers < 0)
         {
-            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0");
+            throw new InvalidAmountOfContainersException("AmountOfContainers must be greater than or equal to 0.");
         }
 
         if (placedestination.ShipType != ShipType.All && shipType != placedestination.ShipType)
         {
-            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types");
+            throw new InvalidShipTypeDestinationException("ShipType must be the same as the destination type, or destination must allow all types.");
         }
 
         Id = Interlocked.Increment(ref Next);

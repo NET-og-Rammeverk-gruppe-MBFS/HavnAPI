@@ -39,12 +39,12 @@ public abstract class ShipPlaces
 	{
 		if (string.IsNullOrWhiteSpace(placeName))
 		{
-			throw new InvalidNameException("name cannot be empty");
+			throw new InvalidNameException("name cannot be empty.");
 		}
 
 		if (shipSpaces <= 0)
 		{
-			throw new InvalidAmountException("ShipSpaces must be greater than 0");
+			throw new InvalidAmountException("ShipSpaces must be greater than 0.");
 		}
 
 		Name = placeName;

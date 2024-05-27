@@ -36,19 +36,19 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         {
             if (string.IsNullOrWhiteSpace(containerSpaceName))
 		    {
-			    throw new InvalidNameException("name cannot be empty");
+			    throw new InvalidNameException("name cannot be empty.");
 		    }
             if (numberOfAGVs < 1)
             {
-                throw new InvalidAmountException("You need at least one AGV");
+                throw new InvalidAmountException("You need at least one AGV.");
             }
             if (daysInStorageLimit < 1)
             {
-                throw new InvalidDaysInStorageAmountException("Days in storage must be at least 1");
+                throw new InvalidDaysInStorageAmountException("Days in storage must be at least 1.");
             }
             if (truckPickupPercentage < 0 || truckPickupPercentage > 1)
             {
-                throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0");
+                throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0.");
             }
             Name = containerSpaceName;
             this.TruckPickupPercentage = truckPickupPercentage;

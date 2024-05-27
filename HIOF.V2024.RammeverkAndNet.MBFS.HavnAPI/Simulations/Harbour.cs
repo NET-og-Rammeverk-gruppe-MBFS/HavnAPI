@@ -54,12 +54,12 @@ public class Harbour : IHarbour
 	{
 		if (string.IsNullOrEmpty(harbourName))
 		{
-            throw new InvalidNameException("Name can't be null or empty");
+            throw new InvalidNameException("Name can't be null or empty.");
         }
 
 		if (spacesInAnchorage <= 0)
 		{
-            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
+            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0.");
         }
 
 		ShipsList = new List<Ship>(ships);
@@ -81,12 +81,12 @@ public class Harbour : IHarbour
 	{
 		if (string.IsNullOrEmpty(harbourName))
 		{
-            throw new InvalidNameException("Name can't be null or empty");
+            throw new InvalidNameException("Name can't be null or empty.");
         }
 
 		if (spacesInAnchorage <= 0)
 		{
-            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0");
+            throw new InvalidAmountException("SpacesInAnchorage must be greater than 0.");
         }
 
 		ShipsList = new List<Ship>();
@@ -178,7 +178,7 @@ public class Harbour : IHarbour
 	{
 		if (end <= start)
 		{
-            throw new InvalidDateTimeRangeException("End date must be greater than start date", nameof(end));
+            throw new InvalidDateTimeRangeException("End date must be greater than start date.", nameof(end));
         }
 
 		//Vi starter med å lage en timer
