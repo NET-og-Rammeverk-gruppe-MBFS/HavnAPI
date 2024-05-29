@@ -29,7 +29,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             {
                 Columns.Add(new Column(width, height));
             }
-
         }
     }
 }

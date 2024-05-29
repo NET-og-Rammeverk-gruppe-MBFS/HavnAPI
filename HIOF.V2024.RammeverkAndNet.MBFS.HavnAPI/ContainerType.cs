@@ -16,6 +16,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
         /// <summary>
         /// Short er en type for korte ISO container
         /// </summary>
-        Short
+        Short,
     }
 }

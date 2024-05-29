@@ -57,6 +57,7 @@ public class Ship
   	{
     	get { return new ReadOnlyCollection<HistoryService>(HistoriesInternal); }
   	}
+
     internal Collection<HistoryService> HistoriesInternal { get; set; }
     /// <summary>
     /// Nåværende sted til skipet. Returnerer kun navnet til plassen
@@ -110,7 +111,6 @@ public class Ship
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
         Type = shipType;
-        
     }
 
     /// <summary>
@@ -159,7 +159,6 @@ public class Ship
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
         Type = shipType;
-        
     }
 
     /// <summary>
@@ -208,7 +207,6 @@ public class Ship
         AmountShortContainers = amountOfShortContainers;
         TotalContainers = amountOfLongContainers + amountOfShortContainers;
         Type = shipType;
-        
     }
 
     /// <summary>
@@ -225,7 +223,6 @@ public class Ship
         {
             Containers.Enqueue(new Container(ContainerType.Short));
         }
-
     }
 
     /// <summary>

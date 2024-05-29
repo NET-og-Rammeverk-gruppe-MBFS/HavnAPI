@@ -59,6 +59,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                     StackedContainers.Add(new Stack<Container>());
                 }
             }
+
             else if (container.Type == ContainerType.Short)
             {
                 MaxContainers = MaxContainers*2;
@@ -89,6 +90,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                     }
                 }
             }
+
             return false;
         }
 
@@ -109,9 +111,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                         return stack.Pop();
                     }
                 }
+
                 if (stack.Count != 0)
                     return stack.Pop();
             }
+
             return null;
         }
     }

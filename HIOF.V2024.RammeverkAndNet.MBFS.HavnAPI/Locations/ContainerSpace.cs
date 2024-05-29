@@ -35,21 +35,25 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         public ContainerSpace(string containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
             if (string.IsNullOrWhiteSpace(containerSpaceName))
-		    {
-			    throw new InvalidNameException("name cannot be empty.");
-		    }
+            {
+                throw new InvalidNameException("name cannot be empty.");
+            }
+
             if (numberOfAGVs < 1)
             {
                 throw new InvalidAmountException("You need at least one AGV.");
             }
+
             if (daysInStorageLimit < 1)
             {
                 throw new InvalidDaysInStorageAmountException("Days in storage must be at least 1.");
             }
+
             if (truckPickupPercentage < 0 || truckPickupPercentage > 1)
             {
                 throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0.");
             }
+
             Name = containerSpaceName;
             this.TruckPickupPercentage = truckPickupPercentage;
             this.DaysInStorageLimit = daysInStorageLimit;
@@ -67,14 +71,14 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// </summary>
         /// <param name="amount">Antall lagringskolonner</param>
         /// <param name="numberOfCranes"> Antall kraner for denne lagringskolonnen</param>
-        /// <param name="length">Det er lengden basert på antall containere</param>
+        /// <param name="numberOfColumns">Hvor mange colonner det er i en lagringskolonne</param>
         /// <param name="width">Det er bredden basert på antall containere</param>
         /// <param name="height">Det er høyden basert på antall containere</param>
-        public void AddStorageColumn(int amount, int numberOfCranes, int length, int width, int height)
+        public void AddStorageColumn(int amount, int numberOfCranes, int numberOfColumns, int width, int height)
         {
             for (int id = 1; id <= amount; id++)
             {
-                StorageColumn newColumn = new StorageColumn(numberOfCranes, id, width, height);
+                StorageColumn newColumn = new StorageColumn(numberOfCranes, numberOfColumns, width, height);
                 StorageColumns.Add(newColumn);
             }
         }
@@ -106,6 +110,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                     }
                 }
             }
+
             truckContainers = (int)(overdueContainers.Count * TruckPickupPercentage / 100);
             agvContainers = overdueContainers.Count - truckContainers;
             while (overdueContainers.Count > 0)
@@ -135,8 +140,10 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                         }
                     }
                 }
+
                 start = start.AddMinutes(totalRemoveContainerTime);
             }
+
             return time; 
         }
     }

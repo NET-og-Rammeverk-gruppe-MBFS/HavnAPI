@@ -21,7 +21,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
         /// <summary>
         /// Tankship beskriver at det er gass og andre farlig stoffer i skipet
         /// </summary>
-        Tankship
+        Tankship,
     }
 }
 

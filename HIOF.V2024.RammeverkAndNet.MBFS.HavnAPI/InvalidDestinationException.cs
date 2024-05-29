@@ -13,7 +13,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
     {
         public InvalidDestinationException(string message) : base(message)
         {
-
         }
     }
 }

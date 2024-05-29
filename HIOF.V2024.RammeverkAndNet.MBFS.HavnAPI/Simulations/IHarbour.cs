@@ -5,11 +5,12 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
 {
-	public interface IHarbour
-	{
-		public void Run(DateTime start, DateTime end);
+    public interface IHarbour
+    {
+        public void Run(DateTime start, DateTime end);
 
         public void RemoveShipPlace(ShipPlaces shipPlaces);
+
         public void RemoveAllShipPlaces();
 
         public void RemoveShip(Ship ship);

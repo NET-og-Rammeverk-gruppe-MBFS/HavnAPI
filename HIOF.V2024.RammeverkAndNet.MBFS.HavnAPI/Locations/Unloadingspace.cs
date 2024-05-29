@@ -31,6 +31,7 @@ public class Unloadingspace : ShipPlaces
         {
             throw new InvalidAmountOfCranesPerSpacesException("The amount of cranes can't be less than the amount of spaces.");
         }
+
         if (targetContainerSpaceUnload == null)
         {
             throw new InvalidDestinationException("TargetContainerSpace cannot be null.");
@@ -76,6 +77,7 @@ public class Unloadingspace : ShipPlaces
                     truckContainers--;
                     start = start.AddMinutes(1);
                 }
+
                 else if (agvContainers > 0)
                 {
                     AutomatedGuidedVehicle agv = TargetContainerSpace.AGVs.FirstOrDefault(a => a.Status == Status.Available);
@@ -97,18 +99,21 @@ public class Unloadingspace : ShipPlaces
                         agvContainers--;
                     }
                 }
+
                 ContainersToUnload--;
             }
+
             if (ship.Repeat == false)
             {
                 ship.Status = Status.Finished;
                 Finished.Add(ship);
                 Ships.Remove(ship);
             }
+
             else
                 ship.Status = Status.Available;
         }
+
         return totalUnloadTime;
     }
-
 }

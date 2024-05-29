@@ -17,6 +17,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
         /// <summary>
         /// Finished beskriver at objektet er ferdig med målet sitt
         /// </summary>
-        Finished
+        Finished,
     }
 }
