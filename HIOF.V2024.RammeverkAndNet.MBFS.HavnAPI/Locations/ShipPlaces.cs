@@ -25,8 +25,8 @@ public abstract class ShipPlaces
     /// Dette forteller hva slags type skip som er tillatt
     /// </summary>
     public ShipType ShipType { get; private set; }
-    internal List<Ship> Ships { get; }
-    internal List<Ship> Finished { get; }
+    internal Collection<Ship> Ships { get; }
+    internal Collection<Ship> Finished { get; }
 
     public event EventHandler<DepartingHarbourArgs> DepartingHarbour;
 
@@ -50,8 +50,8 @@ public abstract class ShipPlaces
         Name = placeName.ToString();
         Space = shipSpaces;
         ShipType = shipType;
-        Ships = new List<Ship>();
-        Finished = new List<Ship>();
+        Ships = new Collection<Ship>();
+        Finished = new Collection<Ship>();
         Id = Interlocked.Increment(ref Next);
     }
 

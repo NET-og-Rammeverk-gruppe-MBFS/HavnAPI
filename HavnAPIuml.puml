@@ -42,8 +42,8 @@ abstract class ShipPlaces {
     +Name: string
     +Spaces: int
     +ShipType : ShipType
-    -Ships: List<Ship>
-    -Finished: List<Ship>
+    -Ships: Collection<Ship>
+    -Finished: Collection<Ship>
     +DepartingHarbour: EventHandler<DepartingHarbourArgs>
 
     -AddShip(Ship ship): void
@@ -110,11 +110,11 @@ class Ship {
 class Harbour implements IHarbour {
     +Name: string
     +ShipHistory: ReadOnlyCollection<HistoryService>
-    -ShipHistoryInternal: List<HistoryService>
+    -ShipHistoryInternal: Collection<HistoryService>
     +ContainerHistory: ReadOnlyCollection<HistoryService>
-    -ContainerHistoryInternal: List<HistoryService>
-    +ShipPlacesList: List<ShipPlaces>
-    +ShipsList: List<Ship>
+    -ContainerHistoryInternal: Collection<HistoryService>
+    +ShipPlacesList: Collection<ShipPlaces>
+    +ShipsList: Collection<Ship>
     -AnchorageHarbour : Anchorage
     +ArrivedToHarbour: EventHandler<ArrivedToHarbourArgs>
     +DepartingAnchorage: EventHandler<DepartingAnchorageArgs>

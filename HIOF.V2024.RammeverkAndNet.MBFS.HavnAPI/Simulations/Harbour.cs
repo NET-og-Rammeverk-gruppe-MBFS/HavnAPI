@@ -16,7 +16,7 @@ public class Harbour : IHarbour
         get { return new ReadOnlyCollection<HistoryService>(ShipHistoryInternal); }
     }
 
-    internal List<HistoryService> ShipHistoryInternal { get; set; }
+    internal Collection<HistoryService> ShipHistoryInternal { get; set; }
     /// <summary>
     /// Liste over alle loggførte plassering for hver container
     /// </summary>
@@ -25,15 +25,15 @@ public class Harbour : IHarbour
         get { return new ReadOnlyCollection<HistoryService>(ContainerHistoryInternal); }
     }
 
-    internal List<HistoryService> ContainerHistoryInternal { get; set; }
+    internal Collection<HistoryService> ContainerHistoryInternal { get; set; }
     /// <summary>
     /// Liste over alle plasser i havnen
     /// </summary>
-    public List<ShipPlaces> ShipPlacesList { get; private set; }
+    public Collection<ShipPlaces> ShipPlacesList { get; private set; }
     /// <summary>
     /// Liste over alle skip i havnen
     /// </summary>
-    public List<Ship> ShipsList { get; private set; }
+    public Collection<Ship> ShipsList { get; private set; }
     private Anchorage AnchorageHarbour;
     public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;
     public event EventHandler<DepartingAnchorageArgs> DepartingAnchorage;
@@ -63,10 +63,10 @@ public class Harbour : IHarbour
             throw new InvalidAmountException("SpacesInAnchorage must be greater than 0.");
         }
 
-        ShipsList = new List<Ship>(ships);
-        ShipPlacesList = new List<ShipPlaces>(shipPlaces);
-        ShipHistoryInternal = new List<HistoryService>();
-        ContainerHistoryInternal = new List<HistoryService>();
+        ShipsList = new Collection<Ship>(ships);
+        ShipPlacesList = new Collection<ShipPlaces>(shipPlaces);
+        ShipHistoryInternal = new Collection<HistoryService>();
+        ContainerHistoryInternal = new Collection<HistoryService>();
         AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
         Name = harbourName.ToString();
     }
@@ -90,10 +90,10 @@ public class Harbour : IHarbour
             throw new InvalidAmountException("SpacesInAnchorage must be greater than 0.");
         }
 
-        ShipsList = new List<Ship>();
-        ShipPlacesList = new List<ShipPlaces>();
-        ShipHistoryInternal = new List<HistoryService>();
-        ContainerHistoryInternal = new List<HistoryService>();
+        ShipsList = new Collection<Ship>();
+        ShipPlacesList = new Collection<ShipPlaces>();
+        ShipHistoryInternal = new Collection<HistoryService>();
+        ContainerHistoryInternal = new Collection<HistoryService>();
         AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
         Name = harbourName.ToString();
     }
@@ -145,9 +145,12 @@ public class Harbour : IHarbour
     /// Metode for å legge til alle objektene som arver ShipPlace som Unloadingspace og Dockspace
     /// </summary>
     /// <param name="shipPlaces">Liste med Unloadingspace og/eller Dockspace objekter</param>
-    public void AddAllShipPlaces(List<ShipPlaces> shipPlaces)
+    public void AddAllShipPlaces(List<ShipPlaces> allShipPlaces)
     {
-        ShipPlacesList.AddRange(shipPlaces);
+        foreach (ShipPlaces shipplace in allShipPlaces)
+        {
+            ShipPlacesList.Add(shipplace);
+        }
     }
 
     /// <summary>
@@ -165,7 +168,10 @@ public class Harbour : IHarbour
     /// <param name="allships"></param>
     public void AddAllShips(List<Ship> allships)
     {
-        ShipsList.AddRange(allships);
+        foreach (Ship ship in allships)
+        {
+            ShipsList.Add(ship);
+        }
     }
 
    /// <summary>
@@ -283,16 +289,22 @@ public class Harbour : IHarbour
 
         foreach (ShipPlaces shipPlaces in ShipPlacesList)
         {
-            ShipsList.AddRange(shipPlaces.ReturnAllShips());
+            AddAllShips(shipPlaces.ReturnAllShips());
             if(shipPlaces is Unloadingspace)
             {
-                ContainerHistoryInternal.AddRange(((Unloadingspace)shipPlaces).ContainerHistory);
+                foreach (HistoryService containerHistory in ((Unloadingspace)shipPlaces).ContainerHistory)
+                {
+                    ContainerHistoryInternal.Add(containerHistory);
+                }
             }
         }
 
         foreach (Ship ship1 in ShipsList)
         {
-            ShipHistoryInternal.AddRange(ship1.HistoriesInternal);
+            foreach (HistoryService shipHistory in ship1.HistoriesInternal)
+            {
+                ShipHistoryInternal.Add(shipHistory);
+            }
         }
     }
 
