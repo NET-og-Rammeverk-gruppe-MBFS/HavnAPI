@@ -26,7 +26,7 @@ class Historikk_test
         shipPlaces.Add(losseplass2);
 
         
-        Ship ship1 = new Ship(new SimulationName("Bob"), kaiplass1, DateTime.Now, 0, 0, ShipType.Passenger);
+        Ship ship1 = new Ship(new SimulationName("Bob"), kaiplass1, new DateTime(2024, 6, 3), 0, 0, ShipType.Passenger);
         Ship ship2 = new Ship(new SimulationName("Fred"), kaiplass2, new DateTime(2024, 6, 2), 0, 0, ShipType.Passenger);
         Ship ship3 = new Ship(new SimulationName("Ibrahim"), losseplass2, DayOfWeek.Monday, 10, 10, ShipType.Cargo);
         Ship ship4 = new Ship(new SimulationName("Magnus"), losseplass1, TimeOnly.Parse("15:00"), 20, 0, ShipType.Cargo);
