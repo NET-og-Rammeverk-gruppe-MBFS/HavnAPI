@@ -30,7 +30,7 @@ class ContainerSpace {
     -TruckPickupPercentage : double
     -DaysInStorageLimit : int
 
-    +AddStorageColumn(int amount, int numberOfCranes,  int length, int width, int height) : void
+    +AddStorageColumn(int amount, int numberOfCranes,  int numberOfColumns, int width, int height) : void
     -OverdueContainers(DateTime currentDate, DateTime end) : void
 }
 class Dockspace extends ShipPlaces {

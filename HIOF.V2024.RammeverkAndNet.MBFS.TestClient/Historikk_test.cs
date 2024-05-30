@@ -1,3 +1,4 @@
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
@@ -10,12 +11,12 @@ class Historikk_test
         ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
         ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
         
-        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, HavnAPI.ShipType.Passenger);
-        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, HavnAPI.ShipType.Passenger);
-        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, HavnAPI.ShipType.Passenger);
+        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, ShipType.Passenger);
+        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, ShipType.Passenger);
+        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, ShipType.Passenger);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, HavnAPI.ShipType.Cargo,1, 0.5, ContainerZone1);
-        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, HavnAPI.ShipType.Cargo, 5, 0.5, ContainerZone1);
+        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, ShipType.Cargo,1, 0.5, ContainerZone1);
+        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, ShipType.Cargo, 5, 0.5, ContainerZone1);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
         shipPlaces.Add(kaiplass1);
@@ -25,11 +26,11 @@ class Historikk_test
         shipPlaces.Add(losseplass2);
 
         
-        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, 0, 0, HavnAPI.ShipType.Passenger);
-        Ship ship2 = new Ship("Fred", kaiplass2, DateTime.Now, 0, 0, HavnAPI.ShipType.Passenger);
-        Ship ship3 = new Ship("Ibrahim", losseplass2, DayOfWeek.Monday, 10, 10, HavnAPI.ShipType.Cargo);
-        Ship ship4 = new Ship("Magnus", losseplass1, TimeOnly.Parse("15:00"), 20, 0, HavnAPI.ShipType.Cargo);
-        Ship ship5 = new Ship("Colorline", losseplass1, TimeOnly.Parse("17:00"), 30, 10, HavnAPI.ShipType.Cargo);
+        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, 0, 0, ShipType.Passenger);
+        Ship ship2 = new Ship("Fred", kaiplass2, new DateTime(2024, 6, 2), 0, 0, ShipType.Passenger);
+        Ship ship3 = new Ship("Ibrahim", losseplass2, DayOfWeek.Monday, 10, 10, ShipType.Cargo);
+        Ship ship4 = new Ship("Magnus", losseplass1, TimeOnly.Parse("15:00"), 20, 0, ShipType.Cargo);
+        Ship ship5 = new Ship("Colorline", losseplass1, TimeOnly.Parse("17:00"), 30, 10, ShipType.Cargo);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);
@@ -40,6 +41,8 @@ class Historikk_test
 
        
         Harbour havn1 = new Harbour("havn1", 50, ships, shipPlaces);
+        havn1.AddShip(ship1);
+        havn1.AddShipPlace(kaiplass1);
 
 
         havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;
@@ -49,7 +52,7 @@ class Historikk_test
         havn1.ReachedDestination += havn1_ReachedDestination;
         havn1.ShipSailing += havn1_ShipSailing;
 
-        havn1.Run(DateTime.Now, DateTime.Now.AddDays(5));
+        havn1.Run(new DateTime(2024, 5, 25), new DateTime(2024, 6, 5));
 
        
         Console.WriteLine("Results:");
