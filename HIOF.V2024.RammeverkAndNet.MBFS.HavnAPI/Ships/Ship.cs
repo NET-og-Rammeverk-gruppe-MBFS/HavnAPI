@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 
 public class Ship
 {
-    private static int Next = 0;
     /// <summary>
     /// ID til et skip. ID er autogenerert
     /// </summary>
@@ -32,14 +31,10 @@ public class Ship
     /// Gjentagende seiling for hver dag
     /// </summary>
     public Nullable<TimeOnly> Daily { get; private set; } = null;
-    internal Nullable<DateTime> CurrentRepeatedDateTime { get; set; } = null;
-    internal bool Repeat { get; set; }
     /// <summary>
     /// Nåværende status til skipet
     /// </summary>
     public Status Status {get; internal set; } = Status.Available;
-    internal int AmountLongContainers { get; set; }
-    internal int AmountShortContainers { get; set; }
     /// <summary>
     /// Totalt antall containere i skipet
     /// </summary>
@@ -49,7 +44,6 @@ public class Ship
     /// </summary>
     public ShipType Type { get; private set; }
 
-    internal Queue<Container> Containers { get; private set; }
     /// <summary>
     /// Liste over alle loggførte plassering til skip.
     /// </summary>
@@ -58,7 +52,6 @@ public class Ship
     	get { return new ReadOnlyCollection<HistoryService>(HistoriesInternal); }
   	}
 
-    internal Collection<HistoryService> HistoriesInternal { get; set; }
     /// <summary>
     /// Nåværende sted til skipet. Returnerer kun navnet til plassen
     /// </summary>
@@ -209,9 +202,14 @@ public class Ship
         Type = shipType;
     }
 
-    /// <summary>
-    /// Legger til containere i skipet basert på antall lange og korte containers
-    /// </summary>
+    internal int AmountLongContainers { get; set; }
+    internal int AmountShortContainers { get; set; }
+    internal Collection<HistoryService> HistoriesInternal { get; set; }
+    internal Queue<Container> Containers { get; private set; }
+    internal Nullable<DateTime> CurrentRepeatedDateTime { get; set; } = null;
+    internal bool Repeat { get; set; }
+    private static int Next = 0;
+
     internal void MakeContainers()
     {
         Containers.Clear();

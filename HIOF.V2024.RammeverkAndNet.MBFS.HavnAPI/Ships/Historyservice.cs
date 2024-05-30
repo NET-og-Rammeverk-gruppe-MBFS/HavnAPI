@@ -18,21 +18,15 @@ public class HistoryService
     /// </summary>
     public string Description { get; private set; }
 
-    /// <summary>
-    /// Oppretter en ny instans av <see cref="HistoryService"/>-klassen for � holde styr p� historiske hendelser.
-    /// Dette lar deg lagre et stedsnavn sammen med et tidspunkt for en hendelse, noe som er nyttig for � organisere og hente historisk informasjon.
-    /// </summary>
-    /// <param name="historyName">Navnet p� stedet hvor hendelsen skjedde.</param>
-    /// <param name="entryTime">Tidspunktet for hendelsen.</param>
+    public override string ToString()
+    {
+        return $"{Name} - {Time} - {Description}";
+    }
+    
     internal HistoryService(string historyName, DateTime entryTime, string historyDescription)
     {
         Description = historyDescription;
         Name = historyName;
         Time = entryTime;
-    }
-
-    public override string ToString()
-    {
-        return $"{Name} - {Time} - {Description}";
     }
 }

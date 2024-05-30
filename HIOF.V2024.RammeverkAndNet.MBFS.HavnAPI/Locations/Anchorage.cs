@@ -7,8 +7,6 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Anchorage : ShipPlaces
 {
-    internal Queue<Ship> ShipQueue { get; }
-
     /// <summary>
     /// For å lage venteplass
     /// </summary>
@@ -22,28 +20,19 @@ public class Anchorage : ShipPlaces
         ShipQueue = new Queue<Ship>();
     }
 
-    /// <summary>
-    /// Flytter skipet fra ventelisten til ankerplassen
-    /// <summary>
-    /// <param name="id">Id til skipet som flyttes</param>
+
+    internal Queue<Ship> ShipQueue { get; }
     internal Ship MoveShipFromQueue()
     {
         return ShipQueue.Dequeue();
     }
 
-    /// <summary>
-    /// Legger til et  skip til ankerplassen
-    /// <summary>
-    /// <param name="ship">Skipet som skal legges til</param>
+
     internal void AddShipToQueue(Ship ship)
     {
         ShipQueue.Enqueue(ship);
     }
 
-    /// <summary>
-    /// Metode som returnerer liste av alle skip som er i listen og køen
-    /// </summary>
-    /// <returns> Alle skip i List<Ship> liste ></returns>
     internal override List<Ship> ReturnAllShips()
     {
         List<Ship> OldShips = new List<Ship>(Ships);
@@ -60,9 +49,6 @@ public class Anchorage : ShipPlaces
         return OldShips;
     }
 
-    /// <summary>
-    /// AvailableSpace må override siden Losseplass har med Kø liste
-    /// </summary>
     internal override bool AvailableSpace
     {
         get

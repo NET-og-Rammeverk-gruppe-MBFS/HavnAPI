@@ -11,9 +11,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {
     public class StorageColumn
     {
-        internal Collection<Column> Columns { get; private set; }
-        internal int NumberOfCranes { get; private set; }
-
         /// <summary>
         /// For å lage en lagringskolonne
         /// </summary>
@@ -30,5 +27,8 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                 Columns.Add(new Column(width, height));
             }
         }
+
+        internal Collection<Column> Columns { get; private set; }
+        internal int NumberOfCranes { get; private set; }
     }
 }

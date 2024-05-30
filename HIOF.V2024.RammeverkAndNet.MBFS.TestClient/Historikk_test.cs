@@ -41,8 +41,6 @@ class Historikk_test
 
        
         Harbour havn1 = new Harbour(new SimulationName("havn1"), 50, ships, shipPlaces);
-        havn1.AddShip(ship1);
-        havn1.AddShipPlace(kaiplass1);
 
 
         havn1.ArrivedToHarbour += havn1_ArrivedToHarbour;

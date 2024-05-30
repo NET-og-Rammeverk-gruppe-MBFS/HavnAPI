@@ -16,10 +16,6 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// Navnet til containerspace
         /// </summary>
         public string Name { get; private set; }
-        internal Collection<StorageColumn> StorageColumns { get; private set; }
-        internal Collection<AutomatedGuidedVehicle> AGVs { get; private set; }
-        internal double TruckPickupPercentage { get; private set; }
-        internal int DaysInStorageLimit { get; private set; }
 
         /// <summary>
         /// For å lage en containerspace.
@@ -83,10 +79,11 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
             }
         }
 
-        /// <summary>
-        /// Fjerner de containere som er lagret for lenge og fjerner dem fra lageret
-        /// </summary>
-        /// <param name="currentDate"></param>
+        internal Collection<StorageColumn> StorageColumns { get; private set; }
+        internal Collection<AutomatedGuidedVehicle> AGVs { get; private set; }
+        internal double TruckPickupPercentage { get; private set; }
+        internal int DaysInStorageLimit { get; private set; }
+
         internal int OverdueContainers(DateTime currentDate, DateTime end) 
         {
             Stack<Container> overdueContainers = new Stack<Container>();

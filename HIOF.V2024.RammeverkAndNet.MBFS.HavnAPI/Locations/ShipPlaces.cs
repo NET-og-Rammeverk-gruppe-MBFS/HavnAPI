@@ -8,7 +8,6 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 
 public abstract class ShipPlaces
 {
-    private static int Next = 0;
     /// <summary>
     /// ID til plassen. ID er autogenerert
     /// </summary>
@@ -25,10 +24,12 @@ public abstract class ShipPlaces
     /// Dette forteller hva slags type skip som er tillatt
     /// </summary>
     public ShipType ShipType { get; private set; }
-    internal Collection<Ship> Ships { get; }
-    internal Collection<Ship> Finished { get; }
 
     public event EventHandler<DepartingHarbourArgs> DepartingHarbour;
+
+    private static int Next = 0;
+    internal Collection<Ship> Ships { get; }
+    internal Collection<Ship> Finished { get; }
 
     /// <param name="name">Navnet til plassen</param>
     /// <param name="shipSpaces">Antall plasser i plassen</param>
@@ -55,10 +56,6 @@ public abstract class ShipPlaces
         Id = Interlocked.Increment(ref Next);
     }
 
-    /// <summary>
-    /// Metoden legger til ship i de plassene for å simulere at de ha nådd denne plassen
-    /// </summary>
-    /// <param name="ship"></param>
     internal virtual void AddShip(Ship ship)
     {
         ship.CurrentLocation = Name;
@@ -69,11 +66,6 @@ public abstract class ShipPlaces
         Ships.Add(ship);
     }
 
-    /// <summary>
-    /// En metode som flytter ship fra og til en annen plass under simuleringen.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
     internal virtual Ship MoveShip(int id)
     {
         Ship TheShip;
@@ -89,10 +81,6 @@ public abstract class ShipPlaces
         return null;
     }
 
-    /// <summary>
-    /// Det fjerner alle shipene som har repeterende seilinger fra lista. Det blir brukt i simulasjonen.
-    /// </summary>
-    /// <returns></returns>
     internal List<Ship> ReturnRepeatingShips()
     {
         List<Ship> OldShips = new List<Ship>();
@@ -108,10 +96,6 @@ public abstract class ShipPlaces
         return OldShips;
     }
 
-    /// <summary>
-    /// Det fjerner alle shipene fra lista. Det blir brukt i simulasjonen.
-    /// </summary>
-    /// <returns></returns>
     internal virtual List<Ship> ReturnAllShips()
     {
         List<Ship> OldShips = new List<Ship>(Ships);
@@ -121,10 +105,6 @@ public abstract class ShipPlaces
         return OldShips;
     }
 
-    /// <summary>
-    /// Denen metoden er for å se om det er ledig plasser
-    /// </summary>
-    /// <returns></returns>
     internal virtual bool AvailableSpace
     {
         get
@@ -133,10 +113,6 @@ public abstract class ShipPlaces
         }
     }
 
-    /// <summary>
-    /// Metoden som blir kalt når et skip forlater havnen
-    /// </summary>
-    /// <param name="ship"></param>
     private void RaiseDepartingHarbour(Ship ship)
     {
         DepartingHarbour?.Invoke(this, new DepartingHarbourArgs(ship));

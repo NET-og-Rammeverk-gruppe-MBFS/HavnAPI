@@ -16,7 +16,6 @@ public class Harbour : IHarbour
         get { return new ReadOnlyCollection<HistoryService>(ShipHistoryInternal); }
     }
 
-    internal Collection<HistoryService> ShipHistoryInternal { get; set; }
     /// <summary>
     /// Liste over alle loggførte plassering for hver container
     /// </summary>
@@ -25,7 +24,6 @@ public class Harbour : IHarbour
         get { return new ReadOnlyCollection<HistoryService>(ContainerHistoryInternal); }
     }
 
-    internal Collection<HistoryService> ContainerHistoryInternal { get; set; }
     /// <summary>
     /// Liste over alle plasser i havnen
     /// </summary>
@@ -34,13 +32,6 @@ public class Harbour : IHarbour
     /// Liste over alle skip i havnen
     /// </summary>
     public Collection<Ship> ShipsList { get; private set; }
-    private Anchorage AnchorageHarbour;
-    public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;
-    public event EventHandler<DepartingAnchorageArgs> DepartingAnchorage;
-    public event EventHandler<MidnightStatusUpdateArgs> MidnightStatusUpdate;
-    public event EventHandler<MovingToAnchorageArgs> MovingToAnchorage;
-    public event EventHandler<ReachedDestinationArgs> ReachedDestination;
-    public event EventHandler<ShipSailingArgs> ShipSailing;
 
     /// <summary>
     /// For å lage havn objekt
@@ -97,6 +88,129 @@ public class Harbour : IHarbour
         AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
         Name = harbourName.ToString();
     }
+
+   /// <summary>
+   /// Metoden starter simulasjonen
+   /// </summary>
+   /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
+   /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
+   /// <exception cref="InvalidDateTimeRangeException">Kastes hvis start date er større en End Date</exception>
+    public void Run(DateTime start, DateTime end)
+    {
+        if (end <= start)
+        {
+            throw new InvalidDateTimeRangeException("End date must be greater than start date.", nameof(end));
+        }
+
+        DateTime currentTime = start;
+
+        foreach (Ship ship in ShipsList)
+        {
+            if (ship.Repeat)
+            {
+                if (ship.Daily == null && ship.Weekly != null)
+                {
+                    int startDay = (int)currentTime.DayOfWeek;
+                    int target = (int)ship.Weekly;
+                    if (target < startDay)
+                        target += 7;
+                    ship.CurrentRepeatedDateTime = currentTime.AddDays(target - startDay);
+                }
+
+                else if (ship.Daily != null && ship.Weekly == null)
+                {
+                    if (ship.Daily < TimeOnly.FromDateTime(currentTime))
+                    {
+                        ship.CurrentRepeatedDateTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day+1, ship.Daily.Value.Hour, ship.Daily.Value.Minute, ship.Daily.Value.Second);
+                    }
+
+                    else
+                        ship.CurrentRepeatedDateTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, ship.Daily.Value.Hour, ship.Daily.Value.Minute, ship.Daily.Value.Second);
+                }
+            }
+        }
+
+        while (currentTime < end && (ShipsList.Count + AnchorageHarbour.Ships.Count + AnchorageHarbour.ShipQueue.Count) != 0)
+        {
+            foreach (ShipPlaces ShipPlace in ShipPlacesList)
+            {
+                MoveShipFromAnchorage(ShipPlace, currentTime);
+                foreach (Ship ship in new List<Ship>(ShipsList))
+                {
+                    if ((ship.PlaceDestination.Id == ShipPlace.Id) && (ship.SpesificDateTime <= currentTime || ship.CurrentRepeatedDateTime <= currentTime))
+                    {
+                        if (ship.Daily == null && ship.Weekly != null)
+                            ship.CurrentRepeatedDateTime = ship.CurrentRepeatedDateTime.Value.AddDays(7);
+                        else if (ship.Daily != null && ship.Weekly == null)
+                            ship.CurrentRepeatedDateTime = ship.CurrentRepeatedDateTime.Value.AddDays(1);
+
+                        ship.CurrentLocation = Name;
+                        ship.MakeContainers();
+                        ship.Status = Status.Busy;
+                        RaiseArrivedToHarbour(ship);
+                        RaiseShipSailing(ship);
+
+                        if (ShipPlace.AvailableSpace)
+                        {
+                            ship.AddHistory(new HistoryService(ship.ShipName, currentTime.AddMinutes(60), ShipPlace.Name));
+                            RaiseReachedDestination(ship);
+                            ShipPlace.AddShip(MoveShip(ship));
+                        }
+
+                        else
+                        {
+                            AddShipToAnchorage(ship, currentTime);
+                        }
+                    }      
+                }
+                
+                if (ShipPlace is Unloadingspace)
+                {
+                    ((Unloadingspace)ShipPlace).UnloadContainer(currentTime, end);
+                    ((Unloadingspace)ShipPlace).TargetContainerSpace.OverdueContainers(currentTime, end);
+                    AddAllShips(((Unloadingspace)ShipPlace).ReturnRepeatingShips());
+                }
+
+                if (ShipPlace is Dockspace)
+                {
+                    AddAllShips(((Dockspace)ShipPlace).ReturnRepeatingShips());
+                }
+            }
+
+            if (currentTime.Hour == 0)
+            {
+                RaiseMidnightStatusUpdate(getAllReadOnlyShips());
+            }
+            currentTime = currentTime.AddMinutes(60);
+        }
+
+        foreach (ShipPlaces shipPlaces in ShipPlacesList)
+        {
+            AddAllShips(shipPlaces.ReturnAllShips());
+            if(shipPlaces is Unloadingspace)
+            {
+                foreach (HistoryService containerHistory in ((Unloadingspace)shipPlaces).ContainerHistory)
+                {
+                    ContainerHistoryInternal.Add(containerHistory);
+                }
+            }
+        }
+
+        foreach (Ship ship1 in ShipsList)
+        {
+            foreach (HistoryService shipHistory in ship1.HistoriesInternal)
+            {
+                ShipHistoryInternal.Add(shipHistory);
+            }
+        }
+    }
+
+    public event EventHandler<ArrivedToHarbourArgs> ArrivedToHarbour;
+    public event EventHandler<DepartingAnchorageArgs> DepartingAnchorage;
+    public event EventHandler<MidnightStatusUpdateArgs> MidnightStatusUpdate;
+    public event EventHandler<MovingToAnchorageArgs> MovingToAnchorage;
+    public event EventHandler<ReachedDestinationArgs> ReachedDestination;
+    public event EventHandler<ShipSailingArgs> ShipSailing;
 
     /// <summary>
     /// Metode for å fjerne et plass
@@ -174,145 +288,10 @@ public class Harbour : IHarbour
         }
     }
 
-   /// <summary>
-   /// Metoden starter simulasjonen
-   /// </summary>
-   /// <param name="Start">Det er starts dato/tid til simulasjonen</param>
-   /// <param name="end">Det er dato/tid der du vil at simulasjonen skal stoppe</param>
-   /// <exception cref="InvalidDateTimeRangeException">Kastes hvis start date er større en End Date</exception>
-    public void Run(DateTime start, DateTime end)
-    {
-        if (end <= start)
-        {
-            throw new InvalidDateTimeRangeException("End date must be greater than start date.", nameof(end));
-        }
+    internal Collection<HistoryService> ShipHistoryInternal { get; set; }
+    internal Collection<HistoryService> ContainerHistoryInternal { get; set; }
+    private Anchorage AnchorageHarbour;
 
-        //Vi starter med å lage en timer
-        DateTime currentTime = start;
-
-        foreach (Ship ship in ShipsList)
-        {
-            if (ship.Repeat)
-            {
-                if (ship.Daily == null && ship.Weekly != null)
-                {
-                    int startDay = (int)currentTime.DayOfWeek;
-                    int target = (int)ship.Weekly;
-                    if (target < startDay)
-                        target += 7;
-                    ship.CurrentRepeatedDateTime = currentTime.AddDays(target - startDay);
-                }
-
-                else if (ship.Daily != null && ship.Weekly == null)
-                {
-                    if (ship.Daily < TimeOnly.FromDateTime(currentTime))
-                    {
-                        ship.CurrentRepeatedDateTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day+1, ship.Daily.Value.Hour, ship.Daily.Value.Minute, ship.Daily.Value.Second);
-                    }
-
-                    else
-                        ship.CurrentRepeatedDateTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, ship.Daily.Value.Hour, ship.Daily.Value.Minute, ship.Daily.Value.Second);
-                }
-            }
-        }
-
-        //Så starter simulasjonen ved bruk av while, der den vil kjøre til sluttdato-en
-        while (currentTime < end && (ShipsList.Count + AnchorageHarbour.Ships.Count + AnchorageHarbour.ShipQueue.Count) != 0)
-        {
-            //Begge for-loops under går gjennom alle ship og plassene
-            foreach (ShipPlaces ShipPlace in ShipPlacesList)
-            {
-                MoveShipFromAnchorage(ShipPlace, currentTime);
-                foreach (Ship ship in new List<Ship>(ShipsList))
-                {
-                    //Her så vil de se om destienasjonen til skipet og plassen som den itererer
-                    if ((ship.PlaceDestination.Id == ShipPlace.Id) && (ship.SpesificDateTime <= currentTime || ship.CurrentRepeatedDateTime <= currentTime))
-                    {
-                        if (ship.Daily == null && ship.Weekly != null)
-                            ship.CurrentRepeatedDateTime = ship.CurrentRepeatedDateTime.Value.AddDays(7);
-                        else if (ship.Daily != null && ship.Weekly == null)
-                            ship.CurrentRepeatedDateTime = ship.CurrentRepeatedDateTime.Value.AddDays(1);
-                        //Før det så lager denne metoden Containers objekters til shipet basert på antall i konstruktøren
-                        ship.CurrentLocation = Name;
-                        ship.MakeContainers();
-                        ship.Status = Status.Busy;
-                        RaiseArrivedToHarbour(ship);
-                        RaiseShipSailing(ship);
-                        //Det skjekker om det er ledig plass i plasssen fra for loop-en
-                        if (ShipPlace.AvailableSpace)
-                        {
-                            ship.AddHistory(new HistoryService(ship.ShipName, currentTime.AddMinutes(60), ShipPlace.Name));
-                            RaiseReachedDestination(ship);
-                            ShipPlace.AddShip(MoveShip(ship));
-                        }
-
-                        //Og hvis det ikke er noen ledig plasser for skipets destinasjon, så flytter vi skipet til en ankerplass
-                        else
-                        {
-                            //Siden vi har to forskjellige lister i en ankerplass (en kø for losseplass og en vanlig liste for kaiplass)
-                            //så må vi ha en if test som sjekker først hva slags klasse type plassen er.
-                            //Og deretter plassere de i listen/kø-en
-                            AddShipToAnchorage(ship, currentTime);
-                        }
-                    }      
-                }
-                //Her så starter vi losse-prossessen
-                //If testen sjekker om losseplassen er full og at det er en losseplass før man starter prossessen
-                if (ShipPlace is Unloadingspace)
-                {
-                    //Her så legger vi til miutter basert på hvor mange Container objekter det er i en skip, hvor mange
-                    //skip det er i losseplassen, og hvor fort losse-prossessen er basert på bruker av API-et
-                    ((Unloadingspace)ShipPlace).UnloadContainer(currentTime, end);
-                    ((Unloadingspace)ShipPlace).TargetContainerSpace.OverdueContainers(currentTime, end);
-                    //Etter at alle skipene i losseplassen er ferdig, så returnerer vi listen tilbake til havn klassen
-                    AddAllShips(((Unloadingspace)ShipPlace).ReturnRepeatingShips());
-
-                    //Vi antar at når skipene har blir returnert til havn klassen, så seiler de til Start-of-sea passage som tar 60 min
-
-                }
-
-                if (ShipPlace is Dockspace)
-                {
-                    AddAllShips(((Dockspace)ShipPlace).ReturnRepeatingShips());
-                }
-            }
-
-            if (currentTime.Hour == 0)
-            {
-                RaiseMidnightStatusUpdate(getAllReadOnlyShips());
-            }
-
-            //Etter en flere iterasjoner, så antar vi at alle skipene har seilet samtidig. Da legger vi 60 minutter for hver gang flere skip
-            //har nådd destinasjonen
-            currentTime = currentTime.AddMinutes(60);
-        }
-
-        foreach (ShipPlaces shipPlaces in ShipPlacesList)
-        {
-            AddAllShips(shipPlaces.ReturnAllShips());
-            if(shipPlaces is Unloadingspace)
-            {
-                foreach (HistoryService containerHistory in ((Unloadingspace)shipPlaces).ContainerHistory)
-                {
-                    ContainerHistoryInternal.Add(containerHistory);
-                }
-            }
-        }
-
-        foreach (Ship ship1 in ShipsList)
-        {
-            foreach (HistoryService shipHistory in ship1.HistoriesInternal)
-            {
-                ShipHistoryInternal.Add(shipHistory);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Flytter ship, ved å fjerne og returnere shipet
-    /// </summary>
-    /// <param name="TheShip"></param>
-    /// <returns></returns>
     private Ship MoveShip(Ship theShip)
     {
         Ship Ship = theShip;
@@ -321,11 +300,6 @@ public class Harbour : IHarbour
     }
 
 
-    /// <summary>
-    /// Det blir brukt i simulasjonen for å legge et skip til et spesifikk plass
-    /// </summary>
-    /// <param name="ShipPlaceId"></param>
-    /// <param name="ship"></param>
     private void AddToSpesificPlace(int shipPlaceId, Ship ship)
     {
         foreach (ShipPlaces Shipplace in ShipPlacesList)
@@ -338,11 +312,7 @@ public class Harbour : IHarbour
     }
 
     
-    /// <summary>
-    /// Det blir brukt i run metoden som legger et ship i ankerplass hvis destinasjonsplassen er full
-    /// </summary>
-    /// <param name="ship"></param>
-    /// <param name="current"> det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
+
     private void AddShipToAnchorage(Ship ship, DateTime current)
     {
         DateTime CurrentDateTime = current;
@@ -368,18 +338,11 @@ public class Harbour : IHarbour
     }
 
 
-    /// <summary>
-    /// Metoden henter ut et ship fra en ankerplassen og legger det til destinasjonen. Hvis det ikke er i ankerplassen, så legger det direkte til destinasjonen
-    /// </summary>
-    /// <param name="shipPlaces"></param>
-    /// <param name="current">Det er tiden som kommer fra run metoden. Det blir brukt for å lagre historikk i et ship</param>
     private void MoveShipFromAnchorage(ShipPlaces shipPlaces, DateTime current)
     {
         DateTime currentDateTime = current;
         if (AnchorageHarbour.ShipQueue.Count != 0 && AnchorageHarbour.ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
         {
-            //Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShipFromQueue metoden og
-            //plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
             currentDateTime.AddMinutes(30);
             AnchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.Peek().ShipName, currentDateTime, shipPlaces.Name));
             RaiseDepartingAnchorage(AnchorageHarbour.ShipQueue.Peek());
@@ -387,11 +350,8 @@ public class Harbour : IHarbour
             AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShipFromQueue());
         }
 
-        //Og hvis skipet ikke skal til losseplass, så skal den til en kaiplass
         else if (AnchorageHarbour.Ships.Count != 0 && AnchorageHarbour.Ships.First().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
         {
-            //Her så fjerne vi skipet fra ankerplassen ved bruk av MoveShip metoden og
-            //plasserer det til destinasjonen ved bruk AddSpesificPlace metoden
             currentDateTime.AddMinutes(30);
             AnchorageHarbour.Ships.First().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.First().ShipName, currentDateTime, shipPlaces.Name));
             RaiseDepartingAnchorage(AnchorageHarbour.Ships.First());
@@ -400,10 +360,7 @@ public class Harbour : IHarbour
         }
     }
 
-    /// <summary>
-    /// En metode som henter alle skipene fra
-    /// </summary>
-    /// <returns></returns>
+
     private IReadOnlyCollection<Ship> getAllReadOnlyShips()
     {
         List<Ship> temp = new List<Ship>();

@@ -7,11 +7,6 @@ using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 public class Unloadingspace : ShipPlaces
 {
-    private int Cranes { get; set; }
-    internal double TruckPickupPercentage { get; set; }
-    internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
-    internal ContainerSpace TargetContainerSpace { get; set; }
-
     /// <summary>
     /// For å lage losseplass
     /// </summary>
@@ -42,12 +37,11 @@ public class Unloadingspace : ShipPlaces
         TargetContainerSpace = targetContainerSpaceUnload;
     }
 
-    /// <summary>
-    /// Losser av containere fra skipene
-    /// </summary>
-    /// <param name="currentDateTime"></param>
-    /// <param name="end"></param>
-    /// <returns></returns>
+    private int Cranes { get; set; }
+    internal double TruckPickupPercentage { get; set; }
+    internal Collection<HistoryService> ContainerHistory = new Collection<HistoryService>();
+    internal ContainerSpace TargetContainerSpace { get; set; }
+
     internal int UnloadContainer(DateTime currentDateTime, DateTime end)
     {
         Random random = new Random();
