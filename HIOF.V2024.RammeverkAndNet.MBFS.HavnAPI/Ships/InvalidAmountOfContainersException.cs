@@ -11,7 +11,15 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships
     /// </summary>
     public class InvalidAmountOfContainersException : ArgumentOutOfRangeException
     {
+        public InvalidAmountOfContainersException() : base()
+        {
+        }
+        
         public InvalidAmountOfContainersException(string message) : base(message)
+        {
+        }
+
+        public InvalidAmountOfContainersException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }
