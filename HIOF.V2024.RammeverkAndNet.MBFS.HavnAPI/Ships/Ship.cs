@@ -80,7 +80,7 @@ public class Ship
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
     public Ship(SimulationName shipname, ShipPlaces placedestination, DateTime spesificDateTimeSailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname.Name))
+        if (string.IsNullOrEmpty(shipname.ToString()))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -101,7 +101,7 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname.Name;
+        ShipName = shipname.ToString();
         PlaceDestination = placedestination;
         SpesificDateTime = spesificDateTimeSailing;
         Repeat = false;
@@ -128,7 +128,7 @@ public class Ship
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
     public Ship(SimulationName shipname, ShipPlaces placedestination, DayOfWeek weeklySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname.Name))
+        if (string.IsNullOrEmpty(shipname.ToString()))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -149,7 +149,7 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname.Name;
+        ShipName = shipname.ToString();
         PlaceDestination = placedestination;
         Weekly = weeklySailing;
         Repeat = true;
@@ -176,7 +176,7 @@ public class Ship
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
     public Ship(SimulationName shipname, ShipPlaces placedestination, TimeOnly dailySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname.Name))
+        if (string.IsNullOrEmpty(shipname.ToString()))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -197,7 +197,7 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname.Name;
+        ShipName = shipname.ToString();
         PlaceDestination = placedestination;
         Daily = dailySailing;
         Repeat = true;

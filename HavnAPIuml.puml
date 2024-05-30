@@ -166,8 +166,8 @@ enum ShipType{
     Tankship
 }
 
-class SimulationName{
-    +Name: string
+struct SimulationName{
+    +ToString(): string
 }
 
 enum Status{

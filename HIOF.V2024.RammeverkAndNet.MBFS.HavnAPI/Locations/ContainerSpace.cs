@@ -34,9 +34,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <exception cref="InvalidPercentageExcpetion">Ugyldig bruk av prosent</exception>
         public ContainerSpace(SimulationName containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
-            if (string.IsNullOrWhiteSpace(containerSpaceName.Name))
+            if (string.IsNullOrWhiteSpace(containerSpaceName.ToString()))
             {
-                throw new InvalidNameException("name cannot be empty.");
+                throw new InvalidNameException("Name cannot be empty.");
             }
 
             if (numberOfAGVs < 1)
@@ -54,7 +54,7 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                 throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0.");
             }
 
-            Name = containerSpaceName.Name;
+            Name = containerSpaceName.ToString();
             TruckPickupPercentage = truckPickupPercentage;
             DaysInStorageLimit = daysInStorageLimit;
             AGVs = new Collection<AutomatedGuidedVehicle>();

@@ -37,7 +37,7 @@ public abstract class ShipPlaces
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
     internal ShipPlaces(SimulationName placeName, int shipSpaces, ShipType shipType)
     {
-        if (string.IsNullOrWhiteSpace(placeName.Name))
+        if (string.IsNullOrWhiteSpace(placeName.ToString()))
         {
             throw new InvalidNameException("name cannot be empty.");
         }
@@ -47,7 +47,7 @@ public abstract class ShipPlaces
             throw new InvalidAmountException("ShipSpaces must be greater than 0.");
         }
 
-        Name = placeName.Name;
+        Name = placeName.ToString();
         Space = shipSpaces;
         ShipType = shipType;
         Ships = new List<Ship>();

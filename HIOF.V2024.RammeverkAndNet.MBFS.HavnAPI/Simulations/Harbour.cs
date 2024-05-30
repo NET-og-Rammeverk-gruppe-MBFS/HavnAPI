@@ -53,7 +53,7 @@ public class Harbour : IHarbour
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
     public Harbour(SimulationName harbourName, int spacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
     {
-        if (string.IsNullOrEmpty(harbourName.Name))
+        if (string.IsNullOrEmpty(harbourName.ToString()))
         {
             throw new InvalidNameException("Name can't be null or empty.");
         }
@@ -67,8 +67,8 @@ public class Harbour : IHarbour
         ShipPlacesList = new List<ShipPlaces>(shipPlaces);
         ShipHistoryInternal = new List<HistoryService>();
         ContainerHistoryInternal = new List<HistoryService>();
-        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.Name + " venteplass"), spacesInAnchorage, ShipType.All);
-        Name = harbourName.Name;
+        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
+        Name = harbourName.ToString();
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class Harbour : IHarbour
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
     public Harbour(SimulationName harbourName, int spacesInAnchorage)
     {
-        if (string.IsNullOrEmpty(harbourName.Name))
+        if (string.IsNullOrEmpty(harbourName.ToString()))
         {
             throw new InvalidNameException("Name can't be null or empty.");
         }
@@ -94,8 +94,8 @@ public class Harbour : IHarbour
         ShipPlacesList = new List<ShipPlaces>();
         ShipHistoryInternal = new List<HistoryService>();
         ContainerHistoryInternal = new List<HistoryService>();
-        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.Name + " venteplass"), spacesInAnchorage, ShipType.All);
-        Name = harbourName.Name;
+        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
+        Name = harbourName.ToString();
     }
 
     /// <summary>
