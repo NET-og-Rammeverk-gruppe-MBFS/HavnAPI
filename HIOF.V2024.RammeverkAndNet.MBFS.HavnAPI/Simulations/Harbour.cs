@@ -51,9 +51,9 @@ public class Harbour : IHarbour
     /// <param name="spacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-    public Harbour(string harbourName, int spacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
+    public Harbour(SimulationName harbourName, int spacesInAnchorage, List<Ship> ships, List<ShipPlaces> shipPlaces)
     {
-        if (string.IsNullOrEmpty(harbourName))
+        if (string.IsNullOrEmpty(harbourName.Name))
         {
             throw new InvalidNameException("Name can't be null or empty.");
         }
@@ -67,8 +67,8 @@ public class Harbour : IHarbour
         ShipPlacesList = new List<ShipPlaces>(shipPlaces);
         ShipHistoryInternal = new List<HistoryService>();
         ContainerHistoryInternal = new List<HistoryService>();
-        AnchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
-        Name = harbourName;
+        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.Name + " venteplass"), spacesInAnchorage, ShipType.All);
+        Name = harbourName.Name;
     }
 
     /// <summary>
@@ -78,9 +78,9 @@ public class Harbour : IHarbour
     /// <param name="spacesInAnchorage">Antall plasser i venteplassen</param>
     /// <exception cref="InvalidNameException">Navnet på havnet kan ikke være tomt</exception>
     /// <exception cref="InvalidSpacesException">Antall plasser må være større enn 0.</exception>
-    public Harbour(string harbourName, int spacesInAnchorage)
+    public Harbour(SimulationName harbourName, int spacesInAnchorage)
     {
-        if (string.IsNullOrEmpty(harbourName))
+        if (string.IsNullOrEmpty(harbourName.Name))
         {
             throw new InvalidNameException("Name can't be null or empty.");
         }
@@ -94,8 +94,8 @@ public class Harbour : IHarbour
         ShipPlacesList = new List<ShipPlaces>();
         ShipHistoryInternal = new List<HistoryService>();
         ContainerHistoryInternal = new List<HistoryService>();
-        AnchorageHarbour = new Anchorage(harbourName + " venteplass", spacesInAnchorage, ShipType.All);
-        Name = harbourName;
+        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.Name + " venteplass"), spacesInAnchorage, ShipType.All);
+        Name = harbourName.Name;
     }
 
     /// <summary>

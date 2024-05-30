@@ -7,16 +7,16 @@ class Historikk_test
 {
     static void Main(string[] args)
     {
-        ContainerSpace ContainerZone1 = new ContainerSpace("arle",20 , 4, 0.10);
+        ContainerSpace ContainerZone1 = new ContainerSpace(new SimulationName("arle"),20 , 4, 0.10);
         ContainerZone1.AddStorageColumn(24, 1, 18, 6, 4);
         ContainerZone1.AddStorageColumn(7, 1, 15, 6, 4);
         
-        Dockspace kaiplass1 = new Dockspace("Liten_kaiplass", 2, ShipType.Passenger);
-        Dockspace kaiplass2 = new Dockspace("Middels_kaiplass", 4, ShipType.Passenger);
-        Dockspace kaiplass3 = new Dockspace("Stor_kaiplass", 6, ShipType.Passenger);
+        Dockspace kaiplass1 = new Dockspace(new SimulationName("Liten_kaiplass"), 2, ShipType.Passenger);
+        Dockspace kaiplass2 = new Dockspace(new SimulationName("Middels_kaiplass"), 4, ShipType.Passenger);
+        Dockspace kaiplass3 = new Dockspace(new SimulationName("Stor_kaiplass"), 6, ShipType.Passenger);
 
-        Unloadingspace losseplass1 = new Unloadingspace("Liten_losseplass", 1, ShipType.Cargo,1, 0.5, ContainerZone1);
-        Unloadingspace losseplass2 = new Unloadingspace("Stor_losseplass", 5, ShipType.Cargo, 5, 0.5, ContainerZone1);
+        Unloadingspace losseplass1 = new Unloadingspace(new SimulationName("Liten_losseplass"), 1, ShipType.Cargo,1, 0.5, ContainerZone1);
+        Unloadingspace losseplass2 = new Unloadingspace(new SimulationName("Stor_losseplass"), 5, ShipType.Cargo, 5, 0.5, ContainerZone1);
 
         List<ShipPlaces> shipPlaces = new List<ShipPlaces>();
         shipPlaces.Add(kaiplass1);
@@ -26,11 +26,11 @@ class Historikk_test
         shipPlaces.Add(losseplass2);
 
         
-        Ship ship1 = new Ship("Bob", kaiplass1, DateTime.Now, 0, 0, ShipType.Passenger);
-        Ship ship2 = new Ship("Fred", kaiplass2, new DateTime(2024, 6, 2), 0, 0, ShipType.Passenger);
-        Ship ship3 = new Ship("Ibrahim", losseplass2, DayOfWeek.Monday, 10, 10, ShipType.Cargo);
-        Ship ship4 = new Ship("Magnus", losseplass1, TimeOnly.Parse("15:00"), 20, 0, ShipType.Cargo);
-        Ship ship5 = new Ship("Colorline", losseplass1, TimeOnly.Parse("17:00"), 30, 10, ShipType.Cargo);
+        Ship ship1 = new Ship(new SimulationName("Bob"), kaiplass1, DateTime.Now, 0, 0, ShipType.Passenger);
+        Ship ship2 = new Ship(new SimulationName("Fred"), kaiplass2, new DateTime(2024, 6, 2), 0, 0, ShipType.Passenger);
+        Ship ship3 = new Ship(new SimulationName("Ibrahim"), losseplass2, DayOfWeek.Monday, 10, 10, ShipType.Cargo);
+        Ship ship4 = new Ship(new SimulationName("Magnus"), losseplass1, TimeOnly.Parse("15:00"), 20, 0, ShipType.Cargo);
+        Ship ship5 = new Ship(new SimulationName("Colorline"), losseplass1, TimeOnly.Parse("17:00"), 30, 10, ShipType.Cargo);
 
         List<Ship> ships = new List<Ship>();
         ships.Add(ship1);
@@ -40,7 +40,7 @@ class Historikk_test
         ships.Add(ship5);
 
        
-        Harbour havn1 = new Harbour("havn1", 50, ships, shipPlaces);
+        Harbour havn1 = new Harbour(new SimulationName("havn1"), 50, ships, shipPlaces);
         havn1.AddShip(ship1);
         havn1.AddShipPlace(kaiplass1);
 

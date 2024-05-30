@@ -32,9 +32,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
         /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall AGV-er</exception>
         /// <exception cref="InvalidDaysInStorageAmountException">Ugyldig antall dager</exception>
         /// <exception cref="InvalidPercentageExcpetion">Ugyldig bruk av prosent</exception>
-        public ContainerSpace(string containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
+        public ContainerSpace(SimulationName containerSpaceName, int numberOfAGVs, int daysInStorageLimit, double truckPickupPercentage)
         {
-            if (string.IsNullOrWhiteSpace(containerSpaceName))
+            if (string.IsNullOrWhiteSpace(containerSpaceName.Name))
             {
                 throw new InvalidNameException("name cannot be empty.");
             }
@@ -54,9 +54,9 @@ namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
                 throw new InvalidPercentageExcpetion("The percentage can't be higher than 1 or less than 0.");
             }
 
-            Name = containerSpaceName;
-            this.TruckPickupPercentage = truckPickupPercentage;
-            this.DaysInStorageLimit = daysInStorageLimit;
+            Name = containerSpaceName.Name;
+            TruckPickupPercentage = truckPickupPercentage;
+            DaysInStorageLimit = daysInStorageLimit;
             AGVs = new Collection<AutomatedGuidedVehicle>();
             StorageColumns = new Collection<StorageColumn>();
 

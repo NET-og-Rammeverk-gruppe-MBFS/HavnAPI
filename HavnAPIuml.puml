@@ -165,13 +165,21 @@ enum ShipType{
     Passanger,
     Tankship
 }
+
+class SimulationName{
+    +Name: string
+}
+
 enum Status{
     Avalible,
     Busy,
     Finished
 }
 
-
+SimulationName --> Harbour
+SimulationName --> Ship
+SimulationName --> ShipPlaces
+SimulationName --> ContainerSpace
 ShipType ---> Ship
 Harbour "1" *--- ShipPlaces
 Harbour "1" *-- Ship
@@ -180,13 +188,13 @@ Ship "1" *-- Container
 Ship "1" *-- "many" HistoryService
 Container "1" *--- HistoryService
 ContainerSpace ---> Unloadingspace
-Agv --o ContainerSpace
+AutomatedGuidedVehicle --o ContainerSpace
 Column --o StorageColumn
 StorageColumn --o ContainerSpace
 ContainerType -----> Container
 ContainerType -->Column
 Status --> Ship
-Status --> Agv
+Status --> AutomatedGuidedVehicle
 
 
 

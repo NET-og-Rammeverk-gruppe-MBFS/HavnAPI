@@ -78,9 +78,9 @@ public class Ship
     /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
     /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
-    public Ship(string shipname, ShipPlaces placedestination, DateTime spesificDateTimeSailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    public Ship(SimulationName shipname, ShipPlaces placedestination, DateTime spesificDateTimeSailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname))
+        if (string.IsNullOrEmpty(shipname.Name))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -101,7 +101,7 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname;
+        ShipName = shipname.Name;
         PlaceDestination = placedestination;
         SpesificDateTime = spesificDateTimeSailing;
         Repeat = false;
@@ -126,9 +126,9 @@ public class Ship
     /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
     /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
-    public Ship(string shipname, ShipPlaces placedestination, DayOfWeek weeklySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    public Ship(SimulationName shipname, ShipPlaces placedestination, DayOfWeek weeklySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname))
+        if (string.IsNullOrEmpty(shipname.Name))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -149,10 +149,10 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname;
+        ShipName = shipname.Name;
         PlaceDestination = placedestination;
         Weekly = weeklySailing;
-        this.Repeat = true;
+        Repeat = true;
         Containers = new Queue<Container>();
         HistoriesInternal = new Collection<HistoryService>();
         AmountLongContainers = amountOfLongContainers;
@@ -174,9 +174,9 @@ public class Ship
     /// <exception cref="InvalidDestinationException">hvis du referer til et destinasjon som ikke eksisterer</exception>
     /// <exception cref="InvalidAmountOfContainersException">Hvis du gir ugyldig antall korte og/eller lange ISO containere som f.eks -1</exception>
     /// <exception cref="InvalidShipTypeDestinationException">Hvis du gir skip objektet et destinasjon som ikke tillater ship-en med typen du valgte for dette skip objektet</exception>
-    public Ship(string shipname, ShipPlaces placedestination, TimeOnly dailySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
+    public Ship(SimulationName shipname, ShipPlaces placedestination, TimeOnly dailySailing, int amountOfLongContainers, int amountOfShortContainers, ShipType shipType)
     {
-        if (string.IsNullOrEmpty(shipname))
+        if (string.IsNullOrEmpty(shipname.Name))
         {
             throw new InvalidNameException("ShipName cannot be empty.");
         }
@@ -197,7 +197,7 @@ public class Ship
         }
 
         Id = Interlocked.Increment(ref Next);
-        ShipName = shipname;
+        ShipName = shipname.Name;
         PlaceDestination = placedestination;
         Daily = dailySailing;
         Repeat = true;

@@ -17,7 +17,7 @@ public class Anchorage : ShipPlaces
     /// <param name="shipType">Type skip som er tillatt i venteplassen</param>
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
-    internal Anchorage(string name, int shipSpaces, ShipType shipType) : base(name, shipSpaces, shipType)
+    internal Anchorage(SimulationName name, int shipSpaces, ShipType shipType) : base(name, shipSpaces, shipType)
     {
         ShipQueue = new Queue<Ship>();
     }

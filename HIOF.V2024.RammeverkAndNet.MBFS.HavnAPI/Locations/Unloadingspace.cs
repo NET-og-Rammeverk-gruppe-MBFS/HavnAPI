@@ -25,7 +25,7 @@ public class Unloadingspace : ShipPlaces
     /// <exception cref="InvalidNameException"> Hvis du gir ugyldig navn som f.eks om det er tomt</exception>
     /// <exception cref="InvalidAmountException">Error for hvis du legger til ugyldig antall plasser som f.eks -1</exception>
     /// <exception cref="InvalidDestinationException">hvis du referer til et containerspace som ikke eksisterer</exception>
-    public Unloadingspace(string placeName, int shipSpaces, ShipType shipType, int unloadingCranes, double truckPickupPercentageUnload, ContainerSpace targetContainerSpaceUnload) : base(placeName, shipSpaces, shipType)
+    public Unloadingspace(SimulationName placeName, int shipSpaces, ShipType shipType, int unloadingCranes, double truckPickupPercentageUnload, ContainerSpace targetContainerSpaceUnload) : base(placeName, shipSpaces, shipType)
     {
         if (unloadingCranes < shipSpaces)
         {
