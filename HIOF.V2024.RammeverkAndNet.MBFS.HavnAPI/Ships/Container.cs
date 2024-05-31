@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
-
 public class Container
 {
     /// <summary>

@@ -1,11 +1,8 @@
-using System;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
-
 using System.Collections.ObjectModel;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations;
 
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 public abstract class ShipPlaces
 {
     /// <summary>

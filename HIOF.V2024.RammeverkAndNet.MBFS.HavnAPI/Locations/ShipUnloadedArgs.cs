@@ -1,5 +1,4 @@
-﻿using System;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
+﻿using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations
 {

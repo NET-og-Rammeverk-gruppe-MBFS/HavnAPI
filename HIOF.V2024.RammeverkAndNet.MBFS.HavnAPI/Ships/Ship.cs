@@ -1,10 +1,7 @@
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
-
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI;
-using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
-using System;
 using System.Collections.ObjectModel;
+using HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Locations;
 
+namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Ships;
 public class Ship
 {
     /// <summary>
@@ -223,29 +220,17 @@ public class Ship
         }
     }
 
-    /// <summary>
-    /// Fjerner container objekt fra kø
-    /// </summary>
-    /// <returns container etter å ha blitt fjernet></returns>
     internal Container MoveContainer()
     {
         return Containers.Dequeue();
     }
     
-    /// <summary>
-    /// legger til en historie til skipet
-    /// </summary>
-    /// <param name="history">Historikk objektet som skal bli lagt til</param>
     internal void AddHistory(HistoryService history)
     {
         HistoriesInternal.Add(history);
         
     }
-
-    /// <summary>
-    /// Fjerner en historie fra skipet
-    /// </summary>
-    /// <param name="history">Historikk objektet som skal bli slettet</param>
+    
     internal void RemoveHistory(HistoryService history)
     {
         HistoriesInternal.Remove(history);

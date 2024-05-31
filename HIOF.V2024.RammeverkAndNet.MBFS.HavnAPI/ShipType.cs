@@ -1,5 +1,4 @@
-﻿using System;
-namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
+﻿namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI
 {
     /// <summary>
     /// Type som beskriver hva slags type skip blir brukt eller er tillatt

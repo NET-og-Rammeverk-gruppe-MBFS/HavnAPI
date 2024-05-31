@@ -1,6 +1,5 @@
 ﻿
 namespace HIOF.V2024.RammeverkAndNet.MBFS.HavnAPI.Simulations
-
 {
     /// <summary>
     /// Kaster et unntak når det er oppgitt et ugyldig tidsrom
