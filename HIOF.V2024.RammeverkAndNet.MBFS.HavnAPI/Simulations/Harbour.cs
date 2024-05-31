@@ -59,7 +59,7 @@ public class Harbour : IHarbour
         ShipPlacesList = new Collection<ShipPlaces>(shipPlaces);
         ShipHistoryInternal = new Collection<HistoryService>();
         ContainerHistoryInternal = new Collection<HistoryService>();
-        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
+        anchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
         Name = harbourName.ToString();
     }
 
@@ -86,7 +86,7 @@ public class Harbour : IHarbour
         ShipPlacesList = new Collection<ShipPlaces>();
         ShipHistoryInternal = new Collection<HistoryService>();
         ContainerHistoryInternal = new Collection<HistoryService>();
-        AnchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
+        anchorageHarbour = new Anchorage(new SimulationName(harbourName.ToString() + " venteplass"), spacesInAnchorage, ShipType.All);
         Name = harbourName.ToString();
     }
 
@@ -131,7 +131,7 @@ public class Harbour : IHarbour
             }
         }
 
-        while (currentTime < end && (ShipsList.Count + AnchorageHarbour.Ships.Count + AnchorageHarbour.ShipQueue.Count) != 0)
+        while (currentTime < end && (ShipsList.Count + anchorageHarbour.Ships.Count + anchorageHarbour.ShipQueue.Count) != 0)
         {
             foreach (ShipPlaces ShipPlace in ShipPlacesList)
             {
@@ -180,7 +180,7 @@ public class Harbour : IHarbour
 
             if (currentTime.Hour == 0)
             {
-                RaiseMidnightStatusUpdate(getAllReadOnlyShips());
+                RaiseMidnightStatusUpdate(GetAllReadOnlyShips());
             }
             currentTime = currentTime.AddMinutes(60);
         }
@@ -291,7 +291,7 @@ public class Harbour : IHarbour
 
     internal Collection<HistoryService> ShipHistoryInternal { get; set; }
     internal Collection<HistoryService> ContainerHistoryInternal { get; set; }
-    private Anchorage AnchorageHarbour;
+    private Anchorage anchorageHarbour;
 
     private Ship MoveShip(Ship theShip)
     {
@@ -320,21 +320,21 @@ public class Harbour : IHarbour
         if (ship.PlaceDestination is Unloadingspace)
         {
             CurrentDateTime = CurrentDateTime.AddMinutes(30);
-            ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, AnchorageHarbour.Name));
+            ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, anchorageHarbour.Name));
             RaiseMovingToAnchorage(ship);
             ship.Status = Status.Available;
-            ship.CurrentLocation = AnchorageHarbour.Name;
-            AnchorageHarbour.AddShipToQueue(MoveShip(ship));
+            ship.CurrentLocation = anchorageHarbour.Name;
+            anchorageHarbour.AddShipToQueue(MoveShip(ship));
         }
 
         else if (ship.PlaceDestination is Dockspace)
         {
             CurrentDateTime = CurrentDateTime.AddMinutes(30);
-            ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, AnchorageHarbour.Name));
+            ship.AddHistory(new HistoryService(ship.ShipName, CurrentDateTime, anchorageHarbour.Name));
             RaiseMovingToAnchorage(ship);
             ship.Status = Status.Available;
-            ship.CurrentLocation = AnchorageHarbour.Name;
-            AnchorageHarbour.AddShip(MoveShip(ship));
+            ship.CurrentLocation = anchorageHarbour.Name;
+            anchorageHarbour.AddShip(MoveShip(ship));
         }
     }
 
@@ -342,32 +342,32 @@ public class Harbour : IHarbour
     private void MoveShipFromAnchorage(ShipPlaces shipPlaces, DateTime current)
     {
         DateTime currentDateTime = current;
-        if (AnchorageHarbour.ShipQueue.Count != 0 && AnchorageHarbour.ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
+        if (anchorageHarbour.ShipQueue.Count != 0 && anchorageHarbour.ShipQueue.Peek().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
         {
             currentDateTime.AddMinutes(30);
-            AnchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.Peek().ShipName, currentDateTime, shipPlaces.Name));
-            RaiseDepartingAnchorage(AnchorageHarbour.ShipQueue.Peek());
-            AnchorageHarbour.ShipQueue.Peek().Status = Status.Busy;
-            AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShipFromQueue());
+            anchorageHarbour.ShipQueue.Peek().AddHistory(new HistoryService(anchorageHarbour.ShipQueue.Peek().ShipName, currentDateTime, shipPlaces.Name));
+            RaiseDepartingAnchorage(anchorageHarbour.ShipQueue.Peek());
+            anchorageHarbour.ShipQueue.Peek().Status = Status.Busy;
+            AddToSpesificPlace(shipPlaces.Id, anchorageHarbour.MoveShipFromQueue());
         }
 
-        else if (AnchorageHarbour.Ships.Count != 0 && AnchorageHarbour.Ships.First().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
+        else if (anchorageHarbour.Ships.Count != 0 && anchorageHarbour.Ships.First().PlaceDestination.Id == shipPlaces.Id && shipPlaces.AvailableSpace)
         {
             currentDateTime.AddMinutes(30);
-            AnchorageHarbour.Ships.First().AddHistory(new HistoryService(AnchorageHarbour.ShipQueue.First().ShipName, currentDateTime, shipPlaces.Name));
-            RaiseDepartingAnchorage(AnchorageHarbour.Ships.First());
-            AnchorageHarbour.ShipQueue.Peek().Status = Status.Busy;
-            AddToSpesificPlace(shipPlaces.Id, AnchorageHarbour.MoveShip(AnchorageHarbour.Ships.First().Id));
+            anchorageHarbour.Ships.First().AddHistory(new HistoryService(anchorageHarbour.ShipQueue.First().ShipName, currentDateTime, shipPlaces.Name));
+            RaiseDepartingAnchorage(anchorageHarbour.Ships.First());
+            anchorageHarbour.ShipQueue.Peek().Status = Status.Busy;
+            AddToSpesificPlace(shipPlaces.Id, anchorageHarbour.MoveShip(anchorageHarbour.Ships.First().Id));
         }
     }
 
 
-    private IReadOnlyCollection<Ship> getAllReadOnlyShips()
+    private IReadOnlyCollection<Ship> GetAllReadOnlyShips()
     {
         List<Ship> temp = new List<Ship>();
-        temp.AddRange(AnchorageHarbour.Ships);
+        temp.AddRange(anchorageHarbour.Ships);
         temp.AddRange(ShipsList);
-        temp.AddRange(AnchorageHarbour.ShipQueue);
+        temp.AddRange(anchorageHarbour.ShipQueue);
         foreach (ShipPlaces shipPlaces in ShipPlacesList)
         {
             temp.AddRange(shipPlaces.Ships);
